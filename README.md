@@ -1,9 +1,16 @@
 # Welcome!
 
-This is the template project for your work in the CPS26 course. Feel free to adapt!
+This is the template project for your work in the CPS26 course. Feel free to adapt but make sure
+I can find your submissions easily!
 
-## Directory structure:
+## Proposed directory structure:
 
-you could organize your repo in a timeline (so modules) and put individual artifacts (code, documentation) below, this is how this template is structured.
+Everything goes in it's corresponding module. Below, there's a folder for code (put individual files or projects here)
+and one for documentation.
 
-I'm also fine with the other way around, creating doc/code/.. toplevel folders and put every week in there.
+put submissions in a separate folder, either use symlinks or add some short text directly there.
+If you link something in the other folders, use relative links so I can use them in a checkout!
+
+## Special folders
+
+`literature` - anything useful that you find, put it here (possibly sorted in subfolder)
