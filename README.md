@@ -3,6 +3,8 @@
 This is the template project for your work in the CPS26 course. Feel free to adapt but make sure
 I can find your submissions easily!
 
+You can create your content in german or english, I'll accept both equally.
+
 ## Proposed directory structure:
 
 Everything goes in it's corresponding module. Below, there's a folder for code (put individual files or projects here)
