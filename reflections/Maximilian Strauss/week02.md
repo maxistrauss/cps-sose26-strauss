@@ -28,6 +28,7 @@
 * Thema wurde genug Aufmerksamkeit und Zeit gewidmet.
 * Eine grundlegende Einführung in RL vorab wäre für das Verständnis besser gewesen.
 * Mehr Eigenrecherche zu den Grundlagen hätte den Einstieg erleichtert.
+* Eventuell falsches Paper genommen
 
 ## Interaction with peers/instructors
 * Aufteilung der Aufgaben 1-5 via WhatsApp.
