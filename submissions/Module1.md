@@ -1,6 +1,6 @@
 ## Part A
 
-**Exercise 1:** tbd
+**Exercise 1:** [link](../module1/1 - cps moduling/module1A_01.drawio)
 
 **Exercise 2:** [link](../module1/2_Hybrid_Automaton_with_learned_guard/exercise2.pdf)
 
