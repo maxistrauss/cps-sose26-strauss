@@ -1,35 +1,24 @@
-## Results Overview
+## Results – Bouncing Ball Surrogate Model
 
-| Run | Model                | MSE (Test) | Negative Predictions |
-| --- | -------------------- | ---------- | -------------------- |
-| A   | Model A (no penalty) | 0.0195     | 70                   |
-| A   | Model B (penalty)    | 0.0164     | 1081                 |
-| B   | Model A (no penalty) | 0.0403     | 89                   |
-| B   | Model B (penalty)    | 0.0240     | 20                   |
-| C   | Model A (no penalty) | 0.0215     | 96                   |
-| C   | Model B (penalty)    | 0.0239     | 1190                 |
+### Error Metrics
 
+* **Gesamt MSE:** 0.043646
+* **MSE Impact (x ≤ 0.01):** 0.007316
+* **MSE Zwischenbereich (0.01 < x ≤ 0.1):** 0.293490
+* **MSE Far from impact (x > 0.1):** 0.002984
 
+---
 
-## Interpretation (kurz)
+### Interpretation
 
-* Bei allen Modellen und Runs fällt der MSE im Training (ab ~2000 Epochen) unter 0.1 → gute Approximation der Dynamik.
+The most interesting region is the **intermediate range (0.01 < x ≤ 0.1)**. While the impact region (x ≤ 0.01) can also show errors, it becomes less relevant over time because the system converges towards a resting state (x ≈ 0, v ≈ 0), making many samples similar and easier to predict.
 
-* Beide Modelle lernen die grundlegende Bewegung des Systems zuverlässig.
+In contrast, the intermediate region contains the transition between flight and impact, where the velocity changes abruptly. This makes the dynamics non-smooth and difficult for the neural network to learn, resulting in a much higher error.
 
-* Zusatzversuch: Penalty für negative (x)-Werte (Model B).
+Far from the ground (x > 0.1), the motion is smooth and therefore easy to approximate.
 
-* Idee: negative Vorhersagen bestrafen, damit das Modell positive Werte lernt.
+---
 
-* Ergebnis: funktioniert nicht zuverlässig.
+### Conclusion
 
-  * In einigen Runs Verbesserung (z. B. Run B)
-  * In anderen Runs deutlich mehr negative Werte (Run A, C)
-
-* Problem: Penalty sagt nur „negativ ist falsch“, aber nicht, was der korrekte Wert ist.
-
-* Dadurch kann das Lernen verzerrt werden und bleibt instabil.
-
-* Alternative: negative Werte nachträglich begrenzen (z. B. auf 0 setzen) oder physikalische Struktur explizit modellieren.
-
-* Fazit: Penalty allein ist kein zuverlässiger Ansatz.
+Smooth flight dynamics are easy to learn, while the impact and especially the transition region are difficult for the model due to the hybrid and discontinuous behavior.
