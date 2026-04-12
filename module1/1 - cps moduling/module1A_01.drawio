@@ -1,0 +1,131 @@
+<mxfile host="65bd71144e">
+    <diagram id="wearable-health-monitoring" name="Page-1">
+        <mxGraphModel dx="635" dy="547" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="a6" value="alerts + summaries" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2" parent="1" source="control" target="comm" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="610" y="300"/>
+                            <mxPoint x="610" y="220"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="edge" value="" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12" parent="1" vertex="1">
+                    <mxGeometry x="220" y="70" width="620" height="155" as="geometry"/>
+                </mxCell>
+                <mxCell id="title" value="Wearable Health Monitoring — Edge AI / IoT Architecture" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=20;fontStyle=1" parent="1" vertex="1">
+                    <mxGeometry x="123" y="20" width="580" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="plant" value="&lt;b&gt;Physical Plant&lt;/b&gt;&lt;br&gt;Human physiology&lt;br&gt;(cardiovascular state, oxygenation,&lt;br&gt;motion, skin temperature)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13" parent="1" vertex="1">
+                    <mxGeometry x="40" y="110" width="160" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="sensors" value="&lt;b&gt;Sensing + Actuators&lt;/b&gt;&lt;br&gt;PPG, ECG, accelerometer,&lt;br&gt;skin temp, SpO₂, haptic motor, buzzer" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13" parent="1" vertex="1">
+                    <mxGeometry x="235" y="110" width="170" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="comm" value="&lt;b&gt;Communication / Networking&lt;/b&gt;&lt;br&gt;BLE GATT to smartphone,&lt;br&gt;HTTPS/MQTT cloud sync, encrypted data" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=13" parent="1" vertex="1">
+                    <mxGeometry x="440" y="110" width="190" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="ml" value="&lt;b&gt;ML Components&lt;/b&gt;&lt;br&gt;Artifact removal, activity recognition,&lt;br&gt;sleep/stress inference, anomaly/risk prediction" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13" parent="1" vertex="1">
+                    <mxGeometry x="660" y="110" width="167" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="control" value="&lt;b&gt;Control Logic&lt;/b&gt;&lt;br&gt;Thresholds, confidence checks, alert policy,&lt;br&gt;edge decision + clinician escalation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=13" parent="1" vertex="1">
+                    <mxGeometry x="400" y="340" width="190" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="a1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2" parent="1" source="plant" target="sensors" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="a5" value="haptic/audio alert" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2" parent="1" source="control" target="sensors" edge="1">
+                    <mxGeometry x="-0.12" y="20" relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="260" y="300"/>
+                            <mxPoint x="260" y="200"/>
+                        </Array>
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="a3" value="signal quality + vital features" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2" parent="1" source="sensors" target="control" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="320" y="250"/>
+                            <mxPoint x="420" y="250"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="cloud" value="&lt;b&gt;Phone / Cloud / Clinician App&lt;/b&gt;&lt;br&gt;dashboard, history, escalation records" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=13" parent="1" vertex="1">
+                    <mxGeometry x="635" y="340" width="190" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="fallback" value="Low confidence / poor signal -&gt; conservative threshold policy or re-measurement" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11" parent="1" vertex="1">
+                    <mxGeometry x="205" y="245" width="270" height="42" as="geometry"/>
+                </mxCell>
+                <mxCell id="a8" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=1.5" parent="1" source="fallback" target="control" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="section1" value="&lt;b&gt;(b) Why model-based, learned, or hybrid?&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontSize=15;fontStyle=1" parent="1" vertex="1">
+                    <mxGeometry x="40" y="430" width="350" height="24" as="geometry"/>
+                </mxCell>
+                <mxCell id="t1" value="&lt;b&gt;Physical plant — Primarily model-based.&lt;/b&gt; Human physiology is governed by causal biological processes, so the system meaning of variables such as pulse, oxygen saturation, and temperature comes from physiology, not from a learned classifier alone. Simple physiology and signal-quality assumptions help define safe operating ranges and what counts as physically plausible data." style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontSize=11" parent="1" vertex="1">
+                    <mxGeometry x="40" y="458" width="360" height="88" as="geometry"/>
+                </mxCell>
+                <mxCell id="t2" value="&lt;b&gt;Sensing + alert interface — Hybrid.&lt;/b&gt; Sampling, calibration, and haptic-alert timing are mostly rule-based and hardware-driven, which makes them predictable and easy to validate. But learned denoising or motion-artifact suppression can improve PPG/ECG quality in daily-life conditions where pure signal-processing rules often fail." style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontSize=11" parent="1" vertex="1">
+                    <mxGeometry x="40" y="550" width="360" height="88" as="geometry"/>
+                </mxCell>
+                <mxCell id="t3" value="&lt;b&gt;Communication / networking — Primarily model-based.&lt;/b&gt; BLE/Wi-Fi protocols, encryption, retry logic, and message scheduling should be deterministic because reliability and security matter more than adaptation here. ML may assist compression or prioritization, but the communication stack itself should remain standards-based and testable." style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontSize=11" parent="1" vertex="1">
+                    <mxGeometry x="40" y="642" width="360" height="92" as="geometry"/>
+                </mxCell>
+                <mxCell id="t4" value="&lt;b&gt;ML components — Primarily learned.&lt;/b&gt; Activity recognition, sleep/stress inference, anomaly detection, and personalized risk prediction depend on patterns that are difficult to hand-code from first principles. ML is appropriate because it can exploit multimodal sensor data and user-specific context, especially for noisy, nonlinear relationships." style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontSize=11" parent="1" vertex="1">
+                    <mxGeometry x="425" y="458" width="360" height="88" as="geometry"/>
+                </mxCell>
+                <mxCell id="t5" value="&lt;b&gt;Control logic — Hybrid.&lt;/b&gt; Safety-critical decisions such as emergency alerts, minimum confidence thresholds, and escalation to a clinician should remain rule-based so behavior is explainable. A learned model can provide risk scores or context, but the final policy should combine these outputs with deterministic thresholds, timers, and fail-safe checks." style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontSize=11" parent="1" vertex="1">
+                    <mxGeometry x="425" y="550" width="360" height="88" as="geometry"/>
+                </mxCell>
+                <mxCell id="section2" value="&lt;b&gt;(c) Two verification / safety challenges from ML&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontSize=15;fontStyle=1" parent="1" vertex="1">
+                    <mxGeometry x="425" y="650" width="360" height="24" as="geometry"/>
+                </mxCell>
+                <mxCell id="c1" value="1. &lt;b&gt;Distribution shift:&lt;/b&gt; training data may not match real use (different skin tones, motion patterns, sensor placement, illness states), so accuracy can degrade unexpectedly in deployment." style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontSize=11" parent="1" vertex="1">
+                    <mxGeometry x="425" y="678" width="360" height="52" as="geometry"/>
+                </mxCell>
+                <mxCell id="c2" value="2. &lt;b&gt;Opaque decision boundaries:&lt;/b&gt; false alarms or missed anomalies may be hard to explain, making certification, debugging, and clinical trust more difficult than for a transparent threshold-based system." style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontSize=11" parent="1" vertex="1">
+                    <mxGeometry x="425" y="730" width="360" height="52" as="geometry"/>
+                </mxCell>
+                <mxCell id="2" value="Edge Device: smartwatch + low-power AI accelerator" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="230" y="70" width="290" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" value="" style="shape=actor;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="100" y="210" width="40" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="a4" value="risk score / inferred state" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2" parent="1" source="ml" target="control" edge="1">
+                    <mxGeometry x="0.0711" y="-10" relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="745" y="250"/>
+                            <mxPoint x="540" y="250"/>
+                        </Array>
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="a7" value="encrypted sync" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2" parent="1" source="comm" target="cloud" edge="1">
+                    <mxGeometry x="0.6825" relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="535" y="210"/>
+                            <mxPoint x="710" y="210"/>
+                        </Array>
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="405" y="154.5" as="sourcePoint"/>
+                        <mxPoint x="440" y="154.5" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="630" y="154.5" as="sourcePoint"/>
+                        <mxPoint x="665" y="154.5" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
