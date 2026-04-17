@@ -1,0 +1,12 @@
+# 1 - Get to know the kit
+
+In der ersten [Aufgabe](./01/01.ino) ging es um die Einrichtung des Arduinos, dabei wurde der Arduino Agent auf einem Windows PC installiert. Anschließend wurde ein Script erstellt, das die Temperatur und Feuchtigkeit der Luft auf dem Display des Arduinos anzeigt. Hierbei war anfangs ein Konto auf dem Arduino Cloud Netzwerk nötig, das mit einem gemeinsamen Passwort in der Gruppe geteilt wurde. Ein neuer Sketch konnte in der Sketch-Sektion erstellt werden.
+
+# 2 - Graphing data in the cloud
+Hier wurde man erstmals in die Things-Umgebung der Cloud eingeführt. Der Arduino musste dabei in die Things-Umgebung hinzugefügt werden. Das stellt eine größere Herausforderung dar, da der Arduino sich nicht mit dem Arduino Agent verbinden hat lassen. Wenn es funktioniert hat, musst man ein WLAN für den Arduino festlegen. Das war der lokale Handy-Hotspot. Des Weiteren werden dann Temperatur und Feuchtigkeit in Variablen angelegt, um diese im anschließenden Dashbord anzuzeigen. Im Dashbord der Cloud wurden dafür die Widgets Percentage und Gauge genommen. Die Variablen waren Read-Only und updaten sich jede Sekunde. Im Dashboard konnte man noch eine Range einstellen, von wo bis wohin die Variablen reichen sollen. Das [Script](./02/02.ino) wurde ausgeführt.
+
+# 4 - Remote triggers
+Hierbei ging es nicht nur darum, jede Sekunde einen Wert zu zeigen, sondern mithilfe des Dashboards  bei Knopf-Auflösung (Varibalenänderungen) einen Alarm auszulösen. Hierzu wurde einige Variablen definiert, wie Textgröße, den Alarm-Auslöser-Knopf, die Farbe etc. Im Dashboard wurde es durch passende Widgets visualisiert. Alle Variablen wie in der Anleitung konnten nicht hinzugefügt werden, da die Anzahl der Variablen auf 5 durch die Gratis-Version beschränkt ist. So wurde das [Script](./04/04.ino) ein wenig geändert. Der Arduino blinkt und schlägt Alarm bei manueller Ausführung des Knopfes.
+
+# 6 - Classroom tracker
+Hier spielt die das Gyroskop eine wichtige Rolle. Es misst die Winkelgeschwindigkeit, d.h. wie schnell sich ein Objekt um seine Achsen dreht. Dazu wurden wieder einige Variablen definiert und entsprechend im Dashbord durch Widgets visualisiert. Bei Drehung des Arduinos und des Gyroskops wurde jeweils eine Türöffnung simuliert. Immer wenn eine Tür geöffnet und geschlossen wird, geht der Counter um 1 nach oben. Die Synchronisierung erfolgt alle paar Sekunden. Das [Script](./06/06.ino) demonstriert diese Simulation.
