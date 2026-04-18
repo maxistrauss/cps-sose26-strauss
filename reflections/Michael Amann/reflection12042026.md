@@ -1,4 +1,4 @@
-## Individual reflection on Module 2 - Part A - Cyber Physical Systems - Theory/Modeling - DL: 12.04.2026
+## Individual reflection on Module 1 - Part A - Cyber Physical Systems - Theory/Modeling - DL: 12.04.2026
 
 As there was no lecture this week because of the holidays, this reflection primarily focuses on the exercise. That's why this reflection is also shorter and more compact compared to regular reflections. 
 
