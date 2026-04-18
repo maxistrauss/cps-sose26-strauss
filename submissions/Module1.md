@@ -10,10 +10,11 @@
 
 **Exercise 5:** [link](../module1/5%20-%20paper/doc.md)
 
-
-Submit a overview file for the CPS week - link to code in your repo!
-
 ## Part B
 
-Results for **Module 1 - Part B - Getting started with Arduino** go here!
+**Exercise B1:** [link](../module1B/Exercise_B1_Prep/task1.md)
+
+**Exercise B2:** [link](../module1B/Exercise_B2_Local_development/results.md)
+
+**Exercise B3:** [link](../module1B/Exercise_B3_Explore_Arduino_IoT_Cloud/doc.md)
 
