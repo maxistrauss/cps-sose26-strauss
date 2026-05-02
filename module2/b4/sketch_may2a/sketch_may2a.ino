@@ -1,67 +1,136 @@
-#include <SPI.h>
-#include <WiFiNINA.h>
+#include <ESP8266WiFi.h>
+#include <WiFiClient.h>
+#include <ESP8266WebServer.h>
+#include <ESP8266mDNS.h>
 
-char ssid[] = "TI Roboter";
-char pass[] = "ITRobot!";
+#ifndef STASSID
+#define STASSID "TI Roboter"
+#define STAPSK "ITRobot!"
+#endif
 
-IPAddress server(172, 16, 29, 230); // ESP8266 IP
+const char* ssid = STASSID;
+const char* password = STAPSK;
 
-void setup() {
+ESP8266WebServer server(80);
+
+const int led = LED_BUILTIN;
+
+// Beim ESP8266 ist LED_BUILTIN meistens active LOW:
+// LOW  = LED an
+// HIGH = LED aus
+bool ledIsOn = false;
+
+void setLed(bool on) {
+  ledIsOn = on;
+
+  if (ledIsOn) {
+    digitalWrite(led, LOW);   // LED an
+  } else {
+    digitalWrite(led, HIGH);  // LED aus
+  }
+}
+
+void handleRoot() {
+  String message = "ESP8266 Webserver laeuft!\n\n";
+  message += "Verfuegbare Endpunkte:\n";
+  message += "/on      -> LED einschalten\n";
+  message += "/off     -> LED ausschalten\n";
+  message += "/toggle  -> LED umschalten\n\n";
+  message += "Aktueller Status: ";
+  message += ledIsOn ? "AN" : "AUS";
+  message += "\n";
+
+  server.send(200, "text/plain", message);
+}
+
+void handleNotFound() {
+  String message = "File Not Found\n\n";
+  message += "URI: ";
+  message += server.uri();
+  message += "\nMethod: ";
+  message += (server.method() == HTTP_GET) ? "GET" : "POST";
+  message += "\nArguments: ";
+  message += server.args();
+  message += "\n";
+
+  for (uint8_t i = 0; i < server.args(); i++) {
+    message += " " + server.argName(i) + ": " + server.arg(i) + "\n";
+  }
+
+  server.send(404, "text/plain", message);
+}
+
+void setup(void) {
+  pinMode(led, OUTPUT);
+
+  // LED am Start ausschalten
+  setLed(false);
+
   Serial.begin(115200);
-  while (!Serial);
+  WiFi.mode(WIFI_STA);
+  WiFi.begin(ssid, password);
 
-  Serial.println("Connecting WiFi...");
+  Serial.println("");
+  Serial.print("Verbinde mit WLAN: ");
+  Serial.println(ssid);
 
-  while (WiFi.begin(ssid, pass) != WL_CONNECTED) {
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
     Serial.print(".");
-    delay(1000);
   }
 
-  Serial.println("\nWiFi connected");
-  Serial.print("MKR IP: ");
+  Serial.println("");
+  Serial.println("WLAN verbunden");
+  Serial.print("IP-Adresse: ");
   Serial.println(WiFi.localIP());
-}
 
-void loop() {
-  // nothing for now
-  sendRequest("/on");   // turn on
-  delay(2000);          // wait 2 seconds
-  sendRequest("/off");  // turn off
-}
-
-void sendRequest(const char* path) {
-  WiFiClient client;
-
-  Serial.print("Connecting to ESP8266 for ");
-  Serial.println(path);
-
-  if (!client.connect(server, 80)) {
-    Serial.println("Connection FAILED");
-    return;
+  if (MDNS.begin("esp8266")) {
+    Serial.println("MDNS responder gestartet");
+    Serial.println("Aufruf auch moeglich mit: http://esp8266.local/");
   }
 
-  Serial.print("Connected → sending ");
-  Serial.println(path);
+  server.on("/", handleRoot);
 
-  client.print("GET ");
-  client.print(path);
-  client.println(" HTTP/1.1");
-  client.println("Host: 192.168.178.42");
-  client.println("Connection: close");
-  client.println();
+  server.on("/on", []() {
+    setLed(true);
+    server.send(200, "text/plain", "LED ist AN");
+  });
 
-  unsigned long timeout = millis();
+  server.on("/off", []() {
+    setLed(false);
+    server.send(200, "text/plain", "LED ist AUS");
+  });
 
-  while (millis() - timeout < 5000) {
-    while (client.available()) {
-      char c = client.read();
-      Serial.write(c);
-      timeout = millis();
+  server.on("/toggle", []() {
+    setLed(!ledIsOn);
+
+    if (ledIsOn) {
+      server.send(200, "text/plain", "LED wurde eingeschaltet");
+    } else {
+      server.send(200, "text/plain", "LED wurde ausgeschaltet");
     }
+  });
 
-    if (!client.connected()) break;
-  }
+  server.onNotFound(handleNotFound);
 
-  client.stop();
-  Serial.println("\nDone");
+  server.begin();
+  Serial.println("HTTP server gestartet");
+  Serial.println("");
+  Serial.println("Nutze diese Links:");
+  Serial.print("http://");
+  Serial.print(WiFi.localIP());
+  Serial.println("/on");
+
+  Serial.print("http://");
+  Serial.print(WiFi.localIP());
+  Serial.println("/off");
+
+  Serial.print("http://");
+  Serial.print(WiFi.localIP());
+  Serial.println("/toggle");
+}
+
+void loop(void) {
+  server.handleClient();
+  MDNS.update();
 }
