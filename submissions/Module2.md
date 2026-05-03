@@ -17,7 +17,7 @@ link to Task A4: [link](../module2/a4/a4.md)
 
 ## Task A5: Reading a Datasheet
 
-link to Task A5: missing
+link to Task A5: [link](../module2/a5/a5.md)
 
 ## Task B1 - Cloud Device Connection
 
@@ -36,3 +36,5 @@ The code can be found [here](../module2/b3)
 link to Task b4: [link](../module2/b4/documentation.md)
 
 ## Task B5: Evaluate Platform.IO as alternative to Arduino
+
+link to Task b5: [link](../module2/b5/b5.md)
