@@ -1,4 +1,4 @@
-# Week 02 Reflection
+# Week 03 Reflection
 
 ## Expectations
 * Getting to know the Arduino and the connection between those devices and the software
