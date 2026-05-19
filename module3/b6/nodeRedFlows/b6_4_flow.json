@@ -1,5 +1,13 @@
 [
     {
+        "id": "c1a37fcaf1b85742",
+        "type": "tab",
+        "label": "M3_B6_4",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
         "id": "b765b5ca17f18091",
         "type": "inject",
         "z": "c1a37fcaf1b85742",
@@ -23,5 +31,91 @@
                 "75e1ebee50a11dab"
             ]
         ]
+    },
+    {
+        "id": "3b4af0d4c9737ae7",
+        "type": "debug",
+        "z": "c1a37fcaf1b85742",
+        "name": "debug 7",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 680,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "1fbfea0a2179e3a7",
+        "type": "mqtt out",
+        "z": "c1a37fcaf1b85742",
+        "name": "",
+        "topic": "display_Node/oled",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "bf477254db0f7a8f",
+        "x": 710,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "75e1ebee50a11dab",
+        "type": "function",
+        "z": "c1a37fcaf1b85742",
+        "name": "Clear screen before",
+        "func": "let temp = \"&&clear \" + msg.payload\n\nmsg.payload = temp;\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 410,
+        "y": 300,
+        "wires": [
+            [
+                "3b4af0d4c9737ae7",
+                "1fbfea0a2179e3a7"
+            ]
+        ]
+    },
+    {
+        "id": "bf477254db0f7a8f",
+        "type": "mqtt-broker",
+        "name": "IoT Gateway",
+        "broker": "192.168.12.1",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
     }
 ]
