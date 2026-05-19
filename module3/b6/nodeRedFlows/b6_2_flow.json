@@ -1,0 +1,219 @@
+[
+    {
+        "id": "68fe21efe70365bc",
+        "type": "tab",
+        "label": "M3_B6_3",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "a40271f6da7f856c",
+        "type": "mqtt in",
+        "z": "68fe21efe70365bc",
+        "name": "",
+        "topic": "second_Node/b1",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "bf477254db0f7a8f",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 280,
+        "y": 200,
+        "wires": [
+            [
+                "9c505814f1421b19"
+            ]
+        ]
+    },
+    {
+        "id": "19b2d4a5851a530a",
+        "type": "debug",
+        "z": "68fe21efe70365bc",
+        "name": "debug 5",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1060,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "4b9725709e2210ba",
+        "type": "change",
+        "z": "68fe21efe70365bc",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "on",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 800,
+        "y": 180,
+        "wires": [
+            [
+                "19b2d4a5851a530a",
+                "f73b853dd4788690"
+            ]
+        ]
+    },
+    {
+        "id": "9c505814f1421b19",
+        "type": "switch",
+        "z": "68fe21efe70365bc",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "up",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "down",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 490,
+        "y": 200,
+        "wires": [
+            [
+                "4b9725709e2210ba"
+            ],
+            [
+                "7b942811cc4c34d6"
+            ]
+        ]
+    },
+    {
+        "id": "7b942811cc4c34d6",
+        "type": "change",
+        "z": "68fe21efe70365bc",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "off",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 800,
+        "y": 240,
+        "wires": [
+            [
+                "7f3298e61650f76c",
+                "7a85d5a3fb4ebad5"
+            ]
+        ]
+    },
+    {
+        "id": "7f3298e61650f76c",
+        "type": "debug",
+        "z": "68fe21efe70365bc",
+        "name": "debug 6",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1060,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "f73b853dd4788690",
+        "type": "mqtt out",
+        "z": "68fe21efe70365bc",
+        "name": "",
+        "topic": "test01/blue/set",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "bf477254db0f7a8f",
+        "x": 1100,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "7a85d5a3fb4ebad5",
+        "type": "mqtt out",
+        "z": "68fe21efe70365bc",
+        "name": "",
+        "topic": "test01/blue/set",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "bf477254db0f7a8f",
+        "x": 1080,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "bf477254db0f7a8f",
+        "type": "mqtt-broker",
+        "name": "IoT Gateway",
+        "broker": "192.168.12.1",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    }
+]

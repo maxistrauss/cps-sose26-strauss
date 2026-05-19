@@ -1,0 +1,27 @@
+[
+    {
+        "id": "b765b5ca17f18091",
+        "type": "inject",
+        "z": "c1a37fcaf1b85742",
+        "name": "Input",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "Wie gehts?",
+        "payloadType": "str",
+        "x": 210,
+        "y": 300,
+        "wires": [
+            [
+                "75e1ebee50a11dab"
+            ]
+        ]
+    }
+]
