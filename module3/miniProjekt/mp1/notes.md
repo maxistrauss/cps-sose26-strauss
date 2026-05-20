@@ -11,3 +11,7 @@ When the button is pressed, it is reset to Blue and the Text is back to "Scan Ta
 The flow can be seen [here](./screenshots/MP1_node_red_flow.png).
 
 The flow of the json can be found [here](./screenshots/MP1_RFID.json). 
+
+A quick demo can be found [here](./screenshots/Screencast%20from%202026-05-20%2018-33-14.webm). This demo does not inlcude the MQTT as the RFID sensor was not setup, when this task was finished. 
+
+But the RFID Sensor does send correct data as can be seen in this [screenshot](./screenshots/Screenshot%20from%202026-05-20%2015-24-28.png). 
