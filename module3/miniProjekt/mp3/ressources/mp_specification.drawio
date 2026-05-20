@@ -1,0 +1,366 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Page-1" id="IyM-4hp16dIfvFtP1MdE">
+    <mxGraphModel dx="3992" dy="1698" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-99" parent="1" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;" value="" vertex="1">
+          <mxGeometry height="590" width="705" x="1320" y="1370" as="geometry" />
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-97" parent="1" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;" value="" vertex="1">
+          <mxGeometry height="520" width="600" x="590" y="1140" as="geometry" />
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-95" parent="1" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;" value="" vertex="1">
+          <mxGeometry height="520" width="600" x="-80" y="1510" as="geometry" />
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-11" parent="1" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;MQTT Broker / Raspberry PI&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;- IP Addresse: 192.168.12.1&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;- Runs Iotempower&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;- Mosquitto listening on default port&lt;/p&gt;&lt;hr&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;MQTT Topics:&amp;nbsp;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;(Need to be changed according to documentation in iot doc serve)&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;Actuator/Sensor Topics:&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;- mp/rfidReader/uuid&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;- mp/rgbled/set&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;- mp/buzzer&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;- mp/display&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;- mp/servo&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;(- Button Topics for additional Tasks)&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;- mp/access (for controll of all the other sensores)&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;- mp/passwordLogin (for the alternative option to open the lock)&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;br&gt;&lt;/p&gt;" vertex="1">
+          <mxGeometry height="320" width="440" x="220" y="300" as="geometry" />
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-12" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="RFID Reader" vertex="1">
+          <mxGeometry height="90" width="240" x="320" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-13" edge="1" parent="1" source="4gwTB1kTO_HUjLjvKjti-11" style="endArrow=none;html=1;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;startArrow=classic;startFill=1;endFill=0;" target="4gwTB1kTO_HUjLjvKjti-12" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="200" y="420" as="sourcePoint" />
+            <mxPoint x="250" y="370" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-14" connectable="0" parent="4gwTB1kTO_HUjLjvKjti-13" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="PUB mp/rfidReader/uuid" vertex="1">
+          <mxGeometry relative="1" x="0.0503" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-16" edge="1" parent="1" source="4gwTB1kTO_HUjLjvKjti-15" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="4gwTB1kTO_HUjLjvKjti-11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-17" connectable="0" parent="4gwTB1kTO_HUjLjvKjti-16" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="SUB mp/display" vertex="1">
+          <mxGeometry relative="1" x="-0.0109" y="-2" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-15" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="&lt;div&gt;Display&lt;/div&gt;" vertex="1">
+          <mxGeometry height="90" width="240" x="970" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-18" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="Buzzer" vertex="1">
+          <mxGeometry height="90" width="240" x="980" y="540" as="geometry" />
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-19" edge="1" parent="1" source="4gwTB1kTO_HUjLjvKjti-18" style="endArrow=classic;html=1;rounded=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.75;entryDx=0;entryDy=0;" target="4gwTB1kTO_HUjLjvKjti-11" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="750" y="480" as="sourcePoint" />
+            <mxPoint x="800" y="430" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-20" connectable="0" parent="4gwTB1kTO_HUjLjvKjti-19" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="&lt;div&gt;SUB mp/buzzer&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" x="-0.0522" y="-2" as="geometry">
+            <mxPoint y="-12" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-22" edge="1" parent="1" source="4gwTB1kTO_HUjLjvKjti-21" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0;entryDx=0;entryDy=0;" target="4gwTB1kTO_HUjLjvKjti-11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-23" connectable="0" parent="4gwTB1kTO_HUjLjvKjti-22" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="SUB mp/rgbled/set" vertex="1">
+          <mxGeometry relative="1" x="0.4454" y="3" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-21" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="&lt;div&gt;RGB LED&lt;/div&gt;" vertex="1">
+          <mxGeometry height="90" width="240" x="740" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-25" edge="1" parent="1" source="4gwTB1kTO_HUjLjvKjti-24" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0;entryDx=0;entryDy=0;" target="4gwTB1kTO_HUjLjvKjti-11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-26" connectable="0" parent="4gwTB1kTO_HUjLjvKjti-25" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="SUB mp/servo" vertex="1">
+          <mxGeometry relative="1" x="0.2786" y="2" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-24" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="&lt;div&gt;Servo (ServoSwitch)&lt;/div&gt;" vertex="1">
+          <mxGeometry height="90" width="240" x="30" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-28" edge="1" parent="1" source="4gwTB1kTO_HUjLjvKjti-27" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=1;entryDx=0;entryDy=0;" target="4gwTB1kTO_HUjLjvKjti-11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-29" connectable="0" parent="4gwTB1kTO_HUjLjvKjti-28" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="PUB mp/passwordLogin" vertex="1">
+          <mxGeometry relative="1" x="0.3948" y="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-27" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="&lt;div&gt;Arduino MKR IoT Carrier&lt;/div&gt;(for unlock with password)" vertex="1">
+          <mxGeometry height="90" width="240" x="820" y="760" as="geometry" />
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-32" edge="1" parent="1" source="4gwTB1kTO_HUjLjvKjti-30" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=0;exitDx=0;exitDy=0;entryX=0;entryY=1;entryDx=0;entryDy=0;" target="4gwTB1kTO_HUjLjvKjti-11">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="82" y="630" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-34" connectable="0" parent="4gwTB1kTO_HUjLjvKjti-32" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="SUB mp/rfidReader/uuid" vertex="1">
+          <mxGeometry relative="1" x="-0.6528" y="-1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-30" parent="1" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;MQTT Logic 1 / RFID Check&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;- Node-RED flow (or python script)&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;- Check UUID provided by RFID Reader&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;- IF UUID has access -&amp;gt; PUB &quot;granted&quot; to mp/access&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;ELSE -&amp;gt; PUB &quot;denied&quot; to mp/access&lt;/p&gt;" vertex="1">
+          <mxGeometry height="120" width="370" x="-10" y="830" as="geometry" />
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-35" edge="1" parent="1" source="4gwTB1kTO_HUjLjvKjti-30" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=0;exitDx=0;exitDy=0;entryX=0.328;entryY=1.014;entryDx=0;entryDy=0;entryPerimeter=0;" target="4gwTB1kTO_HUjLjvKjti-11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-36" connectable="0" parent="4gwTB1kTO_HUjLjvKjti-35" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="&lt;div&gt;PUB mp/access&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" x="-0.6289" y="2" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-39" edge="1" parent="1" source="4gwTB1kTO_HUjLjvKjti-37" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=1;exitDx=0;exitDy=0;entryX=-0.003;entryY=0.973;entryDx=0;entryDy=0;entryPerimeter=0;" target="4gwTB1kTO_HUjLjvKjti-11">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="220" y="620" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-40" connectable="0" parent="4gwTB1kTO_HUjLjvKjti-39" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="PUB mp/rgbled/set" vertex="1">
+          <mxGeometry relative="1" x="-0.3643" y="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-37" parent="1" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;MQTT Logic 2 / Sensor Controll&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;- Node-RED flow (or python script)&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;- Subscribe to mp/access&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;- IF msg.payload&amp;nbsp; = &quot;granted&quot; -&amp;gt; Send data to sensors that access is granted (green LED, etc)&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;ELSE -&amp;gt; Send data to sensors that access is denied (red LED, etc)&lt;/p&gt;" vertex="1">
+          <mxGeometry height="200" width="370" x="-450" y="410" as="geometry" />
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-41" edge="1" parent="1" source="4gwTB1kTO_HUjLjvKjti-37" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0.004;entryY=0.815;entryDx=0;entryDy=0;entryPerimeter=0;" target="4gwTB1kTO_HUjLjvKjti-11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-42" connectable="0" parent="4gwTB1kTO_HUjLjvKjti-41" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="PUB mp/buzzer" vertex="1">
+          <mxGeometry relative="1" x="-0.2975" y="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-43" edge="1" parent="1" source="4gwTB1kTO_HUjLjvKjti-37" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=-0.001;entryY=0.662;entryDx=0;entryDy=0;entryPerimeter=0;" target="4gwTB1kTO_HUjLjvKjti-11">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-70" y="520" as="sourcePoint" />
+            <mxPoint x="232" y="521" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-44" connectable="0" parent="4gwTB1kTO_HUjLjvKjti-43" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="PUB mp/display" vertex="1">
+          <mxGeometry relative="1" x="-0.2975" y="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-45" edge="1" parent="1" source="4gwTB1kTO_HUjLjvKjti-37" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1.001;exitY=0.322;exitDx=0;exitDy=0;entryX=0.001;entryY=0.543;entryDx=0;entryDy=0;entryPerimeter=0;exitPerimeter=0;" target="4gwTB1kTO_HUjLjvKjti-11">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-50" y="480" as="sourcePoint" />
+            <mxPoint x="250" y="482" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-46" connectable="0" parent="4gwTB1kTO_HUjLjvKjti-45" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="PUB mp/servo" vertex="1">
+          <mxGeometry relative="1" x="-0.2975" y="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-47" edge="1" parent="1" source="4gwTB1kTO_HUjLjvKjti-37" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.999;exitY=0.122;exitDx=0;exitDy=0;entryX=-0.003;entryY=0.426;entryDx=0;entryDy=0;entryPerimeter=0;exitPerimeter=0;" target="4gwTB1kTO_HUjLjvKjti-11">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-70" y="440" as="sourcePoint" />
+            <mxPoint x="230" y="440" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-48" connectable="0" parent="4gwTB1kTO_HUjLjvKjti-47" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="SUB mp/access" vertex="1">
+          <mxGeometry relative="1" x="-0.2975" y="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-52" edge="1" parent="1" source="4gwTB1kTO_HUjLjvKjti-49" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" target="4gwTB1kTO_HUjLjvKjti-11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-53" connectable="0" parent="4gwTB1kTO_HUjLjvKjti-52" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="SUB mp/passwordLogin" vertex="1">
+          <mxGeometry relative="1" x="-0.2083" y="-5" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-49" parent="1" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;MQTT Logic 3 / Password Login Check&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;- Node-RED flow (or python script)&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;- Subscribe to mp/passwortLogin&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;- IF sent string matches set passwort-&amp;gt; PUB &quot;granted&quot; to mp/access&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;ELSE -&amp;gt; PUB &quot;denied&quot; to mp/access&lt;/p&gt;" vertex="1">
+          <mxGeometry height="200" width="370" x="-490" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-50" edge="1" parent="1" source="4gwTB1kTO_HUjLjvKjti-49" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=-0.007;entryY=0.083;entryDx=0;entryDy=0;entryPerimeter=0;" target="4gwTB1kTO_HUjLjvKjti-11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-51" connectable="0" parent="4gwTB1kTO_HUjLjvKjti-50" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="PUB mp/access" vertex="1">
+          <mxGeometry relative="1" x="-0.2249" y="-4" as="geometry">
+            <mxPoint x="-1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-57" edge="1" parent="1" source="4gwTB1kTO_HUjLjvKjti-79" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="4gwTB1kTO_HUjLjvKjti-56">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-81" connectable="0" parent="4gwTB1kTO_HUjLjvKjti-57" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="RFID" vertex="1">
+          <mxGeometry relative="1" x="-0.2206" y="-1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-55" parent="1" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.start_2;whiteSpace=wrap;" value="START" vertex="1">
+          <mxGeometry height="100" width="100" x="-580" y="1330" as="geometry" />
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-59" edge="1" parent="1" source="4gwTB1kTO_HUjLjvKjti-56" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="4gwTB1kTO_HUjLjvKjti-58">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-56" parent="1" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;" value="User places Tag on RFID Reader" vertex="1">
+          <mxGeometry height="100" width="240" x="-200" y="1330" as="geometry" />
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-61" edge="1" parent="1" source="4gwTB1kTO_HUjLjvKjti-58" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="4gwTB1kTO_HUjLjvKjti-60">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-58" parent="1" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;" value="&lt;div&gt;RFID Reader sends UUID to MQTT Broker&lt;/div&gt;" vertex="1">
+          <mxGeometry height="100" width="275" x="185" y="1330" as="geometry" />
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-60" parent="1" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;" value="MQTT Logic 1 Subs to this topic and checks the UUID" vertex="1">
+          <mxGeometry height="100" width="275" x="620" y="1330" as="geometry" />
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-65" edge="1" parent="1" source="4gwTB1kTO_HUjLjvKjti-62" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="4gwTB1kTO_HUjLjvKjti-64">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1017.5" y="1280" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-66" connectable="0" parent="4gwTB1kTO_HUjLjvKjti-65" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="NO" vertex="1">
+          <mxGeometry relative="1" x="-0.0831" y="-1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-68" edge="1" parent="1" source="4gwTB1kTO_HUjLjvKjti-62" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="4gwTB1kTO_HUjLjvKjti-67">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-69" connectable="0" parent="4gwTB1kTO_HUjLjvKjti-68" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="YES" vertex="1">
+          <mxGeometry relative="1" x="-0.3585" y="-1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-62" parent="1" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.decision;whiteSpace=wrap;" value="valid UUID?" vertex="1">
+          <mxGeometry height="100" width="100" x="970" y="1330" as="geometry" />
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-63" edge="1" parent="1" source="4gwTB1kTO_HUjLjvKjti-60" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" target="4gwTB1kTO_HUjLjvKjti-62">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-64" parent="1" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;" value="Send &quot;denied&quot; to mp/access topic" vertex="1">
+          <mxGeometry height="100" width="275" x="882.5" y="1160" as="geometry" />
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-67" parent="1" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;" value="Send &quot;granted&quot; to mp/access topic" vertex="1">
+          <mxGeometry height="100" width="275" x="882.5" y="1540" as="geometry" />
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-70" parent="1" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;" value="Check payload if access is granted or denied" vertex="1">
+          <mxGeometry height="100" width="275" x="1345" y="1590" as="geometry" />
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-71" edge="1" parent="1" source="4gwTB1kTO_HUjLjvKjti-75" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="4gwTB1kTO_HUjLjvKjti-76">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1800" y="1540" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-72" connectable="0" parent="4gwTB1kTO_HUjLjvKjti-71" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="NO" vertex="1">
+          <mxGeometry relative="1" x="-0.0831" y="-1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-73" edge="1" parent="1" source="4gwTB1kTO_HUjLjvKjti-75" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="4gwTB1kTO_HUjLjvKjti-77">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-74" connectable="0" parent="4gwTB1kTO_HUjLjvKjti-73" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="YES" vertex="1">
+          <mxGeometry relative="1" x="-0.3585" y="-1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-75" parent="1" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.decision;whiteSpace=wrap;" value="Granted?" vertex="1">
+          <mxGeometry height="100" width="100" x="1752.5" y="1590" as="geometry" />
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-76" parent="1" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;" value="Publish data to actuators that access is denied" vertex="1">
+          <mxGeometry height="100" width="275" x="1665" y="1420" as="geometry" />
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-77" parent="1" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;" value="Publish data to actuators that access is granted" vertex="1">
+          <mxGeometry height="100" width="275" x="1665" y="1800" as="geometry" />
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-78" edge="1" parent="1" source="4gwTB1kTO_HUjLjvKjti-70" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" target="4gwTB1kTO_HUjLjvKjti-75">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-80" edge="1" parent="1" source="4gwTB1kTO_HUjLjvKjti-55" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="4gwTB1kTO_HUjLjvKjti-79" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-480" y="1380" as="sourcePoint" />
+            <mxPoint x="-200" y="1380" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-83" edge="1" parent="1" source="4gwTB1kTO_HUjLjvKjti-79" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="4gwTB1kTO_HUjLjvKjti-82">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-84" connectable="0" parent="4gwTB1kTO_HUjLjvKjti-83" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Password" vertex="1">
+          <mxGeometry relative="1" x="-0.2248" y="-1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-79" parent="1" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.decision;whiteSpace=wrap;" value="Login Option" vertex="1">
+          <mxGeometry height="100" width="100" x="-440" y="1330" as="geometry" />
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-86" edge="1" parent="1" source="4gwTB1kTO_HUjLjvKjti-82" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.005;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" target="4gwTB1kTO_HUjLjvKjti-85">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-82" parent="1" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;" value="User enters Password on IoT MKR Carrier" vertex="1">
+          <mxGeometry height="100" width="240" x="-370" y="1700" as="geometry" />
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-85" parent="1" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;" value="MQTT Logic 3 checks topic payload" vertex="1">
+          <mxGeometry height="100" width="240" x="-60" y="1700" as="geometry" />
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-87" edge="1" parent="1" source="4gwTB1kTO_HUjLjvKjti-91" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="4gwTB1kTO_HUjLjvKjti-92">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="335" y="1650" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-88" connectable="0" parent="4gwTB1kTO_HUjLjvKjti-87" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="NO" vertex="1">
+          <mxGeometry relative="1" x="-0.0831" y="-1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-89" edge="1" parent="1" source="4gwTB1kTO_HUjLjvKjti-91" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="4gwTB1kTO_HUjLjvKjti-93">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-90" connectable="0" parent="4gwTB1kTO_HUjLjvKjti-89" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="YES" vertex="1">
+          <mxGeometry relative="1" x="-0.3585" y="-1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-91" parent="1" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.decision;whiteSpace=wrap;" value="Valid Password?" vertex="1">
+          <mxGeometry height="100" width="100" x="287.5" y="1700" as="geometry" />
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-92" parent="1" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;" value="Send &quot;denied&quot; to mp/access topic" vertex="1">
+          <mxGeometry height="100" width="275" x="200" y="1540" as="geometry" />
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-93" parent="1" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;" value="Send &quot;granted&quot; to mp/access topic" vertex="1">
+          <mxGeometry height="100" width="275" x="200" y="1910" as="geometry" />
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-94" edge="1" parent="1" source="4gwTB1kTO_HUjLjvKjti-85" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" target="4gwTB1kTO_HUjLjvKjti-91">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-96" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="MQTT Logic 3" vertex="1">
+          <mxGeometry height="30" width="130" x="-80" y="1520" as="geometry" />
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-98" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="MQTT Logic 1" vertex="1">
+          <mxGeometry height="30" width="130" x="600" y="1150" as="geometry" />
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-100" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="MQTT Logic 1" vertex="1">
+          <mxGeometry height="30" width="130" x="1330" y="1380" as="geometry" />
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-101" edge="1" parent="1" style="endArrow=none;html=1;rounded=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="-670" y="1000" as="sourcePoint" />
+            <mxPoint x="1870" y="1000" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-102" edge="1" parent="1" source="4gwTB1kTO_HUjLjvKjti-95" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.684;entryDx=0;entryDy=0;entryPerimeter=0;" target="4gwTB1kTO_HUjLjvKjti-99">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-103" edge="1" parent="1" source="4gwTB1kTO_HUjLjvKjti-97" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.002;entryY=0.337;entryDx=0;entryDy=0;entryPerimeter=0;" target="4gwTB1kTO_HUjLjvKjti-99">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-104" parent="1" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.terminator;whiteSpace=wrap;" value="ENDE" vertex="1">
+          <mxGeometry height="60" width="100" x="2150" y="1635" as="geometry" />
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-105" edge="1" parent="1" source="4gwTB1kTO_HUjLjvKjti-99" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" target="4gwTB1kTO_HUjLjvKjti-104">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-106" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;h1&gt;&lt;font style=&quot;font-size: 39px;&quot;&gt;Flow Diagramm&lt;/font&gt;&lt;/h1&gt;" vertex="1">
+          <mxGeometry height="90" width="350" x="-600" y="1120" as="geometry" />
+        </mxCell>
+        <mxCell id="4gwTB1kTO_HUjLjvKjti-107" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;h1&gt;&lt;font style=&quot;font-size: 39px;&quot;&gt;Architektur&lt;/font&gt;&lt;/h1&gt;" vertex="1">
+          <mxGeometry height="90" width="350" x="-500" y="20" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
