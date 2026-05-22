@@ -345,3 +345,9 @@ These topics are called differently according to the specification of IoTempower
 4. Buzzer emits warning tone
 5. Door remains locked
 
+# Demo
+
+link to demo: [demo1](./ressources/iot_demo1.mp4) [demo2](./ressources/iot_demo2.mp4).
+
+link to flows: [flow1](./ressources/flows(1).json) [flow2](./ressources/flows(2).json) [flow3](./ressources/flows(3).json)
+

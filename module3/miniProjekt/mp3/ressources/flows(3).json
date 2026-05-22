@@ -1,0 +1,810 @@
+[
+    {
+        "id": "119c81ca7f2ad4a8",
+        "type": "tab",
+        "label": "Access_Controller",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "52ad504dbf2bb1fa",
+        "type": "inject",
+        "z": "119c81ca7f2ad4a8",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "granted",
+        "payloadType": "str",
+        "x": 150,
+        "y": 140,
+        "wires": [
+            [
+                "c0a2541c88b63e6a"
+            ]
+        ]
+    },
+    {
+        "id": "1ada87196638dfd8",
+        "type": "inject",
+        "z": "119c81ca7f2ad4a8",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "not allowed",
+        "payloadType": "str",
+        "x": 150,
+        "y": 220,
+        "wires": [
+            [
+                "c0a2541c88b63e6a"
+            ]
+        ]
+    },
+    {
+        "id": "c0a2541c88b63e6a",
+        "type": "switch",
+        "z": "119c81ca7f2ad4a8",
+        "name": "Is payload granted",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "granted",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 370,
+        "y": 180,
+        "wires": [
+            [
+                "cc3d7cd11352364b",
+                "6072d1a69d968c9a",
+                "3aa1e73bb23de00b"
+            ],
+            [
+                "8d59dff6d9a01227",
+                "41e63ad481de6803",
+                "a9c11f828cf19d6f",
+                "ab9a02c26ae484fb"
+            ]
+        ]
+    },
+    {
+        "id": "cc3d7cd11352364b",
+        "type": "change",
+        "z": "119c81ca7f2ad4a8",
+        "name": "green LED set",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "green",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 640,
+        "y": 200,
+        "wires": [
+            [
+                "ee7734271a4f426f",
+                "ba6d0d488a09b963"
+            ]
+        ]
+    },
+    {
+        "id": "90ee69573f5fd736",
+        "type": "mqtt out",
+        "z": "119c81ca7f2ad4a8",
+        "name": "",
+        "topic": "DISPLAY/oled",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "bf477254db0f7a8f",
+        "x": 920,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "6072d1a69d968c9a",
+        "type": "function",
+        "z": "119c81ca7f2ad4a8",
+        "name": "Display clear + allowed",
+        "func": "let temp = \"&&clear \" + \"allowed\"\n\nmsg.payload = temp;\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 670,
+        "y": 80,
+        "wires": [
+            [
+                "90ee69573f5fd736",
+                "227d876cd66d80a8"
+            ]
+        ]
+    },
+    {
+        "id": "ee7734271a4f426f",
+        "type": "mqtt out",
+        "z": "119c81ca7f2ad4a8",
+        "name": "",
+        "topic": "LED/led/rgb/set",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "bf477254db0f7a8f",
+        "x": 920,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "7d9422abb8f2b03e",
+        "type": "mqtt out",
+        "z": "119c81ca7f2ad4a8",
+        "name": "",
+        "topic": "LED/led/rgb/set",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "bf477254db0f7a8f",
+        "x": 920,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "8d59dff6d9a01227",
+        "type": "change",
+        "z": "119c81ca7f2ad4a8",
+        "name": "red LED set",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "red",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 630,
+        "y": 540,
+        "wires": [
+            [
+                "7d9422abb8f2b03e",
+                "50388c5e376ffd65"
+            ]
+        ]
+    },
+    {
+        "id": "41e63ad481de6803",
+        "type": "change",
+        "z": "119c81ca7f2ad4a8",
+        "name": "buzzer denied",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "denied",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 640,
+        "y": 640,
+        "wires": [
+            [
+                "82f2135627d66aac"
+            ]
+        ]
+    },
+    {
+        "id": "82f2135627d66aac",
+        "type": "mqtt out",
+        "z": "119c81ca7f2ad4a8",
+        "name": "",
+        "topic": "mp/buzzer",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "bf477254db0f7a8f",
+        "x": 910,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "75547b9814f1183e",
+        "type": "mqtt in",
+        "z": "119c81ca7f2ad4a8",
+        "name": "RFID PUB",
+        "topic": "mp/access",
+        "qos": "2",
+        "datatype": "utf8",
+        "broker": "bf477254db0f7a8f",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 140,
+        "y": 60,
+        "wires": [
+            [
+                "c0a2541c88b63e6a"
+            ]
+        ]
+    },
+    {
+        "id": "a9c11f828cf19d6f",
+        "type": "change",
+        "z": "119c81ca7f2ad4a8",
+        "name": "Servo stay closed",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "0",
+                "tot": "num"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 650,
+        "y": 480,
+        "wires": [
+            [
+                "b616315c462bb0c8"
+            ]
+        ]
+    },
+    {
+        "id": "3aa1e73bb23de00b",
+        "type": "change",
+        "z": "119c81ca7f2ad4a8",
+        "name": "Servo open",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "90",
+                "tot": "num"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 650,
+        "y": 320,
+        "wires": [
+            [
+                "6fe2c618fedd2972",
+                "6c95306878f4739f"
+            ]
+        ]
+    },
+    {
+        "id": "6fe2c618fedd2972",
+        "type": "mqtt out",
+        "z": "119c81ca7f2ad4a8",
+        "name": "",
+        "topic": "SERVO/motor/set",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "bf477254db0f7a8f",
+        "x": 910,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "ab9a02c26ae484fb",
+        "type": "function",
+        "z": "119c81ca7f2ad4a8",
+        "name": "Display clear + allowed",
+        "func": "let temp = \"&&clear \" + \"not allowed\"\n\nmsg.payload = temp;\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 670,
+        "y": 700,
+        "wires": [
+            [
+                "d47e517260751700",
+                "843603c5e30663e8"
+            ]
+        ]
+    },
+    {
+        "id": "d47e517260751700",
+        "type": "mqtt out",
+        "z": "119c81ca7f2ad4a8",
+        "name": "",
+        "topic": "DISPLAY/oled",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "bf477254db0f7a8f",
+        "x": 940,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "843603c5e30663e8",
+        "type": "delay",
+        "z": "119c81ca7f2ad4a8",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "3",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 920,
+        "y": 760,
+        "wires": [
+            [
+                "18e10323bd58032f"
+            ]
+        ]
+    },
+    {
+        "id": "bca50c7c615f336d",
+        "type": "mqtt out",
+        "z": "119c81ca7f2ad4a8",
+        "name": "",
+        "topic": "DISPLAY/oled",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "bf477254db0f7a8f",
+        "x": 1300,
+        "y": 760,
+        "wires": []
+    },
+    {
+        "id": "18e10323bd58032f",
+        "type": "function",
+        "z": "119c81ca7f2ad4a8",
+        "name": "Display clear",
+        "func": "let temp = \"&&clear\"\n\nmsg.payload = temp;\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1090,
+        "y": 760,
+        "wires": [
+            [
+                "bca50c7c615f336d"
+            ]
+        ]
+    },
+    {
+        "id": "50388c5e376ffd65",
+        "type": "delay",
+        "z": "119c81ca7f2ad4a8",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "3",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 900,
+        "y": 580,
+        "wires": [
+            [
+                "4d6b9fecd160ef39"
+            ]
+        ]
+    },
+    {
+        "id": "c7d34acb72ac1791",
+        "type": "mqtt out",
+        "z": "119c81ca7f2ad4a8",
+        "name": "",
+        "topic": "LED/led/set",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "bf477254db0f7a8f",
+        "x": 1210,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "4d6b9fecd160ef39",
+        "type": "change",
+        "z": "119c81ca7f2ad4a8",
+        "name": "off",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "off",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1050,
+        "y": 580,
+        "wires": [
+            [
+                "c7d34acb72ac1791"
+            ]
+        ]
+    },
+    {
+        "id": "b616315c462bb0c8",
+        "type": "mqtt out",
+        "z": "119c81ca7f2ad4a8",
+        "name": "",
+        "topic": "SERVO/motor/set",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "bf477254db0f7a8f",
+        "x": 930,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "6c95306878f4739f",
+        "type": "delay",
+        "z": "119c81ca7f2ad4a8",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "3",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 880,
+        "y": 380,
+        "wires": [
+            [
+                "bf948fa9b286ec29"
+            ]
+        ]
+    },
+    {
+        "id": "bf948fa9b286ec29",
+        "type": "change",
+        "z": "119c81ca7f2ad4a8",
+        "name": "off",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "0",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1030,
+        "y": 380,
+        "wires": [
+            [
+                "fad0cf7f9279bf37"
+            ]
+        ]
+    },
+    {
+        "id": "fad0cf7f9279bf37",
+        "type": "mqtt out",
+        "z": "119c81ca7f2ad4a8",
+        "name": "",
+        "topic": "SERVO/motor/set",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "bf477254db0f7a8f",
+        "x": 1210,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "ba6d0d488a09b963",
+        "type": "delay",
+        "z": "119c81ca7f2ad4a8",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "3",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 900,
+        "y": 240,
+        "wires": [
+            [
+                "ccf6b9d1249fbbd3"
+            ]
+        ]
+    },
+    {
+        "id": "ccf6b9d1249fbbd3",
+        "type": "change",
+        "z": "119c81ca7f2ad4a8",
+        "name": "off",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "off",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1050,
+        "y": 240,
+        "wires": [
+            [
+                "3b9cd8dde944ab91"
+            ]
+        ]
+    },
+    {
+        "id": "3b9cd8dde944ab91",
+        "type": "mqtt out",
+        "z": "119c81ca7f2ad4a8",
+        "name": "",
+        "topic": "LED/led/set",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "bf477254db0f7a8f",
+        "x": 1210,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "227d876cd66d80a8",
+        "type": "delay",
+        "z": "119c81ca7f2ad4a8",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "3",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 900,
+        "y": 120,
+        "wires": [
+            [
+                "ae631569b11affd5"
+            ]
+        ]
+    },
+    {
+        "id": "ad5e89d5ee1ddf91",
+        "type": "mqtt out",
+        "z": "119c81ca7f2ad4a8",
+        "name": "",
+        "topic": "DISPLAY/oled",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "bf477254db0f7a8f",
+        "x": 1280,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "ae631569b11affd5",
+        "type": "function",
+        "z": "119c81ca7f2ad4a8",
+        "name": "Display clear",
+        "func": "let temp = \"&&clear\"\n\nmsg.payload = temp;\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1070,
+        "y": 120,
+        "wires": [
+            [
+                "ad5e89d5ee1ddf91"
+            ]
+        ]
+    },
+    {
+        "id": "93a1b798e3a5580b",
+        "type": "comment",
+        "z": "119c81ca7f2ad4a8",
+        "name": "ACCESS GRANTED",
+        "info": "## ACCESS GRANTED",
+        "x": 650,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "892d5ecd50959041",
+        "type": "comment",
+        "z": "119c81ca7f2ad4a8",
+        "name": "ACCESS DENIED",
+        "info": "## ACCESS DENIED",
+        "x": 650,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "bf477254db0f7a8f",
+        "type": "mqtt-broker",
+        "name": "IoT Gateway",
+        "broker": "192.168.12.1",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    }
+]

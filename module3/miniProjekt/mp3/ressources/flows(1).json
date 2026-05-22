@@ -1,0 +1,759 @@
+[
+    {
+        "id": "5bd7793439aefeb5",
+        "type": "tab",
+        "label": "MP_Task1_Und_Projekt",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "d4922a062d1a6881",
+        "type": "mqtt in",
+        "z": "5bd7793439aefeb5",
+        "name": "",
+        "topic": "RFID/reader/uid",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "bf477254db0f7a8f",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 120,
+        "y": 260,
+        "wires": [
+            [
+                "708459a1a98c23ca"
+            ]
+        ]
+    },
+    {
+        "id": "df95d2af43a66192",
+        "type": "switch",
+        "z": "5bd7793439aefeb5",
+        "name": "Switch",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "FOUND",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 1170,
+        "y": 240,
+        "wires": [
+            [
+                "310e744f88565165"
+            ],
+            [
+                "04b6c4d60724d81d"
+            ]
+        ]
+    },
+    {
+        "id": "3f00c6729df8ebfd",
+        "type": "function",
+        "z": "5bd7793439aefeb5",
+        "d": true,
+        "name": "function 1",
+        "func": "msg.ui_update = {\n    label: msg.payload,\n    buttonColor: \"green\",\n    textColor: \"white\"\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1700,
+        "y": 180,
+        "wires": [
+            [
+                "35172f22df19e93b"
+            ]
+        ]
+    },
+    {
+        "id": "7698c201da4e6f67",
+        "type": "inject",
+        "z": "5bd7793439aefeb5",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "63c3afa9",
+        "payloadType": "str",
+        "x": 120,
+        "y": 200,
+        "wires": [
+            [
+                "708459a1a98c23ca"
+            ]
+        ]
+    },
+    {
+        "id": "be234933e83f6865",
+        "type": "function",
+        "z": "5bd7793439aefeb5",
+        "d": true,
+        "name": "function 2",
+        "func": "msg.ui_update = {\n    label: msg.payload,\n    buttonColor: \"red\",\n    textColor: \"white\"\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1740,
+        "y": 300,
+        "wires": [
+            [
+                "35172f22df19e93b"
+            ]
+        ]
+    },
+    {
+        "id": "35172f22df19e93b",
+        "type": "ui-button",
+        "z": "5bd7793439aefeb5",
+        "d": true,
+        "group": "092f2e3fdbabb061",
+        "name": "",
+        "label": "button",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "emulateClick": false,
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "iconPosition": "left",
+        "payload": "Scan Tag",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "buttonColor": "",
+        "textColor": "",
+        "iconColor": "",
+        "enableClick": true,
+        "enablePointerdown": false,
+        "pointerdownPayload": "",
+        "pointerdownPayloadType": "str",
+        "enablePointerup": false,
+        "pointerupPayload": "",
+        "pointerupPayloadType": "str",
+        "x": 1770,
+        "y": 240,
+        "wires": [
+            [
+                "b76f5c4c4fc97460"
+            ]
+        ]
+    },
+    {
+        "id": "708459a1a98c23ca",
+        "type": "switch",
+        "z": "5bd7793439aefeb5",
+        "name": "Remove None values",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "neq",
+                "v": "none",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 620,
+        "y": 240,
+        "wires": [
+            [
+                "d8cda95b1995ed10"
+            ]
+        ]
+    },
+    {
+        "id": "ac4a8b3feee8dd7b",
+        "type": "inject",
+        "z": "5bd7793439aefeb5",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "asdfads",
+        "payloadType": "str",
+        "x": 110,
+        "y": 160,
+        "wires": [
+            [
+                "708459a1a98c23ca"
+            ]
+        ]
+    },
+    {
+        "id": "e51a0c7999b5c932",
+        "type": "inject",
+        "z": "5bd7793439aefeb5",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "none",
+        "payloadType": "str",
+        "x": 110,
+        "y": 100,
+        "wires": [
+            [
+                "708459a1a98c23ca"
+            ]
+        ]
+    },
+    {
+        "id": "310e744f88565165",
+        "type": "change",
+        "z": "5bd7793439aefeb5",
+        "name": "set to granted",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "granted",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1440,
+        "y": 180,
+        "wires": [
+            [
+                "3f00c6729df8ebfd",
+                "3e123654849ae73f"
+            ]
+        ]
+    },
+    {
+        "id": "04b6c4d60724d81d",
+        "type": "change",
+        "z": "5bd7793439aefeb5",
+        "name": "set to denied",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "denied",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1430,
+        "y": 300,
+        "wires": [
+            [
+                "be234933e83f6865",
+                "3e123654849ae73f"
+            ]
+        ]
+    },
+    {
+        "id": "b76f5c4c4fc97460",
+        "type": "function",
+        "z": "5bd7793439aefeb5",
+        "d": true,
+        "name": "function 3",
+        "func": "msg.ui_update = {\n    label: msg.payload,\n    buttonColor: \"blue\",\n    textColor: \"white\"\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1860,
+        "y": 100,
+        "wires": [
+            [
+                "35172f22df19e93b"
+            ]
+        ]
+    },
+    {
+        "id": "3ecfbddfffd8a690",
+        "type": "function",
+        "z": "5bd7793439aefeb5",
+        "name": "Check UID",
+        "func": "let allowed = global.get(\"allowedTags\") || [];\n\nif (allowed.includes(msg.payload)) {\n    msg.payload = \"FOUND\";\n} else {\n    msg.payload = \"NOT FOUND\";\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 990,
+        "y": 240,
+        "wires": [
+            [
+                "df95d2af43a66192",
+                "2e637dfbca7e1a10"
+            ]
+        ]
+    },
+    {
+        "id": "2e637dfbca7e1a10",
+        "type": "debug",
+        "z": "5bd7793439aefeb5",
+        "name": "debug 8",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1180,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "d8cda95b1995ed10",
+        "type": "function",
+        "z": "5bd7793439aefeb5",
+        "name": "Check if next UID should be stored",
+        "func": "let store = global.get(\"storeNext\") || false;\nlet allowedTags = global.get(\"allowedTags\") || [];\n\nif (store) {\n    let tag = String(msg.payload).trim();\n\n    if (!allowedTags.includes(tag)) {\n        allowedTags.push(tag);\n    }\n\n    global.set(\"allowedTags\", allowedTags);\n    global.set(\"storeNext\", false);\n\n    node.warn(allowedTags);\n} else {\n    // do nothing\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 700,
+        "y": 320,
+        "wires": [
+            [
+                "05b81dfd546bf23f"
+            ]
+        ]
+    },
+    {
+        "id": "05b81dfd546bf23f",
+        "type": "function",
+        "z": "5bd7793439aefeb5",
+        "name": "Check if next UID should be stored",
+        "func": "let remove = global.get(\"removeNext\") || false;\nlet allowedTags = global.get(\"allowedTags\") || [];\n\nif (remove) {\n    // Remove msg.payload from the list\n    allowedTags = allowedTags.filter(tag => tag !== msg.payload);\n\n    global.set(\"allowedTags\", allowedTags);\n    global.set(\"removeNext\", false);\n} else {\n    // do nothing\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1020,
+        "y": 380,
+        "wires": [
+            [
+                "3ecfbddfffd8a690",
+                "93a1b0d66409aa8c"
+            ]
+        ]
+    },
+    {
+        "id": "f80d01da3920d770",
+        "type": "ui-button",
+        "z": "5bd7793439aefeb5",
+        "group": "092f2e3fdbabb061",
+        "name": "",
+        "label": "Store next UID",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "emulateClick": false,
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "iconPosition": "left",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "buttonColor": "",
+        "textColor": "",
+        "iconColor": "",
+        "enableClick": true,
+        "enablePointerdown": false,
+        "pointerdownPayload": "",
+        "pointerdownPayloadType": "str",
+        "enablePointerup": false,
+        "pointerupPayload": "",
+        "pointerupPayloadType": "str",
+        "x": 240,
+        "y": 460,
+        "wires": [
+            [
+                "14f122ae13a4fded"
+            ]
+        ]
+    },
+    {
+        "id": "14f122ae13a4fded",
+        "type": "change",
+        "z": "5bd7793439aefeb5",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "storeNext",
+                "pt": "global",
+                "to": "true",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 480,
+        "y": 460,
+        "wires": [
+            [
+                "8579273dab10c260"
+            ]
+        ]
+    },
+    {
+        "id": "9497a35dedfacd3d",
+        "type": "ui-button",
+        "z": "5bd7793439aefeb5",
+        "group": "092f2e3fdbabb061",
+        "name": "Remove next UID",
+        "label": "Remove next UID",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "emulateClick": false,
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "iconPosition": "left",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "buttonColor": "",
+        "textColor": "",
+        "iconColor": "",
+        "enableClick": true,
+        "enablePointerdown": false,
+        "pointerdownPayload": "",
+        "pointerdownPayloadType": "str",
+        "enablePointerup": false,
+        "pointerupPayload": "",
+        "pointerupPayloadType": "str",
+        "x": 250,
+        "y": 520,
+        "wires": [
+            [
+                "e972103fb4a53577"
+            ]
+        ]
+    },
+    {
+        "id": "e972103fb4a53577",
+        "type": "change",
+        "z": "5bd7793439aefeb5",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "removeNext",
+                "pt": "global",
+                "to": "true",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 480,
+        "y": 520,
+        "wires": [
+            [
+                "1c5aaa882646d91a"
+            ]
+        ]
+    },
+    {
+        "id": "3882f0d4d66c69f0",
+        "type": "function",
+        "z": "5bd7793439aefeb5",
+        "name": "Define Global list of UIDs",
+        "func": "\n// stores all the uids\nglobal.set(\"allowedTags\", [\n    \"63c3afa9\"\n]);\n// checks if next uid should be stored\nglobal.set(\"storeNext\", false);\n\n// checks if next uid should be removed from list\nglobal.set(\"removeNext\", false);\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 270,
+        "y": 400,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "1c5aaa882646d91a",
+        "type": "function",
+        "z": "5bd7793439aefeb5",
+        "name": "function 5",
+        "func": "let keys = global.keys();\nlet values = {};\n\nkeys.forEach(key => {\n    values[key] = global.get(key);\n});\n\nnode.warn(values);\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 700,
+        "y": 520,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "8579273dab10c260",
+        "type": "function",
+        "z": "5bd7793439aefeb5",
+        "name": "function 4",
+        "func": "let keys = global.keys();\nlet values = {};\n\nkeys.forEach(key => {\n    values[key] = global.get(key);\n});\n\nnode.warn(values);\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 700,
+        "y": 460,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "93a1b0d66409aa8c",
+        "type": "function",
+        "z": "5bd7793439aefeb5",
+        "name": "function 6",
+        "func": "let keys = global.keys();\nlet values = {};\n\nkeys.forEach(key => {\n    values[key] = global.get(key);\n});\n\nnode.warn(values);\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1280,
+        "y": 420,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "3e123654849ae73f",
+        "type": "mqtt out",
+        "z": "5bd7793439aefeb5",
+        "name": "",
+        "topic": "mp/access",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "bf477254db0f7a8f",
+        "x": 1630,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "ec7e32ebb1293363",
+        "type": "comment",
+        "z": "5bd7793439aefeb5",
+        "name": "part of other exercise",
+        "info": "",
+        "x": 1780,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "bf477254db0f7a8f",
+        "type": "mqtt-broker",
+        "name": "IoT Gateway",
+        "broker": "192.168.12.1",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "092f2e3fdbabb061",
+        "type": "ui-group",
+        "name": "Group 1",
+        "page": "348612c5236e6071",
+        "width": 6,
+        "height": 1,
+        "order": 1,
+        "showTitle": true,
+        "className": "",
+        "visible": true,
+        "disabled": false,
+        "groupType": "default"
+    },
+    {
+        "id": "348612c5236e6071",
+        "type": "ui-page",
+        "name": "Page 1",
+        "ui": "811db6c61ceef137",
+        "path": "/page1",
+        "icon": "home",
+        "layout": "grid",
+        "theme": "3fb5e1a015986f42",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": 0,
+                "cols": 3
+            },
+            {
+                "name": "Tablet",
+                "px": 576,
+                "cols": 6
+            },
+            {
+                "name": "Small Desktop",
+                "px": 768,
+                "cols": 9
+            },
+            {
+                "name": "Desktop",
+                "px": 1024,
+                "cols": 12
+            }
+        ],
+        "order": 1,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "811db6c61ceef137",
+        "type": "ui-base",
+        "name": "My Dashboard",
+        "path": "/dashboard",
+        "appIcon": "",
+        "includeClientData": true,
+        "acceptsClientConfig": [
+            "ui-notification",
+            "ui-control"
+        ],
+        "showPathInSidebar": false,
+        "headerContent": "page",
+        "navigationStyle": "default",
+        "titleBarStyle": "default",
+        "showReconnectNotification": true,
+        "notificationDisplayTime": 1,
+        "showDisconnectNotification": true,
+        "allowInstall": false
+    },
+    {
+        "id": "3fb5e1a015986f42",
+        "type": "ui-theme",
+        "name": "Default Theme",
+        "colors": {
+            "surface": "#ffffff",
+            "primary": "#0094CE",
+            "bgPage": "#eeeeee",
+            "groupBg": "#ffffff",
+            "groupOutline": "#cccccc"
+        },
+        "sizes": {
+            "density": "default",
+            "pagePadding": "12px",
+            "groupGap": "12px",
+            "groupBorderRadius": "4px",
+            "widgetGap": "12px"
+        }
+    },
+    {
+        "id": "9c9269758302d1ec",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "@flowfuse/node-red-dashboard": "1.30.2"
+        }
+    }
+]

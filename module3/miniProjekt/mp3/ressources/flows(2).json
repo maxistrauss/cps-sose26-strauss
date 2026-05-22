@@ -1,0 +1,418 @@
+[
+    {
+        "id": "17ce66ef60e52b02",
+        "type": "tab",
+        "label": "Password authentication",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "93d7492bc22b6115",
+        "type": "function",
+        "z": "17ce66ef60e52b02",
+        "name": "function 1",
+        "func": "// 1. Definiere das feste Passwort, falls es noch nicht im globalen Speicher existiert\nlet targetPassword = global.get(\"dashboardPassword\");\n\nif (!targetPassword) {\n    targetPassword = \"12345\"; // <-- Hier dein gewünschtes Standard-Passwort eintragen\n    global.set(\"dashboardPassword\", targetPassword);\n}\n\n// 2. Eingehenden String (Passwort-Versuch) auslesen\n// Wir erwarten den String direkt in msg.payload\nconst inputPassword = String(msg.payload);\n\n// 3. Überprüfung durchführen\nif (inputPassword === targetPassword) {\n    // Passwort ist korrekt\n    msg.payload = {\n        authenticated: true,\n        message: \"Passwort korrekt.\"\n    };\n    // Sendet die Nachricht an den ersten Ausgang\n    return [msg, null];\n} else {\n    // Passwort ist falsch\n    msg.payload = {\n        authenticated: false,\n        message: \"Falsches Passwort.\"\n    };\n    // Sendet die Nachricht an den zweiten Ausgang (für Fehlermeldungen)\n    return [null, msg];\n}",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 120,
+        "wires": [
+            [
+                "142267d328e3de0a"
+            ],
+            [
+                "44d8d9f9fe5d5cc0"
+            ]
+        ]
+    },
+    {
+        "id": "1b5ea9a989534089",
+        "type": "debug",
+        "z": "17ce66ef60e52b02",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 820,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "163ff4dcb5d249d7",
+        "type": "debug",
+        "z": "17ce66ef60e52b02",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 860,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "a1be74bad6cd1a21",
+        "type": "inject",
+        "z": "17ce66ef60e52b02",
+        "name": "Simuliertes PW",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "MeinSicheresPasswort123!",
+        "payloadType": "str",
+        "x": 180,
+        "y": 100,
+        "wires": [
+            [
+                "93d7492bc22b6115"
+            ]
+        ]
+    },
+    {
+        "id": "142267d328e3de0a",
+        "type": "change",
+        "z": "17ce66ef60e52b02",
+        "name": "Granted topic",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "granted",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "mp/access",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 580,
+        "y": 80,
+        "wires": [
+            [
+                "163ff4dcb5d249d7",
+                "ab5829fb944cf7ad"
+            ]
+        ]
+    },
+    {
+        "id": "44d8d9f9fe5d5cc0",
+        "type": "change",
+        "z": "17ce66ef60e52b02",
+        "name": "Denied topic",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "denied",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "mp/access",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 550,
+        "y": 160,
+        "wires": [
+            [
+                "1b5ea9a989534089",
+                "ab5829fb944cf7ad"
+            ]
+        ]
+    },
+    {
+        "id": "dc15711522008a1d",
+        "type": "ui-text-input",
+        "z": "17ce66ef60e52b02",
+        "group": "092f2e3fdbabb061",
+        "name": "Password_wish",
+        "label": "text",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "topic": "topic",
+        "topicType": "msg",
+        "mode": "text",
+        "tooltip": "",
+        "delay": 300,
+        "passthru": true,
+        "sendOnDelay": false,
+        "sendOnBlur": true,
+        "sendOnEnter": true,
+        "className": "",
+        "clearable": false,
+        "sendOnClear": false,
+        "icon": "",
+        "iconPosition": "left",
+        "iconInnerPosition": "inside",
+        "x": 300,
+        "y": 300,
+        "wires": [
+            [
+                "cbe65e957bad182f"
+            ]
+        ]
+    },
+    {
+        "id": "cbe65e957bad182f",
+        "type": "change",
+        "z": "17ce66ef60e52b02",
+        "name": "Change wish password topic",
+        "rules": [
+            {
+                "t": "set",
+                "p": "dashboardPassword",
+                "pt": "global",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 580,
+        "y": 300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "20b5db88faba715f",
+        "type": "mqtt in",
+        "z": "17ce66ef60e52b02",
+        "name": "",
+        "topic": "arduino/alarm/pin",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "b6385ec01e763496",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 140,
+        "y": 180,
+        "wires": [
+            [
+                "93d7492bc22b6115"
+            ]
+        ]
+    },
+    {
+        "id": "ab5829fb944cf7ad",
+        "type": "mqtt out",
+        "z": "17ce66ef60e52b02",
+        "name": "",
+        "topic": "mp/access",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "b6385ec01e763496",
+        "x": 890,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "b6a31ea3e9199f91",
+        "type": "inject",
+        "z": "17ce66ef60e52b02",
+        "name": "Simuliertes PW 2",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "12345",
+        "payloadType": "str",
+        "x": 180,
+        "y": 60,
+        "wires": [
+            [
+                "93d7492bc22b6115"
+            ]
+        ]
+    },
+    {
+        "id": "092f2e3fdbabb061",
+        "type": "ui-group",
+        "name": "Group 1",
+        "page": "348612c5236e6071",
+        "width": 6,
+        "height": 1,
+        "order": 1,
+        "showTitle": true,
+        "className": "",
+        "visible": true,
+        "disabled": false,
+        "groupType": "default"
+    },
+    {
+        "id": "b6385ec01e763496",
+        "type": "mqtt-broker",
+        "name": "pi",
+        "broker": "192.168.12.1",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "348612c5236e6071",
+        "type": "ui-page",
+        "name": "Page 1",
+        "ui": "811db6c61ceef137",
+        "path": "/page1",
+        "icon": "home",
+        "layout": "grid",
+        "theme": "3fb5e1a015986f42",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": 0,
+                "cols": 3
+            },
+            {
+                "name": "Tablet",
+                "px": 576,
+                "cols": 6
+            },
+            {
+                "name": "Small Desktop",
+                "px": 768,
+                "cols": 9
+            },
+            {
+                "name": "Desktop",
+                "px": 1024,
+                "cols": 12
+            }
+        ],
+        "order": 1,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "811db6c61ceef137",
+        "type": "ui-base",
+        "name": "My Dashboard",
+        "path": "/dashboard",
+        "appIcon": "",
+        "includeClientData": true,
+        "acceptsClientConfig": [
+            "ui-notification",
+            "ui-control"
+        ],
+        "showPathInSidebar": false,
+        "headerContent": "page",
+        "navigationStyle": "default",
+        "titleBarStyle": "default",
+        "showReconnectNotification": true,
+        "notificationDisplayTime": 1,
+        "showDisconnectNotification": true,
+        "allowInstall": false
+    },
+    {
+        "id": "3fb5e1a015986f42",
+        "type": "ui-theme",
+        "name": "Default Theme",
+        "colors": {
+            "surface": "#ffffff",
+            "primary": "#0094CE",
+            "bgPage": "#eeeeee",
+            "groupBg": "#ffffff",
+            "groupOutline": "#cccccc"
+        },
+        "sizes": {
+            "density": "default",
+            "pagePadding": "12px",
+            "groupGap": "12px",
+            "groupBorderRadius": "4px",
+            "widgetGap": "12px"
+        }
+    },
+    {
+        "id": "a76f5efa23db9968",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "@flowfuse/node-red-dashboard": "1.30.2"
+        }
+    }
+]
