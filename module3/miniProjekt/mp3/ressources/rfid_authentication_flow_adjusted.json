@@ -220,7 +220,7 @@
         "id": "e51a0c7999b5c932",
         "type": "inject",
         "z": "5bd7793439aefeb5",
-        "name": "",
+        "name": "Init",
         "props": [
             {
                 "p": "payload"
@@ -237,7 +237,7 @@
         "y": 100,
         "wires": [
             [
-                "708459a1a98c23ca"
+                "3882f0d4d66c69f0"
             ]
         ]
     },
@@ -540,10 +540,12 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 270,
-        "y": 400,
+        "x": 330,
+        "y": 100,
         "wires": [
-            []
+            [
+                "708459a1a98c23ca"
+            ]
         ]
     },
     {
@@ -749,7 +751,7 @@
         }
     },
     {
-        "id": "9c9269758302d1ec",
+        "id": "00fb62a43385fdcd",
         "type": "global-config",
         "env": [],
         "modules": {
