@@ -1,0 +1,1 @@
+/home/michael/iot/lib/node_types/esp/src/dev_mfrc522.h

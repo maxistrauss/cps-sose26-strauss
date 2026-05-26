@@ -1,0 +1,1 @@
+/home/michael/iot/lib/node_types/nodemcu/src/pins.h

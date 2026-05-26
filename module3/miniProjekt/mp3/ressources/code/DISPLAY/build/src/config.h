@@ -1,0 +1,6 @@
+#define HOSTNAME "display"
+#define mqtt_topic "DISPLAY"
+#define mqtt_server "192.168.12.1"
+#define mqtt_user ""
+#define mqtt_password ""
+#define mqtt_discovery_prefix "iotempower"
