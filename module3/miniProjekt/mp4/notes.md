@@ -1,0 +1,30 @@
+# Threat Modeling Your Access Control System
+
+## A Attack Surface Mapping
+
+| Surface | Weakness | Attacker action |
+|---|---|---|
+|Physical interfacing | Low quality products are prone to tampering | An Attacker can phyically harm our devices essentially performing a Hardware DoS attack.|
+|Device firmware & boot chain | No firmware encryption | The firmware of our hardware components are not encrypted. An attacker can access the firmware of outside sensors like the rfid Reader, read and modify the firmware and reflash it as desired.|
+|Wireless interfaces | Weak Wifi Password and Password stored on the Sensors in the code | For our project, we used a weak password, which can be found in a couple of seconds. With this, the attacker can gain unauthorized access to the Network. |
+|Wireless interfaces | No Encryption with standard MQTT | We used the standard MQTT with no encryption. If the attacker gets access to the network, he can view all MQTT messages and create malicious topic data. In our project, he could just send "Access Granted" to the particular topic and the lock opens |
+|Wireless interfaces | No Encryption of RFID Tag | We used a cheap RFID Reader / Tag that does not encrypt the traffic. An attacker can place a listening device next to our RFID Reader and can view to provided UUID. Knowing this, he can set this UUID to his personal tag (spoof) and get access to the lab. This can be done, because the Authentication only checks if the provided UID is part of an internal list of allowed Tags.  |
+|Cloud / management APIs & identity | No ACLs or other security measures | We did not specify, who can publish and subscribe to topics. Currently every user in the network can publish data. An attacker could craft malicious data and send it to the MQTT Client and no security warning or error would notice this. |
+|Supply chain & updates | Use of external libraries in sensor firmware and other applications | If there are zero-day vulnerabilties to or any other vulnerabilities in the libraries we used, the attack can exploit those and compromise our system. |
+
+### B Assumed Attacker
+
+For this threat model, we assume the attacker is a person with limited but realistic access to the lab environment. The attacker could be an insider, such as a student, lab user, or visitor who has access to the lab WiFi, or someone nearby in the hallway who can interact with wireless signals and RFID communication. We also assume that the attacker may briefly gain physical access to exposed hardware, such as the Wemos board, RFID reader, sensors, or wiring, for example for a few minutes when the device is unattended.
+
+The attacker is not assumed to be highly funded or equipped with advanced nation-state capabilities. However, they are technically capable enough to scan WiFi networks, capture MQTT traffic, read or clone RFID tags, inspect firmware, and modify or reflash insecure devices. Their goal could be to gain unauthorized access to the lab, open the lock without permission, disrupt the system, or manipulate sensor data. Since the system uses weak WiFi credentials, unencrypted MQTT communication, unprotected RFID tags, and firmware without encryption, an attacker with access to the network or hardware has several practical ways to compromise the system.
+
+## C Priorization and Mitigation
+
+| Rank | Threat | Justification | Concrete mitigation | Cost of mitigation | Mitigation deliberately not implemented |
+|---|---|---|---|---|---|
+| **1** | **No Encryption with standard MQTT** | This is the most critical threat because once an attacker is on the network, they can directly read MQTT messages and inject malicious messages such as `Access Granted`, which has an immediate high impact because it can open the lock. | Use **MQTT over TLS on port 8883** so that MQTT traffic is encrypted and cannot be easily read or modified by someone on the WiFi network. | TLS adds configuration effort, certificate handling, and slightly more complexity on the Wemos/client side. It may also make debugging harder because traffic is no longer readable in plain text. | We would **not implement a full VPN-based network design**, because it would be too much infrastructure overhead for this course project and would not fit the time budget. |
+| **2** | **No ACLs or other security measures** | This threat is highly critical because every device or user on the network can currently publish or subscribe to MQTT topics, so an attacker does not need to bypass application logic and can directly interact with security-relevant topics. | Add **MQTT username/password authentication and topic-based ACLs**, so only the RFID reader can publish RFID data and only the lock controller can subscribe to access-control decisions. | This creates additional administration work because credentials and permissions must be configured and maintained. It also adds a key management burden if credentials need to be changed or revoked. | We would **not implement a complex certificate-based identity system for every device**, because it would provide stronger security but would be too complex for the kit and course time budget. |
+| **3** | **Weak WiFi Password and Password stored on the Sensors in the code** | This is still very important because a weak WiFi password gives the attacker the first step into the network, but by itself it is mainly an entry point; the real impact comes from combining it with unencrypted MQTT and missing ACLs. | Use a **strong WPA2/WPA3 password** and avoid hardcoding the password directly in shared source code, for example by storing it in a separate local configuration file that is not committed to the repository. | A stronger password creates some usability friction because it is harder to type and share during development. Separating secrets from code also adds setup steps for each device. | We would **not implement enterprise WiFi authentication such as WPA2-Enterprise / RADIUS**, because it would require additional infrastructure and is unrealistic for a small course prototype. |
+
+
+note: Attack Surface Mapping was done personally and task B and C was done with assistance of ChatGPT.
