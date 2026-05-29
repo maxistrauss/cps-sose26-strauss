@@ -1,0 +1,35 @@
+Week 04 Reflection
+
+**Expectations**
+Ich hatte in dieser Woche die Erwartung, zunächst die Übungsaufgaben zu bearbeiten und dadurch die notwendigen Grundlagen für das anschließende Mini-Projekt aufzubauen. Die Übungsaufgaben waren gut machbar und haben Schritt für Schritt die wichtigsten Konzepte wie MQTT, Broker-Kommunikation und die Arbeit mit Node-RED vermittelt. Dadurch hatte ich eine gute Basis, um das größere Projekt mit RFID, Passwort-Eingabe, Dashboard und verschiedenen Aktoren umzusetzen. Mein Hauptziel war es, besser zu verstehen, wie Sensoren, Aktoren und Softwarelogik in einem gemeinsamen System zusammenarbeiten.
+
+**Takeaways**
+Ich konnte viel über die praktische Umsetzung eines RFID- und passwortbasierten Zugangssystems lernen. Besonders interessant war für mich die Kommunikation über MQTT-Topics, da dadurch die einzelnen Komponenten klar voneinander getrennt, aber trotzdem miteinander verbunden werden konnten. Außerdem habe ich besser verstanden, welche Rolle ein MQTT Broker, Node-RED und ein Dashboard in einem Cyber-Physical-System übernehmen. Die Arbeit mit verschiedenen Workflows, zum Beispiel RFID Check, Passwort Check und Control Output, hat mir gezeigt, wie man ein komplexeres System Schritt für Schritt strukturieren kann.
+
+**What was good?**
+Besonders gut war, dass das Projekt sehr praxisnah war und man direkt sehen konnte, wie Eingaben über RFID oder PIN zu sichtbaren Reaktionen wie LED, Display, Buzzer oder Servo führen. Das hat die Arbeit deutlich interessanter gemacht als reine Theorie. Auch die Kombination aus Hardware, Software und Dashboard hat Spaß gemacht, weil man am Ende ein System hatte, das wirklich einen konkreten Use Case erfüllt, zum Beispiel Zugangskontrolle für einen Klassenraum, ein Labor oder ein Smart-Home-Szenario.
+
+**What was difficult?**
+Schwierig waren vor allem die technischen Probleme mit der Hardware und der Firmware. Beim Flashen der Firmware wurden RAM- und CPU-Kapazitäten schnell knapp, wodurch Flash-Fehler entstanden sind. Auch das Arduino MKR WiFi 1010 beziehungsweise das MKR IoT Carrier Board hat Probleme verursacht, da die Touchpads nicht zuverlässig erkannt wurden und die WLAN-Verbindung nur sporadisch funktioniert hat. Dadurch musste teilweise auf alternative Lösungen ausgewichen werden, zum Beispiel auf ein PinPad mit ESP32.
+
+**Struggles / Exploration**
+Ein größerer Struggle war die Verbindung und Koordination der verschiedenen Komponenten. Neben RFID Reader, PIN-Feld, Display, Buzzer, LED und Servo mussten auch die MQTT-Topics korrekt eingerichtet werden. Kleine Fehler in Topics oder Payloads konnten dazu führen, dass einzelne Teile des Systems nicht wie erwartet reagiert haben. Auch das Wiring der Komponenten war nicht immer direkt klar, weshalb zusätzliche Recherche notwendig war. Durch Ausprobieren, Googeln und gemeinsames Debugging konnten die Probleme aber Schritt für Schritt gelöst werden.
+
+**Self-evaluation**
+Ich denke, dass ich meine Aufgaben gut erfüllt habe. Ich konnte mich aktiv in das Projekt einbringen und habe durch die praktischen Probleme viel gelernt. Besonders positiv bewerte ich, dass ich nicht nur die fertige Lösung betrachtet habe, sondern auch verstanden habe, warum bestimmte Probleme entstehen und wie man sie systematisch lösen kann. Das Projekt hat mir geholfen, sicherer im Umgang mit MQTT, Node-RED und der Verbindung von Hardwarekomponenten zu werden.
+
+**Interaction with peers/instructors**
+Die Zusammenarbeit in der Gruppe war hilfreich und wichtig, da das Projekt aus mehreren Teilbereichen bestand. Durch die Aufteilung der Aufgaben konnten wir effizienter arbeiten und Probleme gemeinsam schneller lösen. Besonders bei technischen Schwierigkeiten, wie Flash-Fehlern, WLAN-Problemen oder dem Wiring, war der Austausch mit anderen sehr wertvoll. Auch die Unterstützung im Kurs hat geholfen, die Struktur des Systems besser zu verstehen.
+
+**Help and extra work**
+Zusätzlich zu den Kursmaterialien und Folien wurde weitere Recherche genutzt, besonders bei Wiring-Problemen und beim Debugging der Hardware. Auch das Verständnis der MQTT-Kommunikation erforderte zusätzliche Auseinandersetzung mit Topics, Payloads und der Rolle des Brokers. Das Mini-Projekt war dadurch zwar aufwendiger als normale Übungsaufgaben, aber auch deutlich lehrreicher.
+
+**Resources**
+Kursfolien
+KI (claude ai, chat gpt)
+
+https://github.com/iotempire/iotempower
+
+
+
+
