@@ -32,6 +32,10 @@ link to Task B5: [link](../module3/b5/notes.md)
 The code and demo: [link](../module3/b6/B6_1.md)
 The code and demo: [link](../module3/b6/B6_2_3_4.md)
 
+## Task B7: Your own IoTEmpower installation
+
+link to Task B7: [link](../module3/b7/notes.md)
+
 
 # MiniProject
 
