@@ -39,6 +39,11 @@ The code and demo: [link](../module3/b6/B6_2_3_4.md)
 
 link to Task MP1: [here](../module3/miniProjekt/mp1/notes.md)
 
+## Task MP1: Mini-Project Prep (2/2): new and different actors
+
+link to Task MP2: [here](../module3/miniProjekt/mp2/notes.md)
+
+
 ## Task MP3: The Project
 
 link to Task MP3: [link](../module3/miniProjekt/mp3/notes.md)
