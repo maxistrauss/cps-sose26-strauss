@@ -1,0 +1,526 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Page-1" id="rOkJPRADSVk3HsjPoI44">
+    <mxGraphModel dx="5414" dy="3669" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="1mhGpjfTekB6riv_IDX8-138" connectable="0" parent="1" style="group" value="" vertex="1">
+          <mxGeometry height="690" width="930" x="820" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-132" parent="1mhGpjfTekB6riv_IDX8-138" style="rounded=1;whiteSpace=wrap;html=1;" value="" vertex="1">
+          <mxGeometry height="690" width="930" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-133" parent="1mhGpjfTekB6riv_IDX8-138" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontSize=16;fontStyle=1" value="MQTT Broker" vertex="1">
+          <mxGeometry height="76.66666666666667" width="214.61538461538458" x="357.6923076923077" y="15.136752136752145" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-134" parent="1mhGpjfTekB6riv_IDX8-138" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="Raspberry PI 3" vertex="1">
+          <mxGeometry height="260.00000000000006" width="285.38" x="40" y="307.84615384615387" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-136" parent="1mhGpjfTekB6riv_IDX8-134" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="Steuerungseinheit" vertex="1">
+          <mxGeometry height="76.66666666666669" width="285.38" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-269" parent="1mhGpjfTekB6riv_IDX8-134" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="Runs Mosquitto" vertex="1">
+          <mxGeometry height="76.66666666666669" width="285.38" y="106.66666666666669" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-270" parent="1mhGpjfTekB6riv_IDX8-134" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="Wifi AP" vertex="1">
+          <mxGeometry height="76.66666666666669" width="285.38" y="183.33333333333337" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-252" parent="1mhGpjfTekB6riv_IDX8-138" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="Node Red Dashboard" vertex="1">
+          <mxGeometry height="106.66666666666669" width="285.38" x="530" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-253" parent="1mhGpjfTekB6riv_IDX8-252" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="Dastellung der Stellplatzbelegung&amp;nbsp; &amp;nbsp;" vertex="1">
+          <mxGeometry height="76.66666666666669" width="285.38" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-254" parent="1mhGpjfTekB6riv_IDX8-138" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="Node Red Logik" vertex="1">
+          <mxGeometry height="183.33333333333337" width="285.38" x="530" y="210.00461538461536" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-255" parent="1mhGpjfTekB6riv_IDX8-254" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="Speicherung der Kennzeichen und weitere Logik" vertex="1">
+          <mxGeometry height="76.66666666666669" width="285.38" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-286" parent="1mhGpjfTekB6riv_IDX8-254" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="Überprüfen, ob Auto das Parkhaus verlassen darf" vertex="1">
+          <mxGeometry height="76.66666666666669" width="285.38" y="106.66666666666669" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-258" parent="1mhGpjfTekB6riv_IDX8-138" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="Frontend Applikation" vertex="1">
+          <mxGeometry height="106.66666666666669" width="285.38" x="530" y="567.8438461538462" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-259" parent="1mhGpjfTekB6riv_IDX8-258" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="User können nach Kennzeichen suchen und bezahlen&amp;nbsp; &amp;nbsp;" vertex="1">
+          <mxGeometry height="76.66666666666669" width="285.38" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-261" edge="1" parent="1mhGpjfTekB6riv_IDX8-138" source="1mhGpjfTekB6riv_IDX8-136" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="1mhGpjfTekB6riv_IDX8-253">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-265" connectable="0" parent="1mhGpjfTekB6riv_IDX8-261" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="beinhaltet" vertex="1">
+          <mxGeometry relative="1" x="0.0365" y="2" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-262" edge="1" parent="1mhGpjfTekB6riv_IDX8-138" source="1mhGpjfTekB6riv_IDX8-136" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="1mhGpjfTekB6riv_IDX8-255">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-266" connectable="0" parent="1mhGpjfTekB6riv_IDX8-262" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="beinhaltet" vertex="1">
+          <mxGeometry relative="1" x="0.0942" y="-1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-264" edge="1" parent="1mhGpjfTekB6riv_IDX8-138" source="1mhGpjfTekB6riv_IDX8-136" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="1mhGpjfTekB6riv_IDX8-259">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-268" connectable="0" parent="1mhGpjfTekB6riv_IDX8-264" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="beinhaltet" vertex="1">
+          <mxGeometry relative="1" x="-0.0226" y="-2" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-256" parent="1mhGpjfTekB6riv_IDX8-138" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="Postgresql Datenbank" vertex="1">
+          <mxGeometry height="106.66666666666669" width="285.38" x="530" y="419.9979487179487" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-257" parent="1mhGpjfTekB6riv_IDX8-256" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="Speichert Kennzeichen und weitere Informationen persistent ab&amp;nbsp; &amp;nbsp;" vertex="1">
+          <mxGeometry height="76.66666666666669" width="285.38" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-263" edge="1" parent="1mhGpjfTekB6riv_IDX8-138" source="1mhGpjfTekB6riv_IDX8-136" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="1mhGpjfTekB6riv_IDX8-257">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-267" connectable="0" parent="1mhGpjfTekB6riv_IDX8-263" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="beinhaltet" vertex="1">
+          <mxGeometry relative="1" x="0.0884" as="geometry">
+            <mxPoint x="-1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-142" connectable="0" parent="1" style="group" value="" vertex="1">
+          <mxGeometry height="1020" width="830" x="2020" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-140" parent="1mhGpjfTekB6riv_IDX8-142" style="rounded=1;whiteSpace=wrap;html=1;arcSize=4;" value="" vertex="1">
+          <mxGeometry height="1020" width="830" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-141" parent="1mhGpjfTekB6riv_IDX8-142" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontSize=16;fontStyle=1" value="Feature 2 - Parkbelegung" vertex="1">
+          <mxGeometry height="30" width="255.3846153846154" x="25.53846153846154" y="10" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-195" connectable="0" parent="1mhGpjfTekB6riv_IDX8-142" style="group" value="" vertex="1">
+          <mxGeometry height="450" width="673.6105263157895" x="52.421052631578945" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-100" parent="1mhGpjfTekB6riv_IDX8-195" style="rounded=1;whiteSpace=wrap;html=1;arcSize=2;" value="" vertex="1">
+          <mxGeometry height="450" width="663.9999999999999" x="9.610526315789473" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-101" parent="1mhGpjfTekB6riv_IDX8-195" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="Distance Sensor 2" vertex="1">
+          <mxGeometry height="70.54054054054055" width="270.8421052631579" x="367.8210526315789" y="53.571428571428584" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-103" parent="1mhGpjfTekB6riv_IDX8-101" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="&amp;nbsp;&amp;nbsp;" vertex="1">
+          <mxGeometry height="40.54054054054055" width="270.8421052631579" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-105" parent="1mhGpjfTekB6riv_IDX8-195" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="RGB LED 2" vertex="1">
+          <mxGeometry height="111.0810810810811" width="270.8421052631579" x="367.8210526315789" y="258.92857142857144" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-107" parent="1mhGpjfTekB6riv_IDX8-105" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="Rot - wenn Parkplatz besetzt ist" vertex="1">
+          <mxGeometry height="40.54054054054055" width="270.8421052631579" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-108" parent="1mhGpjfTekB6riv_IDX8-105" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="Grün - wenn Parkplatz frei ist" vertex="1">
+          <mxGeometry height="40.54054054054055" width="270.8421052631579" y="70.54054054054055" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-113" parent="1mhGpjfTekB6riv_IDX8-195" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;div&gt;Parkbelegung 1&lt;/div&gt;" vertex="1">
+          <mxGeometry height="40.54054054054055" width="162.79054779806657" y="13.030000000000001" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-109" parent="1mhGpjfTekB6riv_IDX8-195" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="ESP8266 1" vertex="1">
+          <mxGeometry height="151.62162162162164" width="244.6315789473684" x="27.084210526315786" y="182.1428571428571" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-110" parent="1mhGpjfTekB6riv_IDX8-109" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="Analyse der Sensordaten" vertex="1">
+          <mxGeometry height="40.54054054054055" width="244.6315789473684" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-111" parent="1mhGpjfTekB6riv_IDX8-109" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="Kontrolle der LED basierend auf Abstandsmessung" vertex="1">
+          <mxGeometry height="40.54054054054055" width="244.6315789473684" y="70.54054054054055" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-112" parent="1mhGpjfTekB6riv_IDX8-109" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="Senden dieser Information an MQTT Broker für das Dashboard" vertex="1">
+          <mxGeometry height="40.54054054054055" width="244.6315789473684" y="111.0810810810811" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-191" edge="1" parent="1mhGpjfTekB6riv_IDX8-195" source="1mhGpjfTekB6riv_IDX8-103" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="1mhGpjfTekB6riv_IDX8-110">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-192" connectable="0" parent="1mhGpjfTekB6riv_IDX8-191" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Sendet Daten" vertex="1">
+          <mxGeometry relative="1" x="0.0325" y="3" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-193" edge="1" parent="1mhGpjfTekB6riv_IDX8-195" source="1mhGpjfTekB6riv_IDX8-111" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="1mhGpjfTekB6riv_IDX8-107">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-194" connectable="0" parent="1mhGpjfTekB6riv_IDX8-193" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="kontrolliert" vertex="1">
+          <mxGeometry relative="1" x="-0.1118" y="-1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-215" connectable="0" parent="1mhGpjfTekB6riv_IDX8-142" style="group" value="" vertex="1">
+          <mxGeometry height="450" width="673.6105263157895" x="52.421052631578945" y="520" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-216" parent="1mhGpjfTekB6riv_IDX8-215" style="rounded=1;whiteSpace=wrap;html=1;arcSize=2;" value="" vertex="1">
+          <mxGeometry height="450" width="663.9999999999999" x="9.610526315789473" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-217" parent="1mhGpjfTekB6riv_IDX8-215" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="Distance Sensor 2" vertex="1">
+          <mxGeometry height="70.54054054054055" width="270.8421052631579" x="367.8210526315789" y="53.571428571428584" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-218" parent="1mhGpjfTekB6riv_IDX8-217" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="&amp;nbsp;&amp;nbsp;" vertex="1">
+          <mxGeometry height="40.54054054054055" width="270.8421052631579" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-219" parent="1mhGpjfTekB6riv_IDX8-215" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="RGB LED 2" vertex="1">
+          <mxGeometry height="111.0810810810811" width="270.8421052631579" x="367.8210526315789" y="258.92857142857144" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-220" parent="1mhGpjfTekB6riv_IDX8-219" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="Rot - wenn Parkplatz besetzt ist" vertex="1">
+          <mxGeometry height="40.54054054054055" width="270.8421052631579" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-221" parent="1mhGpjfTekB6riv_IDX8-219" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="Grün - wenn Parkplatz frei ist" vertex="1">
+          <mxGeometry height="40.54054054054055" width="270.8421052631579" y="70.54054054054055" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-222" parent="1mhGpjfTekB6riv_IDX8-215" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Parkbelegung 2" vertex="1">
+          <mxGeometry height="40.54054054054055" width="162.79054779806657" y="13.030000000000001" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-223" parent="1mhGpjfTekB6riv_IDX8-215" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="ESP8266 1" vertex="1">
+          <mxGeometry height="151.62162162162164" width="244.6315789473684" x="27.084210526315786" y="182.1428571428571" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-224" parent="1mhGpjfTekB6riv_IDX8-223" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="Analyse der Sensordaten" vertex="1">
+          <mxGeometry height="40.54054054054055" width="244.6315789473684" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-225" parent="1mhGpjfTekB6riv_IDX8-223" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="Kontrolle der LED basierend auf Abstandsmessung" vertex="1">
+          <mxGeometry height="40.54054054054055" width="244.6315789473684" y="70.54054054054055" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-226" parent="1mhGpjfTekB6riv_IDX8-223" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="Senden dieser Information an MQTT Broker für das Dashboard" vertex="1">
+          <mxGeometry height="40.54054054054055" width="244.6315789473684" y="111.0810810810811" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-227" edge="1" parent="1mhGpjfTekB6riv_IDX8-215" source="1mhGpjfTekB6riv_IDX8-218" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="1mhGpjfTekB6riv_IDX8-224">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-228" connectable="0" parent="1mhGpjfTekB6riv_IDX8-227" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Sendet Daten" vertex="1">
+          <mxGeometry relative="1" x="0.0325" y="3" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-229" edge="1" parent="1mhGpjfTekB6riv_IDX8-215" source="1mhGpjfTekB6riv_IDX8-225" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="1mhGpjfTekB6riv_IDX8-220">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-230" connectable="0" parent="1mhGpjfTekB6riv_IDX8-229" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="kontrolliert" vertex="1">
+          <mxGeometry relative="1" x="-0.1118" y="-1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-146" connectable="0" parent="1" style="group" value="" vertex="1">
+          <mxGeometry height="840" width="1140" x="-450" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-143" parent="1mhGpjfTekB6riv_IDX8-146" style="rounded=1;whiteSpace=wrap;html=1;arcSize=4;" value="" vertex="1">
+          <mxGeometry height="840" width="1020" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-117" connectable="0" parent="1mhGpjfTekB6riv_IDX8-146" style="group" value="" vertex="1">
+          <mxGeometry height="350" width="880" x="60" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-118" parent="1mhGpjfTekB6riv_IDX8-117" style="rounded=1;whiteSpace=wrap;html=1;arcSize=3;" value="" vertex="1">
+          <mxGeometry height="350" width="880" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-119" parent="1mhGpjfTekB6riv_IDX8-117" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="ESP8266 4" vertex="1">
+          <mxGeometry height="90" width="259.61" x="559.8499999999999" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-120" parent="1mhGpjfTekB6riv_IDX8-119" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="Überprüft Sensor Daten und spricht LED entsprechend an" vertex="1">
+          <mxGeometry height="30" width="259.61" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-122" parent="1mhGpjfTekB6riv_IDX8-119" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="&amp;nbsp; &amp;nbsp;" vertex="1">
+          <mxGeometry height="30" width="259.61" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-123" parent="1mhGpjfTekB6riv_IDX8-117" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="SR602 Mini Motion Sensor PIR Detector (Licht)" vertex="1">
+          <mxGeometry height="60" width="389.61" x="29.85" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-125" parent="1mhGpjfTekB6riv_IDX8-123" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="Überprüft, ob es Bewegungen gibt" vertex="1">
+          <mxGeometry height="30" width="389.61" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-127" parent="1mhGpjfTekB6riv_IDX8-117" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="LED Stripe 1" vertex="1">
+          <mxGeometry height="90" width="254.88" x="164.57999999999998" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-128" parent="1mhGpjfTekB6riv_IDX8-127" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="AN - Wenn jemand im Parkhaus ist" vertex="1">
+          <mxGeometry height="30" width="254.88" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-129" parent="1mhGpjfTekB6riv_IDX8-127" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="AUS - Wenn Parkhaus leer ist" vertex="1">
+          <mxGeometry height="30" width="254.88" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-131" parent="1mhGpjfTekB6riv_IDX8-117" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Bewegungssensor 2" vertex="1">
+          <mxGeometry height="30" width="212.758" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-232" edge="1" parent="1mhGpjfTekB6riv_IDX8-117" source="1mhGpjfTekB6riv_IDX8-120" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.999;entryY=0.232;entryDx=0;entryDy=0;entryPerimeter=0;" target="1mhGpjfTekB6riv_IDX8-129">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-233" connectable="0" parent="1mhGpjfTekB6riv_IDX8-232" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="kontrolliert" vertex="1">
+          <mxGeometry relative="1" x="0.0745" y="-1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-234" edge="1" parent="1mhGpjfTekB6riv_IDX8-117" source="1mhGpjfTekB6riv_IDX8-125" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="559.8499999999999" y="175" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-235" connectable="0" parent="1mhGpjfTekB6riv_IDX8-234" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Sendet Daten" vertex="1">
+          <mxGeometry relative="1" x="-0.0278" y="-1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-144" parent="1mhGpjfTekB6riv_IDX8-146" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontSize=16;fontStyle=1" value="Feature 3 - Parkbeleuchtung" vertex="1">
+          <mxGeometry height="30" width="362.46" x="-10" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-237" connectable="0" parent="1mhGpjfTekB6riv_IDX8-146" style="group" value="" vertex="1">
+          <mxGeometry height="350" width="880" x="60" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-238" parent="1mhGpjfTekB6riv_IDX8-237" style="rounded=1;whiteSpace=wrap;html=1;arcSize=3;" value="" vertex="1">
+          <mxGeometry height="350" width="880" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-239" parent="1mhGpjfTekB6riv_IDX8-237" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="ESP8266 4" vertex="1">
+          <mxGeometry height="90" width="259.61" x="559.8499999999999" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-240" parent="1mhGpjfTekB6riv_IDX8-239" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="Überprüft Sensor Daten und spricht LED entsprechend an" vertex="1">
+          <mxGeometry height="30" width="259.61" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-241" parent="1mhGpjfTekB6riv_IDX8-239" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="&amp;nbsp; &amp;nbsp;" vertex="1">
+          <mxGeometry height="30" width="259.61" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-242" parent="1mhGpjfTekB6riv_IDX8-237" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="SR602 Mini Motion Sensor PIR Detector (Licht)" vertex="1">
+          <mxGeometry height="60" width="389.61" x="29.85" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-243" parent="1mhGpjfTekB6riv_IDX8-242" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="Überprüft, ob es Bewegungen gibt" vertex="1">
+          <mxGeometry height="30" width="389.61" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-244" parent="1mhGpjfTekB6riv_IDX8-237" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="LED Stripe 2" vertex="1">
+          <mxGeometry height="90" width="254.88" x="164.57999999999998" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-245" parent="1mhGpjfTekB6riv_IDX8-244" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="AN - Wenn jemand im Parkhaus ist" vertex="1">
+          <mxGeometry height="30" width="254.88" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-246" parent="1mhGpjfTekB6riv_IDX8-244" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="AUS - Wenn Parkhaus leer ist" vertex="1">
+          <mxGeometry height="30" width="254.88" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-247" parent="1mhGpjfTekB6riv_IDX8-237" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Bewegungssensor 2" vertex="1">
+          <mxGeometry height="30" width="212.758" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-248" edge="1" parent="1mhGpjfTekB6riv_IDX8-237" source="1mhGpjfTekB6riv_IDX8-240" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.999;entryY=0.232;entryDx=0;entryDy=0;entryPerimeter=0;" target="1mhGpjfTekB6riv_IDX8-246">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-249" connectable="0" parent="1mhGpjfTekB6riv_IDX8-248" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="kontrolliert" vertex="1">
+          <mxGeometry relative="1" x="0.0745" y="-1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-250" edge="1" parent="1mhGpjfTekB6riv_IDX8-237" source="1mhGpjfTekB6riv_IDX8-243" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="559.8499999999999" y="175" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-251" connectable="0" parent="1mhGpjfTekB6riv_IDX8-250" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Sendet Daten" vertex="1">
+          <mxGeometry relative="1" x="-0.0278" y="-1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-149" connectable="0" parent="1" style="group" value="" vertex="1">
+          <mxGeometry height="850" width="1930" x="230" y="-970" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-190" connectable="0" parent="1mhGpjfTekB6riv_IDX8-149" style="group" value="" vertex="1">
+          <mxGeometry height="850" width="1930" y="10" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-147" parent="1mhGpjfTekB6riv_IDX8-190" style="rounded=1;whiteSpace=wrap;html=1;arcSize=4;" value="" vertex="1">
+          <mxGeometry height="850" width="1930" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-148" parent="1mhGpjfTekB6riv_IDX8-190" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontSize=16;fontStyle=1" value="Feature 1: Eintrittsystem mit Kennzeichenerkennung" vertex="1">
+          <mxGeometry height="41.13" width="504.92" x="15.08" y="13.71" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-94" connectable="0" parent="1mhGpjfTekB6riv_IDX8-190" style="group" value="" vertex="1">
+          <mxGeometry height="719.51" width="897.34" x="970" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-93" parent="1mhGpjfTekB6riv_IDX8-94" style="rounded=1;whiteSpace=wrap;html=1;arcSize=3;" value="" vertex="1">
+          <mxGeometry height="719.51" width="897.3399999999998" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-5" parent="1mhGpjfTekB6riv_IDX8-94" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="Kamera 2 - Ausgang" vertex="1">
+          <mxGeometry height="95.41" width="230.74457142857142" x="132.56450435064937" y="537.0297506261693" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-7" parent="1mhGpjfTekB6riv_IDX8-5" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="Aufnahme der Autokennzeichnen beim Verlassen des Parkhauses" vertex="1">
+          <mxGeometry height="65.41" width="230.74457142857142" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-69" parent="1mhGpjfTekB6riv_IDX8-94" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="&lt;div&gt;Raspberry PI 2&lt;/div&gt;" vertex="1">
+          <mxGeometry height="226.23" width="358.93599999999986" x="269.1976298376623" y="230.00279169721844" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-70" parent="1mhGpjfTekB6riv_IDX8-69" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="AI Model mit Kennzeichenerkennung" vertex="1">
+          <mxGeometry height="65.41" width="358.93599999999986" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-71" parent="1mhGpjfTekB6riv_IDX8-69" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="Sendet Kennzeichen an MQTT Broker" vertex="1">
+          <mxGeometry height="65.41" width="358.93599999999986" y="95.41" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-72" parent="1mhGpjfTekB6riv_IDX8-69" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="Basierend auf der Antwort des Brokers werden die Aktuatoren betätigt" vertex="1">
+          <mxGeometry height="65.41" width="358.93599999999986" y="160.82" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-73" parent="1mhGpjfTekB6riv_IDX8-94" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="Servo Motor 2" vertex="1">
+          <mxGeometry height="95.41" width="272.6981298701299" x="570.0001341883117" y="70.00260949961182" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-75" parent="1mhGpjfTekB6riv_IDX8-73" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="Schranke für das Verlassen des Parkhauses" vertex="1">
+          <mxGeometry height="65.41" width="272.6981298701299" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-85" parent="1mhGpjfTekB6riv_IDX8-94" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="Display 2" vertex="1">
+          <mxGeometry height="95.41" width="214.13795454545456" x="132.56257795454542" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-86" parent="1mhGpjfTekB6riv_IDX8-85" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="Statusanzeige beim Verlassen des Parkhauses" vertex="1">
+          <mxGeometry height="65.41" width="214.13795454545456" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-156" parent="1mhGpjfTekB6riv_IDX8-94" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="RFID Reader" vertex="1">
+          <mxGeometry height="95.41" width="272.6981298701299" x="540.4404956493507" y="549.9992714801641" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-157" parent="1mhGpjfTekB6riv_IDX8-156" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="RFID Tag kann genutzt werden, um die Schranke manuell zu öffnen" vertex="1">
+          <mxGeometry height="65.41" width="272.6981298701299" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-160" edge="1" parent="1mhGpjfTekB6riv_IDX8-94" source="1mhGpjfTekB6riv_IDX8-5" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.314;entryY=1.02;entryDx=0;entryDy=0;entryPerimeter=0;" target="1mhGpjfTekB6riv_IDX8-72">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-161" connectable="0" parent="1mhGpjfTekB6riv_IDX8-160" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Verbunden mit" vertex="1">
+          <mxGeometry relative="1" x="-0.1327" y="2" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-162" edge="1" parent="1mhGpjfTekB6riv_IDX8-94" source="1mhGpjfTekB6riv_IDX8-156" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.675;entryY=1.02;entryDx=0;entryDy=0;entryPerimeter=0;" target="1mhGpjfTekB6riv_IDX8-72">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-163" connectable="0" parent="1mhGpjfTekB6riv_IDX8-162" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Sendet UUID für Admin-Zugang" vertex="1">
+          <mxGeometry relative="1" x="0.0135" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-164" edge="1" parent="1mhGpjfTekB6riv_IDX8-94" source="1mhGpjfTekB6riv_IDX8-69" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=0;exitDx=0;exitDy=0;entryX=0.456;entryY=1.004;entryDx=0;entryDy=0;entryPerimeter=0;" target="1mhGpjfTekB6riv_IDX8-86">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="248.5325888636364" y="191.1470499999998" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-165" connectable="0" parent="1mhGpjfTekB6riv_IDX8-164" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="kontrolliert" vertex="1">
+          <mxGeometry relative="1" x="0.0158" y="-2" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-166" edge="1" parent="1mhGpjfTekB6riv_IDX8-94" source="1mhGpjfTekB6riv_IDX8-69" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=0;exitDx=0;exitDy=0;entryX=0.524;entryY=1.005;entryDx=0;entryDy=0;entryPerimeter=0;" target="1mhGpjfTekB6riv_IDX8-75">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-167" connectable="0" parent="1mhGpjfTekB6riv_IDX8-166" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="kontrolliert" vertex="1">
+          <mxGeometry relative="1" x="-0.056" y="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-288" parent="1mhGpjfTekB6riv_IDX8-94" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontSize=16;fontStyle=1" value="Ausgang" vertex="1">
+          <mxGeometry height="30" width="110" x="20" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-168" connectable="0" parent="1mhGpjfTekB6riv_IDX8-190" style="group" value="" vertex="1">
+          <mxGeometry height="719.51" width="880" x="50" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-169" parent="1mhGpjfTekB6riv_IDX8-168" style="rounded=1;whiteSpace=wrap;html=1;arcSize=3;" value="" vertex="1">
+          <mxGeometry height="719.51" width="879.9999999999998" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-170" parent="1mhGpjfTekB6riv_IDX8-168" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="Kamera 1 - Eingang" vertex="1">
+          <mxGeometry height="95.41" width="226.28571428571428" x="320.0028571428571" y="539.9997506261693" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-171" parent="1mhGpjfTekB6riv_IDX8-170" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="Aufnahme der Autokennzeichnen beim Einfahren des Parkhauses" vertex="1">
+          <mxGeometry height="65.41" width="226.28571428571428" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-172" parent="1mhGpjfTekB6riv_IDX8-168" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="&lt;div&gt;Raspberry PI 1&lt;/div&gt;" vertex="1">
+          <mxGeometry height="226.23" width="351.9999999999999" x="263.99571428571426" y="230.00279169721844" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-173" parent="1mhGpjfTekB6riv_IDX8-172" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="AI Model mit Kennzeichenerkennung" vertex="1">
+          <mxGeometry height="65.41" width="351.9999999999999" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-174" parent="1mhGpjfTekB6riv_IDX8-172" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="Sendet Kennzeichen an MQTT Broker" vertex="1">
+          <mxGeometry height="65.41" width="351.9999999999999" y="95.41" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-175" parent="1mhGpjfTekB6riv_IDX8-172" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="Anschließend werden die Aktuaktoren betätigt" vertex="1">
+          <mxGeometry height="65.41" width="351.9999999999999" y="160.82" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-176" parent="1mhGpjfTekB6riv_IDX8-168" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="Servo Motor 1" vertex="1">
+          <mxGeometry height="95.41" width="267.42857142857144" x="569.9985714285714" y="70.00260949961182" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-177" parent="1mhGpjfTekB6riv_IDX8-176" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="Schranke für das Betreten des Parkhauses" vertex="1">
+          <mxGeometry height="65.41" width="267.42857142857144" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-178" parent="1mhGpjfTekB6riv_IDX8-168" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="Display 1" vertex="1">
+          <mxGeometry height="95.41" width="210" x="145" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-179" parent="1mhGpjfTekB6riv_IDX8-178" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="Statusanzeige beim Betreten des Parkhauses" vertex="1">
+          <mxGeometry height="65.41" width="210" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-182" edge="1" parent="1mhGpjfTekB6riv_IDX8-168" source="1mhGpjfTekB6riv_IDX8-170" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.483;entryY=1.026;entryDx=0;entryDy=0;entryPerimeter=0;" target="1mhGpjfTekB6riv_IDX8-175">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-183" connectable="0" parent="1mhGpjfTekB6riv_IDX8-182" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Verbunden mit" vertex="1">
+          <mxGeometry relative="1" x="-0.1327" y="2" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-186" edge="1" parent="1mhGpjfTekB6riv_IDX8-168" source="1mhGpjfTekB6riv_IDX8-172" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=0;exitDx=0;exitDy=0;entryX=0.456;entryY=1.004;entryDx=0;entryDy=0;entryPerimeter=0;" target="1mhGpjfTekB6riv_IDX8-179">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="243.73000000000002" y="191.1470499999998" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-187" connectable="0" parent="1mhGpjfTekB6riv_IDX8-186" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="kontrolliert" vertex="1">
+          <mxGeometry relative="1" x="0.0158" y="-2" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-188" edge="1" parent="1mhGpjfTekB6riv_IDX8-168" source="1mhGpjfTekB6riv_IDX8-172" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=0;exitDx=0;exitDy=0;entryX=0.524;entryY=1.005;entryDx=0;entryDy=0;entryPerimeter=0;" target="1mhGpjfTekB6riv_IDX8-177">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-189" connectable="0" parent="1mhGpjfTekB6riv_IDX8-188" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="kontrolliert" vertex="1">
+          <mxGeometry relative="1" x="-0.056" y="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-287" parent="1mhGpjfTekB6riv_IDX8-168" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontSize=16;fontStyle=1" value="Eingang" vertex="1">
+          <mxGeometry height="30" width="110" x="10" y="10" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-271" edge="1" parent="1" source="1mhGpjfTekB6riv_IDX8-120" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="1mhGpjfTekB6riv_IDX8-132">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-272" connectable="0" parent="1mhGpjfTekB6riv_IDX8-271" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="PUB - Sendet Beleuchtungsinformationen" vertex="1">
+          <mxGeometry relative="1" x="-0.0078" y="-2" as="geometry">
+            <mxPoint x="58" y="4" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-273" edge="1" parent="1" source="1mhGpjfTekB6riv_IDX8-240" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.75;entryDx=0;entryDy=0;" target="1mhGpjfTekB6riv_IDX8-132">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-274" connectable="0" parent="1mhGpjfTekB6riv_IDX8-273" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="PUB - Sendet Beleuchtungsinformationen" vertex="1">
+          <mxGeometry relative="1" x="0.0113" as="geometry">
+            <mxPoint x="54" y="-19" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-276" edge="1" parent="1" source="1mhGpjfTekB6riv_IDX8-111" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.25;entryDx=0;entryDy=0;" target="1mhGpjfTekB6riv_IDX8-132">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-277" connectable="0" parent="1mhGpjfTekB6riv_IDX8-276" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="PUB - Sendet Stellplatzinformationen" vertex="1">
+          <mxGeometry relative="1" x="0.3271" y="-1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-278" edge="1" parent="1" source="1mhGpjfTekB6riv_IDX8-225" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.75;entryDx=0;entryDy=0;" target="1mhGpjfTekB6riv_IDX8-132">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-279" connectable="0" parent="1mhGpjfTekB6riv_IDX8-278" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="PUB - Sendet Stellplatzinformationen" vertex="1">
+          <mxGeometry relative="1" x="0.5046" y="1" as="geometry">
+            <mxPoint x="29" y="18" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-280" edge="1" parent="1" source="1mhGpjfTekB6riv_IDX8-169" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;" target="1mhGpjfTekB6riv_IDX8-132">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-281" connectable="0" parent="1mhGpjfTekB6riv_IDX8-280" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="PUB - Sendet Autokennzeichen" vertex="1">
+          <mxGeometry relative="1" x="0.0054" y="-2" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-282" edge="1" parent="1" source="1mhGpjfTekB6riv_IDX8-93" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="1mhGpjfTekB6riv_IDX8-132">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-283" connectable="0" parent="1mhGpjfTekB6riv_IDX8-282" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="PUB - Sendet Autokennzeichen" vertex="1">
+          <mxGeometry relative="1" x="0.0506" y="1" as="geometry">
+            <mxPoint y="-1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-284" edge="1" parent="1" source="1mhGpjfTekB6riv_IDX8-132" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;startArrow=classic;startFill=1;endArrow=none;endFill=0;" target="1mhGpjfTekB6riv_IDX8-93">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1mhGpjfTekB6riv_IDX8-285" connectable="0" parent="1mhGpjfTekB6riv_IDX8-284" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="SUB - Wartet auf Antwort der Steuerungseinheit ob Auto das Parkhaus verlassen darf" vertex="1">
+          <mxGeometry relative="1" x="-0.1203" y="-2" as="geometry">
+            <mxPoint x="29" y="18" as="offset" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
