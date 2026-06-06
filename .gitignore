@@ -1,2 +1,6 @@
 .DS_Store
 .idea
+studienarbeit/Nummernschilderkennung/cps
+studienarbeit/Nummernschilderkennung/docker-compose.yml
+.vscode
+studienarbeit/Nummernschilderkennung/mosquitto.conf
