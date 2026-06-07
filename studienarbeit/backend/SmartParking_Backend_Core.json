@@ -1,0 +1,707 @@
+[
+    {
+        "id": "a590ee13ea79a46a",
+        "type": "tab",
+        "label": "SmartParking_Backend_Core",
+        "disabled": false,
+        "info": "Smart-Parking Backend Core: parking sessions, payment, RFID release, event logging, REST API, and MQTT commands for entry/exit barriers and displays. Parking occupancy, floor lighting, and DB maintenance are intentionally handled by separate flows. SQLite schema is managed natively on the Raspberry Pi at /home/iot/database/parking.db."
+    },
+    {
+        "id": "9023a36efb3673da",
+        "type": "sqlite",
+        "z": "a590ee13ea79a46a",
+        "mydb": "cfg_sqlite_smart_parking",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "SQLite parking.db",
+        "x": 620,
+        "y": 520,
+        "wires": [
+            [
+                "54ef0ec4a615e9ca"
+            ]
+        ]
+    },
+    {
+        "id": "54ef0ec4a615e9ca",
+        "type": "function",
+        "z": "a590ee13ea79a46a",
+        "name": "Event Log / SQL Result Router",
+        "func": "function esc(v) {\n    return String(v == null ? \"\" : v).replace(/'/g, \"''\");\n}\n\nfunction isRows(v) {\n    return Object.prototype.toString.call(v) === \"[object Array]\";\n}\n\nfunction logMsg(eventtype, source, message, sid) {\n    return {\n        sp: { flow: \"log\" },\n        topic:\n            \"INSERT INTO event_logs(eventtype,source,message,parking_session_id) VALUES('\" +\n            esc(eventtype) + \"','\" +\n            esc(source || \"node-red\") + \"','\" +\n            esc(message || \"\") + \"',\" +\n            (sid == null ? \"NULL\" : Number(sid)) +\n            \");\"\n    };\n}\n\nfunction mqttPayload(o) {\n    return o;\n}\n\nfunction sqliteUtcDate(value) {\n    var text = String(value || \"\");\n\n    if (text.indexOf(\"T\") < 0) {\n        text = text.replace(\" \", \"T\");\n    }\n\n    if (text.charAt(text.length - 1) !== \"Z\") {\n        text = text + \"Z\";\n    }\n\n    return new Date(text);\n}\n\nfunction price(entry) {\n    var started = sqliteUtcDate(entry);\n    var now = new Date();\n    var diffMs = now.getTime() - started.getTime();\n\n    if (isNaN(diffMs) || diffMs < 0) {\n        diffMs = 0;\n    }\n\n    var mins = Math.max(1, Math.ceil(diffMs / 60000));\n    var due = Math.max(1, Math.ceil(mins / 15) * 0.5);\n\n    return {\n        minutes: mins,\n        amount_due: Number(due.toFixed(2))\n    };\n}\n\nfunction nextSp(oldSp, flowName) {\n    var s = {};\n    var k;\n\n    for (k in oldSp) {\n        if (oldSp.hasOwnProperty(k)) {\n            s[k] = oldSp[k];\n        }\n    }\n\n    s.flow = flowName;\n    return s;\n}\n\nfunction handleApi(rows, sp) {\n    if (sp.flow === \"health\") {\n        msg.statusCode = 200;\n        msg.payload = {\n            status: \"ok\",\n            database: \"reachable\"\n        };\n        return [null, msg, null, null, null, null];\n    }\n\n    if (sp.flow === \"list\") {\n        msg.statusCode = 200;\n        return [null, msg, null, null, null, null];\n    }\n\n    if (sp.flow === \"session_current\") {\n        if (rows.length < 1) {\n            msg.statusCode = 404;\n            msg.payload = {\n                error: \"no_active_session\",\n                plate: sp.plate\n            };\n            return [null, msg, null, null, null, null];\n        }\n\n        var session = rows[0];\n        var currentPrice = price(session.entry_time);\n\n        msg.statusCode = 200;\n        msg.payload = {\n            session_id: session.id,\n            plate: session.plate,\n            entry_time: session.entry_time,\n            payment_time: session.payment_time,\n            exit_valid_until: session.exit_valid_until,\n            amount_paid: Number(session.amount_paid || 0),\n            minutes: currentPrice.minutes,\n            amount_due: currentPrice.amount_due\n        };\n\n        return [null, msg, null, null, null, null];\n    }\n\n    return null;\n}\n\nfunction handlePayment(rows, sp) {\n    if (sp.flow === \"payment_check\") {\n        if (rows.length < 1) {\n            msg.statusCode = 404;\n            msg.payload = {\n                error: \"no_active_session\",\n                plate: sp.plate\n            };\n\n            return [\n                [logMsg(\"PAYMENT_FAILED\", \"payment-api\", \"Payment failed: no active session for \" + sp.plate, null)],\n                msg,\n                null,\n                null,\n                null,\n                null\n            ];\n        }\n\n        var paySession = rows[0];\n        var payPrice = price(paySession.entry_time);\n\n        if (Number(sp.amount_paid) < payPrice.amount_due) {\n            msg.statusCode = 402;\n            msg.payload = {\n                status: \"failed\",\n                error: \"amount_too_low\",\n                plate: paySession.plate,\n                amount_due: payPrice.amount_due,\n                amount_paid: Number(sp.amount_paid)\n            };\n\n            return [\n                [logMsg(\"PAYMENT_FAILED\", \"payment-api\", \"Payment failed for \" + paySession.plate + \": amount too low\", paySession.id)],\n                msg,\n                null,\n                null,\n                null,\n                null\n            ];\n        }\n\n        msg.sp = {\n            flow: \"payment_done\",\n            plate: sp.plate,\n            session_id: paySession.id,\n            amount_paid: Number(sp.amount_paid),\n            amount_due: payPrice.amount_due,\n            minutes: payPrice.minutes\n        };\n\n        msg.topic =\n            \"UPDATE parking_sessions SET \" +\n            \"payment_time=CURRENT_TIMESTAMP,\" +\n            \"amount_due=\" + payPrice.amount_due + \",\" +\n            \"amount_paid=\" + Number(sp.amount_paid) + \",\" +\n            \"exit_valid_until=datetime('now','+15 minutes') \" +\n            \"WHERE id=\" + Number(paySession.id) + \";\";\n\n        return [msg, null, null, null, null, null];\n    }\n\n    if (sp.flow === \"payment_done\") {\n        msg.statusCode = 200;\n        msg.payload = {\n            status: \"paid\",\n            plate: sp.plate,\n            session_id: sp.session_id,\n            minutes: sp.minutes,\n            amount_due: sp.amount_due,\n            amount_paid: sp.amount_paid,\n            exit_valid_minutes: 15\n        };\n\n        return [\n            [logMsg(\"PAYMENT_SUCCESS\", \"payment-api\", \"Payment successful for \" + sp.plate, sp.session_id)],\n            msg,\n            null,\n            null,\n            null,\n            null\n        ];\n    }\n\n    return null;\n}\n\nfunction handleEntry(rows, sp) {\n    if (sp.flow === \"entry_check\") {\n        if (rows.length > 0) {\n            var activeEntry = rows[0];\n\n            return [\n                [logMsg(\"ENTRY_PLATE_DETECTED\", sp.source, \"Duplicate entry ignored for active plate \" + sp.plate, activeEntry.id)],\n                null,\n                null,\n                {\n                    payload: mqttPayload({\n                        text: \"Bereits aktiv: \" + sp.plate,\n                        plate: sp.plate\n                    })\n                },\n                null,\n                null\n            ];\n        }\n\n        msg.sp = nextSp(sp, \"entry_insert\");\n        msg.topic =\n            \"INSERT INTO parking_sessions(plate,amount_due,amount_paid) VALUES('\" +\n            esc(sp.plate) +\n            \"',0,0);\";\n\n        return [msg, null, null, null, null, null];\n    }\n\n    if (sp.flow === \"entry_insert\") {\n        msg.sp = nextSp(sp, \"entry_select\");\n        msg.topic =\n            \"SELECT * FROM parking_sessions WHERE plate='\" +\n            esc(sp.plate) +\n            \"' AND exit_time IS NULL ORDER BY id DESC LIMIT 1;\";\n\n        return [msg, null, null, null, null, null];\n    }\n\n    if (sp.flow === \"entry_select\") {\n        var createdEntry = rows.length > 0 ? rows[0] : {};\n        var entrySessionId = createdEntry.id == null ? null : createdEntry.id;\n\n        return [\n            [\n                logMsg(\"ENTRY_PLATE_DETECTED\", sp.source, \"Entry plate detected: \" + sp.plate, entrySessionId),\n                logMsg(\"ENTRY_BARRIER_OPENED\", \"node-red\", \"Entry barrier opened for \" + sp.plate, entrySessionId)\n            ],\n            null,\n            {\n                payload: mqttPayload({\n                    command: \"OPEN\",\n                    plate: sp.plate\n                })\n            },\n            {\n                payload: mqttPayload({\n                    text: \"Willkommen \" + sp.plate,\n                    plate: sp.plate\n                })\n            },\n            null,\n            null\n        ];\n    }\n\n    return null;\n}\n\nfunction handleExit(rows, sp) {\n    if (sp.flow === \"exit_check\") {\n        if (rows.length < 1) {\n            return [\n                [logMsg(\"EXIT_PLATE_DETECTED\", sp.source, \"Exit denied: no active session for \" + sp.plate, null)],\n                null,\n                null,\n                null,\n                null,\n                {\n                    payload: mqttPayload({\n                        text: \"Keine aktive Session\",\n                        plate: sp.plate\n                    })\n                }\n            ];\n        }\n\n        var exitSession = rows[0];\n        var paid =\n            Number(exitSession.amount_paid || 0) >= Number(exitSession.amount_due || 0) &&\n            Number(exitSession.amount_due || 0) > 0;\n\n        var validUntil = null;\n        var valid = false;\n\n        if (exitSession.exit_valid_until) {\n            validUntil = new Date(String(exitSession.exit_valid_until).replace(\" \", \"T\") + \"Z\");\n            valid = paid && validUntil.getTime() >= new Date().getTime();\n        }\n\n        var detectLog = logMsg(\n            \"EXIT_PLATE_DETECTED\",\n            sp.source,\n            \"Exit plate detected: \" + sp.plate,\n            exitSession.id\n        );\n\n        if (!valid) {\n            return [\n                [detectLog],\n                null,\n                null,\n                null,\n                null,\n                {\n                    payload: mqttPayload({\n                        text: paid ? \"Zeitfenster abgelaufen\" : \"Bitte bezahlen\",\n                        plate: sp.plate,\n                        amount_due: Number(exitSession.amount_due || 0),\n                        amount_paid: Number(exitSession.amount_paid || 0)\n                    })\n                }\n            ];\n        }\n\n        msg.sp = nextSp(sp, \"exit_done\");\n        msg.sp.session_id = exitSession.id;\n        msg.topic =\n            \"UPDATE parking_sessions SET exit_time=CURRENT_TIMESTAMP WHERE id=\" +\n            Number(exitSession.id) +\n            \";\";\n\n        return [[detectLog, msg], null, null, null, null, null];\n    }\n\n    if (sp.flow === \"exit_done\") {\n        return [\n            [logMsg(\"EXIT_BARRIER_OPENED\", \"node-red\", \"Exit barrier opened for \" + sp.plate, sp.session_id)],\n            null,\n            null,\n            null,\n            {\n                payload: mqttPayload({\n                    command: \"OPEN\",\n                    plate: sp.plate\n                })\n            },\n            {\n                payload: mqttPayload({\n                    text: \"Gute Fahrt \" + sp.plate,\n                    plate: sp.plate\n                })\n            }\n        ];\n    }\n\n    return null;\n}\n\nfunction handleRfid(rows, sp) {\n    if (sp.flow === \"rfid_admin\") {\n        if (rows.length < 1) {\n            return [\n                [logMsg(\"RFID_ADMIN_RELEASE\", sp.source, \"RFID denied for uid \" + sp.rfid_uid, null)],\n                null,\n                null,\n                null,\n                null,\n                {\n                    payload: mqttPayload({\n                        text: \"RFID nicht berechtigt\",\n                        plate: sp.plate\n                    })\n                }\n            ];\n        }\n\n        msg.sp = nextSp(sp, \"rfid_session\");\n        msg.sp.admin = rows[0];\n\n        msg.topic =\n            \"SELECT * FROM parking_sessions WHERE plate='\" +\n            esc(sp.plate) +\n            \"' AND exit_time IS NULL ORDER BY id DESC LIMIT 1;\";\n\n        return [msg, null, null, null, null, null];\n    }\n\n    if (sp.flow === \"rfid_session\") {\n        if (rows.length < 1) {\n            return [\n                [logMsg(\"RFID_ADMIN_RELEASE\", sp.source, \"RFID release denied: no active session for \" + sp.plate, null)],\n                null,\n                null,\n                null,\n                null,\n                {\n                    payload: mqttPayload({\n                        text: \"Keine aktive Session\",\n                        plate: sp.plate\n                    })\n                }\n            ];\n        }\n\n        var rfidSession = rows[0];\n\n        msg.sp = nextSp(sp, \"rfid_insert\");\n        msg.sp.session_id = rfidSession.id;\n\n        msg.topic =\n            \"INSERT INTO rfid_admin_releases(admin_id,rfid_uid,parking_session_id) VALUES(\" +\n            Number(sp.admin.id) +\n            \",'\" +\n            esc(sp.rfid_uid) +\n            \"',\" +\n            Number(rfidSession.id) +\n            \");\";\n\n        return [msg, null, null, null, null, null];\n    }\n\n    if (sp.flow === \"rfid_insert\") {\n        msg.sp = nextSp(sp, \"rfid_done\");\n        msg.topic =\n            \"UPDATE parking_sessions SET exit_time=CURRENT_TIMESTAMP WHERE id=\" +\n            Number(sp.session_id) +\n            \";\";\n\n        return [msg, null, null, null, null, null];\n    }\n\n    if (sp.flow === \"rfid_done\") {\n        return [\n            [logMsg(\"RFID_ADMIN_RELEASE\", sp.source, \"RFID admin release by \" + sp.admin.name + \" for \" + sp.plate, sp.session_id)],\n            null,\n            null,\n            null,\n            {\n                payload: mqttPayload({\n                    command: \"OPEN\",\n                    plate: sp.plate,\n                    reason: \"RFID_ADMIN_RELEASE\"\n                })\n            },\n            {\n                payload: mqttPayload({\n                    text: \"Admin-Freigabe\",\n                    plate: sp.plate\n                })\n            }\n        ];\n    }\n\n    return null;\n}\n\nvar rows = isRows(msg.payload) ? msg.payload : [];\nvar sp = msg.sp || {};\nvar result = null;\n\nif (sp.flow === \"log\") {\n    return null;\n}\n\nresult = handleApi(rows, sp);\nif (result) {\n    return result;\n}\n\nresult = handlePayment(rows, sp);\nif (result) {\n    return result;\n}\n\nresult = handleEntry(rows, sp);\nif (result) {\n    return result;\n}\n\nresult = handleExit(rows, sp);\nif (result) {\n    return result;\n}\n\nresult = handleRfid(rows, sp);\nif (result) {\n    return result;\n}\n\nnode.warn(\"Unhandled backend step: \" + JSON.stringify(sp));\nreturn null;",
+        "outputs": 6,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 900,
+        "y": 520,
+        "wires": [
+            [
+                "9023a36efb3673da"
+            ],
+            [
+                "5d2560faf3fe189d"
+            ],
+            [
+                "2baaee202fda6706"
+            ],
+            [
+                "acfa563bc0d43251"
+            ],
+            [
+                "ee1342b891b54760"
+            ],
+            [
+                "37d48dd5e8e3b913"
+            ]
+        ]
+    },
+    {
+        "id": "c51cf50e607efc1b",
+        "type": "http in",
+        "z": "a590ee13ea79a46a",
+        "name": "GET /api/health",
+        "url": "/api/health",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 120,
+        "y": 100,
+        "wires": [
+            [
+                "c3d8025536b5918c"
+            ]
+        ],
+        "g": "grp_dashboard_api"
+    },
+    {
+        "id": "c3d8025536b5918c",
+        "type": "function",
+        "z": "a590ee13ea79a46a",
+        "name": "SQL health",
+        "func": "msg.sp={flow:'health'};msg.topic='SELECT 1 AS ok';return msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 360,
+        "y": 100,
+        "wires": [
+            [
+                "9023a36efb3673da"
+            ]
+        ],
+        "g": "grp_dashboard_api"
+    },
+    {
+        "id": "7c1ea52e4983611a",
+        "type": "http in",
+        "z": "a590ee13ea79a46a",
+        "name": "GET /api/spots",
+        "url": "/api/spots",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 120,
+        "y": 170,
+        "wires": [
+            [
+                "15a4be55b7a2c332"
+            ]
+        ],
+        "g": "grp_dashboard_api"
+    },
+    {
+        "id": "15a4be55b7a2c332",
+        "type": "function",
+        "z": "a590ee13ea79a46a",
+        "name": "SQL spots",
+        "func": "msg.sp={flow:'list'};msg.topic='SELECT id,floor,spot_number,occupied,last_updated FROM parking_spots ORDER BY floor,spot_number';return msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 360,
+        "y": 170,
+        "wires": [
+            [
+                "9023a36efb3673da"
+            ]
+        ],
+        "g": "grp_dashboard_api"
+    },
+    {
+        "id": "f8c7b6f5f094a3ae",
+        "type": "http in",
+        "z": "a590ee13ea79a46a",
+        "name": "GET /api/spots/free",
+        "url": "/api/spots/free",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 120,
+        "y": 240,
+        "wires": [
+            [
+                "64baebe0dfd72798"
+            ]
+        ],
+        "g": "grp_dashboard_api"
+    },
+    {
+        "id": "64baebe0dfd72798",
+        "type": "function",
+        "z": "a590ee13ea79a46a",
+        "name": "SQL free spots",
+        "func": "msg.sp={flow:'list'};msg.topic='SELECT floor,COUNT(*) AS free_count FROM parking_spots WHERE occupied=0 GROUP BY floor ORDER BY floor';return msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 360,
+        "y": 240,
+        "wires": [
+            [
+                "9023a36efb3673da"
+            ]
+        ],
+        "g": "grp_dashboard_api"
+    },
+    {
+        "id": "75afc2d166f81e49",
+        "type": "http in",
+        "z": "a590ee13ea79a46a",
+        "name": "GET /api/events/recent",
+        "url": "/api/events/recent",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 120,
+        "y": 310,
+        "wires": [
+            [
+                "17a1aef186c6be9e"
+            ]
+        ],
+        "g": "grp_dashboard_api"
+    },
+    {
+        "id": "17a1aef186c6be9e",
+        "type": "function",
+        "z": "a590ee13ea79a46a",
+        "name": "SQL recent events",
+        "func": "msg.sp={flow:'list'};msg.topic='SELECT id,timestamp,eventtype,source,message,parking_session_id FROM event_logs ORDER BY timestamp DESC LIMIT 50';return msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 360,
+        "y": 310,
+        "wires": [
+            [
+                "9023a36efb3673da"
+            ]
+        ],
+        "g": "grp_dashboard_api"
+    },
+    {
+        "id": "64194175b13db0fa",
+        "type": "http in",
+        "z": "a590ee13ea79a46a",
+        "name": "GET /api/sessions/:plate/current",
+        "url": "/api/sessions/:plate/current",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 120,
+        "y": 390,
+        "wires": [
+            [
+                "5eeaeeaea1e91069"
+            ]
+        ],
+        "g": "grp_dashboard_api"
+    },
+    {
+        "id": "5eeaeeaea1e91069",
+        "type": "function",
+        "z": "a590ee13ea79a46a",
+        "name": "SQL current session",
+        "func": "function esc(v){return String(v==null?'':v).replace(/'/g,\"''\")}function body(p){if(typeof p==='string'){try{return JSON.parse(p)}catch(e){return{plate:p}}}return p||{}}function plate(v){return String(v==null?'':v).trim().toUpperCase().replace(/\\s+/g,'')}function logMsg(eventtype,source,message,sid){return{sp:{flow:'log'},topic:\"INSERT INTO event_logs(eventtype,source,message,parking_session_id) VALUES('\"+esc(eventtype)+\"','\"+esc(source||'node-red')+\"','\"+esc(message||'')+\"',\"+(sid==null?'NULL':Number(sid))+');'}}function mqttPayload(o){return JSON.stringify(o)}function price(entry){var mins=Math.max(1,Math.ceil((new Date()-new Date(entry))/60000));var due=Math.max(1,Math.ceil(mins/15)*0.5);return{minutes:mins,amount_due:Number(due.toFixed(2))}}\nvar p=plate(msg.req.params.plate);if(!p){msg.statusCode=400;msg.payload={error:'missing_plate'};return[null,msg]}msg.sp={flow:'session_current',plate:p};msg.topic=\"SELECT * FROM parking_sessions WHERE plate='\"+esc(p)+\"' AND exit_time IS NULL ORDER BY id DESC LIMIT 1\";return[msg,null];",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 370,
+        "y": 390,
+        "wires": [
+            [
+                "9023a36efb3673da"
+            ],
+            [
+                "5d2560faf3fe189d"
+            ]
+        ],
+        "g": "grp_dashboard_api"
+    },
+    {
+        "id": "ddf66fec74345f5d",
+        "type": "http in",
+        "z": "a590ee13ea79a46a",
+        "name": "POST /api/payments",
+        "url": "/api/payments",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 120,
+        "y": 470,
+        "wires": [
+            [
+                "898f14ade1a1b122"
+            ]
+        ],
+        "g": "grp_dashboard_api"
+    },
+    {
+        "id": "898f14ade1a1b122",
+        "type": "function",
+        "z": "a590ee13ea79a46a",
+        "name": "Payment Router",
+        "func": "function esc(v) {\n    return String(v == null ? \"\" : v).replace(/'/g, \"''\");\n}\n\nfunction body(p) {\n    if (typeof p === \"string\") {\n        try {\n            return JSON.parse(p);\n        } catch (e) {\n            return {};\n        }\n    }\n\n    return p || {};\n}\n\nfunction plate(v) {\n    return String(v == null ? \"\" : v)\n        .trim()\n        .toUpperCase()\n        .replace(/\\s+/g, \"\");\n}\n\nvar b = body(msg.payload);\nvar p = plate(b.plate);\nvar paid = Number(b.amount_paid);\n\nif (!p || isNaN(paid)) {\n    msg.statusCode = 400;\n    msg.payload = {\n        error: \"missing_or_invalid_payment_data\"\n    };\n    return [null, msg];\n}\n\nmsg.sp = {\n    flow: \"payment_check\",\n    plate: p,\n    amount_paid: paid\n};\n\nmsg.topic =\n    \"SELECT * FROM parking_sessions WHERE plate='\" +\n    esc(p) +\n    \"' AND exit_time IS NULL ORDER BY id DESC LIMIT 1;\";\n\nreturn [msg, null];",
+        "outputs": 2,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 370,
+        "y": 470,
+        "wires": [
+            [
+                "9023a36efb3673da"
+            ],
+            [
+                "5d2560faf3fe189d"
+            ]
+        ],
+        "g": "grp_dashboard_api"
+    },
+    {
+        "id": "8c9f052b472d0187",
+        "type": "mqtt in",
+        "z": "a590ee13ea79a46a",
+        "name": "MQTT entry plate detected",
+        "topic": "smartparking/entry/plate/detected",
+        "qos": "1",
+        "datatype": "auto-detect",
+        "broker": "cfg_mqtt_local",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 120,
+        "y": 620,
+        "wires": [
+            [
+                "9616dff48dfa02c6"
+            ]
+        ],
+        "g": "grp_core_mqtt_in"
+    },
+    {
+        "id": "9616dff48dfa02c6",
+        "type": "function",
+        "z": "a590ee13ea79a46a",
+        "name": "Entry Session Router",
+        "func": "function esc(v) {\n    return String(v == null ? \"\" : v).replace(/'/g, \"''\");\n}\n\nfunction body(p) {\n    if (typeof p === \"string\") {\n        try {\n            return JSON.parse(p);\n        } catch (e) {\n            return { plate: p };\n        }\n    }\n\n    return p || {};\n}\n\nfunction plate(v) {\n    return String(v == null ? \"\" : v).trim().toUpperCase().replace(/\\s+/g, \"\");\n}\n\nfunction logMsg(eventtype, source, message, sid) {\n    return {\n        sp: { flow: \"log\" },\n        topic:\n            \"INSERT INTO event_logs(eventtype,source,message,parking_session_id) VALUES('\" +\n            esc(eventtype) + \"','\" +\n            esc(source || \"node-red\") + \"','\" +\n            esc(message || \"\") + \"',\" +\n            (sid == null ? \"NULL\" : Number(sid)) +\n            \");\"\n    };\n}\n\nvar b = body(msg.payload);\nvar p = plate(b.plate);\nvar src = b.source || \"entry-camera\";\n\nif (!p) {\n    return [\n        logMsg(\"SENSOR_ERROR\", src, \"Entry plate payload missing plate\", null),\n        { payload: { text: \"Kennzeichen ungueltig\" } }\n    ];\n}\n\nmsg.sp = {\n    flow: \"entry_check\",\n    plate: p,\n    source: src,\n    confidence: b.confidence,\n    timestamp: b.timestamp\n};\n\nmsg.topic =\n    \"SELECT * FROM parking_sessions WHERE plate='\" +\n    esc(p) +\n    \"' AND exit_time IS NULL ORDER BY id DESC LIMIT 1\";\n\nreturn [msg, null];",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 370,
+        "y": 620,
+        "wires": [
+            [
+                "9023a36efb3673da"
+            ],
+            [
+                "acfa563bc0d43251"
+            ]
+        ],
+        "g": "grp_core_mqtt_in"
+    },
+    {
+        "id": "5afbe66b060f4846",
+        "type": "mqtt in",
+        "z": "a590ee13ea79a46a",
+        "name": "MQTT exit plate detected",
+        "topic": "smartparking/exit/plate/detected",
+        "qos": "1",
+        "datatype": "auto-detect",
+        "broker": "cfg_mqtt_local",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 120,
+        "y": 700,
+        "wires": [
+            [
+                "187986b34dfe9767"
+            ]
+        ],
+        "g": "grp_core_mqtt_in"
+    },
+    {
+        "id": "187986b34dfe9767",
+        "type": "function",
+        "z": "a590ee13ea79a46a",
+        "name": "Exit Session Router",
+        "func": "function esc(v) {\n    return String(v == null ? \"\" : v).replace(/'/g, \"''\");\n}\n\nfunction body(p) {\n    if (typeof p === \"string\") {\n        try {\n            return JSON.parse(p);\n        } catch (e) {\n            return { plate: p };\n        }\n    }\n\n    return p || {};\n}\n\nfunction plate(v) {\n    return String(v == null ? \"\" : v).trim().toUpperCase().replace(/\\s+/g, \"\");\n}\n\nfunction logMsg(eventtype, source, message, sid) {\n    return {\n        sp: { flow: \"log\" },\n        topic:\n            \"INSERT INTO event_logs(eventtype,source,message,parking_session_id) VALUES('\" +\n            esc(eventtype) + \"','\" +\n            esc(source || \"node-red\") + \"','\" +\n            esc(message || \"\") + \"',\" +\n            (sid == null ? \"NULL\" : Number(sid)) +\n            \");\"\n    };\n}\n\nvar b = body(msg.payload);\nvar p = plate(b.plate);\nvar src = b.source || \"exit-camera\";\n\nif (!p) {\n    return [\n        logMsg(\"SENSOR_ERROR\", src, \"Exit plate payload missing plate\", null),\n        { payload: { text: \"Kennzeichen ungueltig\" } }\n    ];\n}\n\nmsg.sp = {\n    flow: \"exit_check\",\n    plate: p,\n    source: src,\n    confidence: b.confidence,\n    timestamp: b.timestamp\n};\n\nmsg.topic =\n    \"SELECT * FROM parking_sessions WHERE plate='\" +\n    esc(p) +\n    \"' AND exit_time IS NULL ORDER BY id DESC LIMIT 1\";\n\nreturn [msg, null];",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 370,
+        "y": 700,
+        "wires": [
+            [
+                "9023a36efb3673da"
+            ],
+            [
+                "37d48dd5e8e3b913"
+            ]
+        ],
+        "g": "grp_core_mqtt_in"
+    },
+    {
+        "id": "d17aadf21332eb6d",
+        "type": "mqtt in",
+        "z": "a590ee13ea79a46a",
+        "name": "MQTT RFID admin release",
+        "topic": "smartparking/exit/rfid/detected",
+        "qos": "1",
+        "datatype": "auto-detect",
+        "broker": "cfg_mqtt_local",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 120,
+        "y": 780,
+        "wires": [
+            [
+                "72dfc77de7ad3f34"
+            ]
+        ],
+        "g": "grp_core_mqtt_in"
+    },
+    {
+        "id": "72dfc77de7ad3f34",
+        "type": "function",
+        "z": "a590ee13ea79a46a",
+        "name": "RFID Release Router",
+        "func": "function esc(v){return String(v==null?'':v).replace(/'/g,\"''\")}function body(p){if(typeof p==='string'){try{return JSON.parse(p)}catch(e){return{plate:p}}}return p||{}}function plate(v){return String(v==null?'':v).trim().toUpperCase().replace(/\\s+/g,'')}function logMsg(eventtype,source,message,sid){return{sp:{flow:'log'},topic:\"INSERT INTO event_logs(eventtype,source,message,parking_session_id) VALUES('\"+esc(eventtype)+\"','\"+esc(source||'node-red')+\"','\"+esc(message||'')+\"',\"+(sid==null?'NULL':Number(sid))+');'}}function mqttPayload(o){return JSON.stringify(o)}function price(entry){var mins=Math.max(1,Math.ceil((new Date()-new Date(entry))/60000));var due=Math.max(1,Math.ceil(mins/15)*0.5);return{minutes:mins,amount_due:Number(due.toFixed(2))}}\nvar b=body(msg.payload),uid=String(b.rfid_uid||'').trim(),p=plate(b.plate),src=b.source||'exit-rfid';if(!uid||!p)return[logMsg('SENSOR_ERROR',src,'RFID release payload missing rfid_uid or plate',null),{payload:mqttPayload({text:'RFID/Plate fehlt',plate:p})}];msg.sp={flow:'rfid_admin',rfid_uid:uid,plate:p,source:src};msg.topic=\"SELECT * FROM user_admins WHERE rfid_uid='\"+esc(uid)+\"' AND active=1 LIMIT 1\";return[msg,null];",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 370,
+        "y": 780,
+        "wires": [
+            [
+                "9023a36efb3673da"
+            ],
+            [
+                "37d48dd5e8e3b913"
+            ]
+        ],
+        "g": "grp_core_mqtt_in"
+    },
+    {
+        "id": "5d2560faf3fe189d",
+        "type": "http response",
+        "z": "a590ee13ea79a46a",
+        "name": "HTTP response",
+        "statusCode": "",
+        "headers": {},
+        "x": 1180,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "2baaee202fda6706",
+        "type": "mqtt out",
+        "z": "a590ee13ea79a46a",
+        "name": "MQTT entry barrier cmd",
+        "topic": "smartparking/entry/barrier/cmd",
+        "qos": "1",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "application/json",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "cfg_mqtt_local",
+        "x": 1180,
+        "y": 440,
+        "wires": [],
+        "g": "grp_core_mqtt_out"
+    },
+    {
+        "id": "acfa563bc0d43251",
+        "type": "mqtt out",
+        "z": "a590ee13ea79a46a",
+        "name": "MQTT entry display cmd",
+        "topic": "smartparking/entry/display/cmd",
+        "qos": "1",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "application/json",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "cfg_mqtt_local",
+        "x": 1180,
+        "y": 510,
+        "wires": [],
+        "g": "grp_core_mqtt_out"
+    },
+    {
+        "id": "ee1342b891b54760",
+        "type": "mqtt out",
+        "z": "a590ee13ea79a46a",
+        "name": "MQTT exit barrier cmd",
+        "topic": "smartparking/exit/barrier/cmd",
+        "qos": "1",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "application/json",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "cfg_mqtt_local",
+        "x": 1180,
+        "y": 580,
+        "wires": [],
+        "g": "grp_core_mqtt_out"
+    },
+    {
+        "id": "37d48dd5e8e3b913",
+        "type": "mqtt out",
+        "z": "a590ee13ea79a46a",
+        "name": "MQTT exit display cmd",
+        "topic": "smartparking/exit/display/cmd",
+        "qos": "1",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "application/json",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "cfg_mqtt_local",
+        "x": 1180,
+        "y": 650,
+        "wires": [],
+        "g": "grp_core_mqtt_out"
+    },
+    {
+        "id": "6069db40bda97ebd",
+        "type": "catch",
+        "z": "a590ee13ea79a46a",
+        "name": "Catch flow errors",
+        "scope": null,
+        "uncaught": false,
+        "x": 120,
+        "y": 900,
+        "wires": [
+            [
+                "2843ffd55c1be8d9"
+            ]
+        ]
+    },
+    {
+        "id": "2843ffd55c1be8d9",
+        "type": "debug",
+        "z": "a590ee13ea79a46a",
+        "name": "Debug flow errors",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 360,
+        "y": 900,
+        "wires": []
+    },
+    {
+        "id": "grp_dashboard_api",
+        "type": "group",
+        "z": "a590ee13ea79a46a",
+        "name": "Dashboard/API (kept in Core for now)",
+        "style": {
+            "label": true,
+            "stroke": "#7fb7d7",
+            "fill": "#e3f3fb",
+            "color": "#000000"
+        },
+        "nodes": [
+            "c51cf50e607efc1b",
+            "c3d8025536b5918c",
+            "7c1ea52e4983611a",
+            "15a4be55b7a2c332",
+            "f8c7b6f5f094a3ae",
+            "64baebe0dfd72798",
+            "75afc2d166f81e49",
+            "17a1aef186c6be9e",
+            "64194175b13db0fa",
+            "5eeaeeaea1e91069",
+            "ddf66fec74345f5d",
+            "898f14ade1a1b122"
+        ],
+        "x": 14,
+        "y": 59,
+        "w": 486,
+        "h": 452
+    },
+    {
+        "id": "grp_core_mqtt_in",
+        "type": "group",
+        "z": "a590ee13ea79a46a",
+        "name": "Core MQTT Inputs",
+        "style": {
+            "label": true,
+            "stroke": "#92d04f",
+            "fill": "#eaf7df",
+            "color": "#000000"
+        },
+        "nodes": [
+            "8c9f052b472d0187",
+            "9616dff48dfa02c6",
+            "5afbe66b060f4846",
+            "187986b34dfe9767",
+            "d17aadf21332eb6d",
+            "72dfc77de7ad3f34",
+            "legacy_lpr_in",
+            "normalize_lpr_detection"
+        ],
+        "x": 14,
+        "y": 579,
+        "w": 526,
+        "h": 252
+    },
+    {
+        "id": "grp_core_mqtt_out",
+        "type": "group",
+        "z": "a590ee13ea79a46a",
+        "name": "Core MQTT Commands",
+        "style": {
+            "label": true,
+            "stroke": "#ffb000",
+            "fill": "#fff2cc",
+            "color": "#000000"
+        },
+        "nodes": [
+            "2baaee202fda6706",
+            "acfa563bc0d43251",
+            "ee1342b891b54760",
+            "37d48dd5e8e3b913"
+        ],
+        "x": 1054,
+        "y": 399,
+        "w": 266,
+        "h": 292
+    },
+    {
+        "id": "legacy_lpr_in",
+        "type": "mqtt in",
+        "z": "a590ee13ea79a46a",
+        "g": "grp_core_mqtt_in",
+        "name": "MQTT legacy LPR detection",
+        "topic": "parking/+/detection",
+        "qos": "1",
+        "datatype": "auto-detect",
+        "broker": "cfg_mqtt_local",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 130,
+        "y": 820,
+        "wires": [
+            [
+                "normalize_lpr_detection"
+            ]
+        ]
+    },
+    {
+        "id": "normalize_lpr_detection",
+        "type": "function",
+        "z": "a590ee13ea79a46a",
+        "g": "grp_core_mqtt_in",
+        "name": "Normalize LPR detection",
+        "func": "function body(p) {\n    if (typeof p === \"string\") {\n        try {\n            return JSON.parse(p);\n        } catch (e) {\n            return {};\n        }\n    }\n\n    return p || {};\n}\n\nfunction plate(v) {\n    return String(v == null ? \"\" : v).trim().toUpperCase().replace(/\\s+/g, \"\");\n}\n\nvar b = body(msg.payload);\nvar camera = String(b.camera || \"\").toLowerCase();\nvar p = plate(b.plate);\nvar normalized = {\n    plate: p,\n    timestamp: b.timestamp,\n    confidence: b.confidence\n};\n\nif (!p) {\n    node.warn(\"Legacy LPR payload missing plate: \" + JSON.stringify(b));\n    return [null, null];\n}\n\nif (camera === \"entrance\" || camera === \"entry\") {\n    normalized.source = \"entry-camera\";\n    msg.payload = normalized;\n    return [msg, null];\n}\n\nif (camera === \"exit\") {\n    normalized.source = \"exit-camera\";\n    msg.payload = normalized;\n    return [null, msg];\n}\n\nnode.warn(\"Legacy LPR payload has unknown camera: \" + JSON.stringify(b));\nreturn [null, null];",
+        "outputs": 2,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 820,
+        "wires": [
+            [
+                "9616dff48dfa02c6"
+            ],
+            [
+                "187986b34dfe9767"
+            ]
+        ]
+    },
+    {
+        "id": "cfg_sqlite_smart_parking",
+        "type": "sqlitedb",
+        "db": "/home/iot/database/parking.db",
+        "mode": "RWC"
+    },
+    {
+        "id": "cfg_mqtt_local",
+        "type": "mqtt-broker",
+        "name": "Local MQTT Broker",
+        "broker": "127.0.0.1",
+        "port": "1883",
+        "clientid": "node-red-smart-parking-backend",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    }
+]
