@@ -1,0 +1,2 @@
+It is important to keep the test set completely separate because it should represent unseen data that the model has never been trained or tuned on. If the test set is used during development, the model or its parameters may indirectly adapt to it, which would make the final accuracy look better than it really is. By only using the test set at the end, we get a more realistic estimate of how well the model generalizes to new gesture data.
+--> Reduce Overfitting
