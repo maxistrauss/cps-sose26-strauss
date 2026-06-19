@@ -1,0 +1,1 @@
+The test set accuracy matches the 100% accuracy achieved during the training and validation phase. This consistency is an indicator that your model is not overfit. If the model were overfit, there would been a significantly lower performance on the test set, as the model would have failed to apply patterns it memorized during training to new, unseen testing data.
