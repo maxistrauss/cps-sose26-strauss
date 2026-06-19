@@ -10,319 +10,144 @@
         "id": "10041b2318b3be56",
         "type": "mqtt in",
         "z": "f0a60e80c07767ec",
-        "name": "Detections",
-        "topic": "parking/+/detection",
+        "name": "Status",
+        "topic": "+/status",
         "qos": "2",
         "datatype": "json",
-        "broker": "mqtt_broker_local",
+        "broker": "7676e29357fc338f",
         "nl": false,
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 110,
+        "x": 100,
         "y": 120,
         "wires": [
             [
-                "fe540758bce2bf27",
-                "19a7ed2542c5bc5d"
+                "ca7c9732882e2dbe",
+                "bf759d564c522495"
             ]
         ]
     },
     {
-        "id": "fe540758bce2bf27",
-        "type": "function",
+        "id": "ca7c9732882e2dbe",
+        "type": "exec",
         "z": "f0a60e80c07767ec",
-        "name": "Brain Logic (Entry/Exit)",
-        "func": "let parkedCars = global.get('parkedCars') || [];\nlet detection = msg.payload;\nlet plate = detection.plate;\nlet camera = detection.camera;\n\nlet commandMsg = null;\n\nif (camera === \"entrance\") {\n    if (!parkedCars.includes(plate)) {\n        parkedCars.push(plate);\n        global.set('parkedCars', parkedCars);\n    }\n    commandMsg = {\n        topic: \"parking/entrance/barrier/command\",\n        payload: { command: \"OPEN\", plate: plate }\n    };\n} \nelse if (camera === \"exit\") {\n    if (parkedCars.includes(plate)) {\n        parkedCars = parkedCars.filter(c => c !== plate);\n        global.set('parkedCars', parkedCars);\n        commandMsg = {\n            topic: \"parking/exit/barrier/command\",\n            payload: { command: \"OPEN\", plate: plate }\n        };\n    }\n}\n\n// Update List for UI\nlet listMsg = { payload: parkedCars.map(p => ({plate: p})) };\n\nreturn [commandMsg, listMsg];",
-        "outputs": 2,
-        "timeout": "",
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 350,
-        "y": 120,
+        "command": "~/Nummernschilderkennung/venv/bin/python3 ~/Nummernschilderkennung/display_control.py",
+        "addpay": "payload.display_text",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "Show Display",
+        "x": 640,
+        "y": 60,
         "wires": [
             [
-                "27bc8714037ea4bd",
-                "b715a80bb55afe30"
+                "9b77fd353b95761e"
             ],
             [
-                "5f5168d7a6851390"
+                "9b77fd353b95761e"
+            ],
+            [
+                "9b77fd353b95761e"
             ]
         ]
     },
     {
-        "id": "27bc8714037ea4bd",
-        "type": "mqtt out",
+        "id": "bf759d564c522495",
+        "type": "switch",
         "z": "f0a60e80c07767ec",
-        "name": "Barrier Command",
-        "topic": "",
-        "qos": "",
-        "retain": "",
-        "respTopic": "",
-        "contentType": "",
-        "userProps": "",
-        "correl": "",
-        "expiry": "",
-        "broker": "bf2746feeb6e0745",
-        "x": 970,
-        "y": 160,
-        "wires": []
-    },
-    {
-        "id": "6da1a7fa9d305e7e",
-        "type": "ui-template",
-        "z": "f0a60e80c07767ec",
-        "group": "5e9e97f51842effd",
-        "page": "",
-        "ui": "",
-        "name": "Live Feed Entrance",
-        "order": 1,
-        "width": "0",
-        "height": "0",
-        "format": "<div style=\"text-align:center;\">\n    <h4>Einfahrt</h4>\n    <img src=\"http://localhost:5000/video_feed\" style=\"width:100%; border-radius: 8px; border: 2px solid #00aaff;\">\n</div>",
-        "storeOutMessages": true,
-        "passthru": true,
-        "resendOnRefresh": true,
-        "templateScope": "local",
-        "className": "",
-        "x": 130,
-        "y": 300,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "0369e0420249f875",
-        "type": "ui-template",
-        "z": "f0a60e80c07767ec",
-        "group": "5e9e97f51842effd",
-        "page": "",
-        "ui": "",
-        "name": "Live Feed Exit",
-        "order": 2,
-        "width": "0",
-        "height": "0",
-        "format": "<div style=\"text-align:center;\">\n    <h4>Ausfahrt</h4>\n    <img src=\"http://localhost:5001/video_feed\" style=\"width:100%; border-radius: 8px; border: 2px solid #ff4400;\">\n</div>",
-        "storeOutMessages": true,
-        "passthru": true,
-        "resendOnRefresh": true,
-        "templateScope": "local",
-        "className": "",
-        "x": 370,
-        "y": 300,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "19a7ed2542c5bc5d",
-        "type": "ui-text",
-        "z": "f0a60e80c07767ec",
-        "group": "49863a8301398fbf",
-        "order": 1,
-        "width": "0",
-        "height": "0",
-        "name": "Last Plate",
-        "label": "Zuletzt erkannt:",
-        "format": "{{msg.payload.plate}}",
-        "layout": "row-spread",
-        "style": false,
-        "font": "",
-        "fontSize": "",
-        "color": "#000000",
-        "wrapText": false,
-        "className": "",
-        "value": "payload.plate",
-        "valueType": "msg",
-        "x": 360,
-        "y": 180,
-        "wires": []
-    },
-    {
-        "id": "5f5168d7a6851390",
-        "type": "ui-table",
-        "z": "f0a60e80c07767ec",
-        "group": "2b5dd984c4584bb0",
-        "name": "Parked Cars Table",
-        "label": "",
-        "order": 1,
-        "width": "0",
-        "height": "0",
-        "maxrows": "",
-        "autocols": true,
-        "showSearch": false,
-        "deselect": true,
-        "selectionType": "none",
-        "columns": [
+        "name": "Logic Barrier",
+        "property": "payload.status",
+        "propertyType": "msg",
+        "rules": [
             {
-                "title": "",
-                "key": "plate",
-                "keyType": "key",
-                "width": "100%"
+                "t": "eq",
+                "v": "allowed",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "denied",
+                "vt": "str"
             }
         ],
-        "mobileBreakpoint": "sm",
-        "mobileBreakpointType": "defaults",
-        "action": "append",
-        "className": "",
-        "x": 970,
-        "y": 220,
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 630,
+        "y": 140,
         "wires": [
+            [
+                "9dbc3fb94b257b27"
+            ],
             []
         ]
     },
     {
-        "id": "b715a80bb55afe30",
+        "id": "9dbc3fb94b257b27",
+        "type": "exec",
+        "z": "f0a60e80c07767ec",
+        "command": "~/Nummernschilderkennung/venv/bin/python3 ~/Nummernschilderkennung/motor_control.py",
+        "addpay": "",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "Open Barrier",
+        "x": 810,
+        "y": 140,
+        "wires": [
+            [
+                "1e7d1bc2bd3d140f"
+            ],
+            [
+                "1e7d1bc2bd3d140f"
+            ],
+            [
+                "1e7d1bc2bd3d140f"
+            ]
+        ]
+    },
+    {
+        "id": "9b77fd353b95761e",
         "type": "debug",
         "z": "f0a60e80c07767ec",
-        "name": "Action Log",
+        "name": "debug 2",
         "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
+        "complete": "false",
         "statusVal": "",
         "statusType": "auto",
-        "x": 950,
-        "y": 100,
+        "x": 880,
+        "y": 40,
         "wires": []
     },
     {
-        "id": "32dc35a6570223fc",
-        "type": "http request",
+        "id": "1e7d1bc2bd3d140f",
+        "type": "debug",
         "z": "f0a60e80c07767ec",
-        "d": true,
-        "name": "",
-        "method": "GET",
-        "ret": "txt",
-        "paytoqs": false,
-        "url": "",
-        "persist": false,
-        "insecureHTTPParser": false,
-        "authType": "",
-        "senderr": false,
-        "headers": [],
-        "x": 830,
-        "y": 500,
-        "wires": [
-            [
-                "04df05db0706cb52"
-            ]
-        ]
-    },
-    {
-        "id": "60b29258bd7732a0",
-        "type": "function",
-        "z": "f0a60e80c07767ec",
-        "d": true,
-        "name": "Post licence",
-        "func": "// 1. Input-Daten aus dem MQTT-In Node extrahieren\nlet detection = msg.payload;\nlet plate = detection.plate;\nlet camera = detection.camera;\nlet timestamp = detection.timestamp;\n\n// 2. HTTP-Request-Objekt vorbereiten\nmsg.method = \"POST\";\nmsg.headers = {\n    \"Content-Type\": \"application/json\"\n};\n\n// 3. Logik-Unterscheidung nach Kamera/Schranke\nif (camera === \"entrance\") {\n    // Ziel-URL für das Einfahrts-Backend setzen\n    msg.url = \"http://localhost:8080/api/parking/entry\";\n\n    // Payload für die Datenbank-Sitzung und Event-Log (ENTRY_PLATE_DETECTED) schnüren\n    msg.payload = {\n        plate: plate,\n        camera: camera,\n        timestamp: timestamp,\n        eventType: \"ENTRY_PLATE_DETECTED\",\n        message: `Fahrzeug ${plate} an Einfahrt erkannt.`\n    };\n\n} else if (camera === \"exit\") {\n    // Ziel-URL für das Ausfahrts-Backend (inkl. Bezahl-Check) setzen\n    msg.url = \"http://localhost:8080/api/parking/exit\";\n\n    // Payload für den Bezahl-Check und Event-Log (EXIT_PLATE_DETECTED) schnüren\n    msg.payload = {\n        plate: plate,\n        camera: camera,\n        timestamp: timestamp,\n        eventType: \"EXIT_PLATE_DETECTED\",\n        message: `Fahrzeug ${plate} an Ausfahrt erkannt. Bezahlstatus wird geprüft.`\n    };\n} else {\n    // Fallback für unbekannte Kamera-IDs\n    node.warn(`Unbekannte Kamera-ID erkannt: ${camera}`);\n    return null;\n}\n\n// 4. Modifizierte Nachricht an den nächsten Node (HTTP Request) weiterleiten\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 550,
-        "y": 500,
-        "wires": [
-            [
-                "32dc35a6570223fc"
-            ]
-        ]
-    },
-    {
-        "id": "04df05db0706cb52",
-        "type": "function",
-        "z": "f0a60e80c07767ec",
-        "d": true,
-        "name": "Check for valid licence",
-        "func": "// 1. Die HTTP-Antwort vom Backend abgreifen\n// Wir erwarten vom Backend ein JSON wie: { \"access\": true, \"message\": \"Valid entry/payment\" }\nlet apiResponse = msg.payload; \nlet httpStatusCode = msg.statusCode;\n\n// Falls das Backend das Kennzeichen mitschickt, nutzen wir es, ansonsten Fallback auf das originale msg.payload.plate\nlet plate = apiResponse.plate || msg.payload.plate;\nlet camera = msg.payload.camera; // Wird aus dem vorherigen Zustand mitgeschleift\n\n// 2. Prüfen, ob der API-Call erfolgreich war (HTTP Status 200) und das Backend \"Grünes Licht\" gibt\nif (httpStatusCode === 200 && apiResponse.access === true) {\n    \n    // Dynamisch das richtige MQTT-Topic basierend auf der Kamera bestimmen\n    if (camera === \"entrance\") {\n        msg.topic = \"parking/entrance/barrier/command\";\n    } else if (camera === \"exit\") {\n        msg.topic = \"parking/exit/barrier/command\";\n    }\n\n    // Die Payload für den Schranken-Aktor schnüren\n    msg.payload = {\n        command: \"OPEN\",\n        plate: plate,\n        timestamp: new Date().toISOString()\n    };\n    \n    node.log(`Schrankenöffnung freigegeben für: ${plate} an ${camera}`);\n    return msg; // Nachricht weiterleiten an den \"MQTT Out\"-Node\n    \n} else {\n    // Falls das Backend den Zugriff verweigert (z.B. weil nicht bezahlt wurde)\n    node.warn(`Zufahrt/Ausfahrt verweigert für ${plate}. Grund: ${apiResponse.message || \"Unbekannter Fehler\"}`);\n    \n    // Optional: Du könntest hier eine Nachricht an ein Dashboard-Textfeld ausgeben\n    // Um den Flow hier abzubrechen, geben wir einfach null zurück\n    return null;\n}",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1120,
-        "y": 500,
-        "wires": [
-            [
-                "1796ff1d744e86ea"
-            ]
-        ]
-    },
-    {
-        "id": "a4b37eacca33de5b",
-        "type": "mqtt in",
-        "z": "f0a60e80c07767ec",
-        "d": true,
-        "name": "Detections",
-        "topic": "parking/+/detection",
-        "qos": "2",
-        "datatype": "json",
-        "broker": "mqtt_broker_local",
-        "nl": false,
-        "rap": true,
-        "rh": 0,
-        "inputs": 0,
-        "x": 320,
-        "y": 500,
-        "wires": [
-            [
-                "60b29258bd7732a0"
-            ]
-        ]
-    },
-    {
-        "id": "1796ff1d744e86ea",
-        "type": "mqtt out",
-        "z": "f0a60e80c07767ec",
-        "d": true,
-        "name": "Barrier Command",
-        "topic": "",
-        "qos": "",
-        "retain": "",
-        "respTopic": "",
-        "contentType": "",
-        "userProps": "",
-        "correl": "",
-        "expiry": "",
-        "broker": "bf2746feeb6e0745",
-        "x": 1350,
-        "y": 500,
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1040,
+        "y": 220,
         "wires": []
     },
     {
-        "id": "mqtt_broker_local",
+        "id": "7676e29357fc338f",
         "type": "mqtt-broker",
-        "name": "Local Mosquitto",
-        "broker": "localhost",
-        "port": "1883",
-        "clientid": "NodeRedBrain",
-        "autoConnect": true,
-        "usetls": false,
-        "protocolVersion": "4",
-        "keepalive": "60",
-        "cleansession": true,
-        "birthTopic": "",
-        "birthQos": "0",
-        "birthPayload": "",
-        "closeTopic": "",
-        "closeQos": "0",
-        "closePayload": "",
-        "willTopic": "",
-        "willQos": "0",
-        "willPayload": ""
-    },
-    {
-        "id": "bf2746feeb6e0745",
-        "type": "mqtt-broker",
-        "name": "localhost",
-        "broker": "localhost",
+        "name": "Max PC",
+        "broker": "192.168.188.167",
         "port": 1883,
         "clientid": "",
         "autoConnect": true,
@@ -348,130 +173,5 @@
         "willMsg": {},
         "userProps": "",
         "sessionExpiry": ""
-    },
-    {
-        "id": "5e9e97f51842effd",
-        "type": "ui-group",
-        "name": "Live Feed",
-        "page": "348612c5236e6071",
-        "width": 6,
-        "height": 1,
-        "order": -1,
-        "showTitle": true,
-        "className": "",
-        "visible": "true",
-        "disabled": "false",
-        "groupType": "default"
-    },
-    {
-        "id": "49863a8301398fbf",
-        "type": "ui-group",
-        "name": "Status",
-        "page": "348612c5236e6071",
-        "width": 6,
-        "height": 1,
-        "order": -1,
-        "showTitle": true,
-        "className": "",
-        "visible": "true",
-        "disabled": "false",
-        "groupType": "default"
-    },
-    {
-        "id": "2b5dd984c4584bb0",
-        "type": "ui-group",
-        "name": "Parked Cars",
-        "page": "348612c5236e6071",
-        "width": 6,
-        "height": 1,
-        "order": -1,
-        "showTitle": true,
-        "className": "",
-        "visible": "true",
-        "disabled": "false",
-        "groupType": "default"
-    },
-    {
-        "id": "348612c5236e6071",
-        "type": "ui-page",
-        "name": "Page 1",
-        "ui": "c6d73ef3ad8f6c87",
-        "path": "/page1",
-        "icon": "home",
-        "layout": "grid",
-        "theme": "3fb5e1a015986f42",
-        "breakpoints": [
-            {
-                "name": "Default",
-                "px": 0,
-                "cols": 3
-            },
-            {
-                "name": "Tablet",
-                "px": 576,
-                "cols": 6
-            },
-            {
-                "name": "Small Desktop",
-                "px": 768,
-                "cols": 9
-            },
-            {
-                "name": "Desktop",
-                "px": 1024,
-                "cols": 12
-            }
-        ],
-        "order": 1,
-        "className": "",
-        "visible": "true",
-        "disabled": "false"
-    },
-    {
-        "id": "c6d73ef3ad8f6c87",
-        "type": "ui-base",
-        "name": "My Dashboard",
-        "path": "/dashboard",
-        "appIcon": "",
-        "includeClientData": true,
-        "acceptsClientConfig": [
-            "ui-notification",
-            "ui-control"
-        ],
-        "showPathInSidebar": false,
-        "headerContent": "page",
-        "navigationStyle": "default",
-        "titleBarStyle": "default",
-        "showReconnectNotification": true,
-        "notificationDisplayTime": 1,
-        "showDisconnectNotification": true,
-        "allowInstall": false
-    },
-    {
-        "id": "3fb5e1a015986f42",
-        "type": "ui-theme",
-        "name": "Default Theme",
-        "colors": {
-            "surface": "#ffffff",
-            "primary": "#0094CE",
-            "bgPage": "#eeeeee",
-            "groupBg": "#ffffff",
-            "groupOutline": "#cccccc"
-        },
-        "sizes": {
-            "density": "default",
-            "pagePadding": "12px",
-            "groupGap": "12px",
-            "groupBorderRadius": "4px",
-            "widgetGap": "12px"
-        }
-    },
-    {
-        "id": "1eea3b2ba03dfcb0",
-        "type": "global-config",
-        "env": [],
-        "modules": {
-            "@flowfuse/node-red-dashboard": "1.30.2"
-        }
     }
 ]

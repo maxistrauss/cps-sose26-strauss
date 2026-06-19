@@ -1,9 +1,0 @@
-ultralytics
-easyocr
-opencv-python
-fastapi
-uvicorn
-requests
-RPi.GPIO; sys_platform == 'linux'
-paho-mqtt
-flask
