@@ -4,3 +4,8 @@ studienarbeit/Nummernschilderkennung/cps
 studienarbeit/Nummernschilderkennung/docker-compose.yml
 .vscode
 studienarbeit/Nummernschilderkennung/mosquitto.conf
+studienarbeit/Nummernschilderkennung/yolov8n_ncnn_model/metadata.yaml
+studienarbeit/Nummernschilderkennung/yolov8n_ncnn_model/model_ncnn.py
+studienarbeit/Nummernschilderkennung/yolov8n_ncnn_model/model.ncnn.bin
+studienarbeit/Nummernschilderkennung/yolov8n_ncnn_model/model.ncnn.param
+studienarbeit/Nummernschilderkennung/yolov8n_ncnn_model/__pycache__/model_pnnx.cpython-312.pyc

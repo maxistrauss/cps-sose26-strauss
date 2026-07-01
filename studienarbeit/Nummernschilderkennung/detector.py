@@ -19,9 +19,9 @@ parser.add_argument('--port', type=int, default=5000, help='Flask Stream Port')
 args = parser.parse_args()
 
 CAMERA_ID = args.id
-MQTT_BROKER = "192.168.188.167"
+MQTT_BROKER = "192.168.12.1"
 MQTT_TOPIC = f"{CAMERA_ID}/plate"
-YOLO_MODEL_PATH = "/home/iot/Nummernschilderkennung/yolov8n.onnx"
+YOLO_MODEL_PATH = "/home/iot/Nummernschilderkennung/yolov8n_ncnn_model"
 DETECTION_THRESHOLD = 0.5
 DEBOUNCE_SECONDS = 5
 STREAM_PORT = args.port
@@ -40,9 +40,9 @@ warnings.filterwarnings("ignore", category=UserWarning)
 GERMAN_PLATE_PATTERN = re.compile(r"^[A-ZÄÖÜ]{1,3}[A-Z]{1,2}[0-9]{1,4}[EH]?$")
 
 # Performance settings
-PROCESS_EVERY_N_FRAMES = 3  
+PROCESS_EVERY_N_FRAMES = 5  
 PROCESSING_WIDTH = 720      
-STREAM_WIDTH = 640          
+STREAM_WIDTH = 400          
 STABILIZATION_WINDOW = 20.0  
 STABILIZATION_MIN_SAMPLES = 2 
 MIN_PLATE_LENGTH = 3        
@@ -161,7 +161,7 @@ class ProcessingThread(threading.Thread):
             scale_y = process_frame.shape[0] / small_frame.shape[0]
             
             # Task explizit übergeben, um YOLO-Warnung zu stoppen
-            results = self.model(small_frame, verbose=False, task='detect')
+            results = self.model(small_frame, verbose=False, task='detect', device='cpu')
             new_detections = []
             
             for result in results:
@@ -238,7 +238,8 @@ def generate():
         with lock:
             if output_frame is None:
                 continue
-            (flag, encodedImage) = cv2.imencode(".jpg", output_frame)
+            encode_param = [int(cv2.IMWRITE_JPEG_QUALITY), 40]  # Qualität leicht runter für flüssigen Stream
+            (flag, encodedImage) = cv2.imencode(".jpg", output_frame, encode_param)
             if not flag:
                 continue
         yield (b'--frame\r\n' b'Content-Type: image/jpeg\r\n\r\n' + bytearray(encodedImage) + b'\r\n')
