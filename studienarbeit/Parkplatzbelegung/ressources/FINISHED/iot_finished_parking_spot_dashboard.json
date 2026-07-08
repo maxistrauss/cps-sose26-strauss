@@ -1,0 +1,275 @@
+[
+    {
+        "id": "3ee8989cd21f8d17",
+        "type": "tab",
+        "label": "Studienarbeit Dasbboard Controll",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "8187180385c6fbd9",
+        "type": "comment",
+        "z": "3ee8989cd21f8d17",
+        "name": "Controlling the Dashboard",
+        "info": "",
+        "x": 310,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "729b01f2aa8d1efb",
+        "type": "ui-template",
+        "z": "3ee8989cd21f8d17",
+        "group": "a5cc63c6f0f91a22",
+        "page": "",
+        "ui": "",
+        "name": "Parkbelegung Dashboard",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "head": "",
+        "format": "<template>\n  <div class=\"map-container\">\n    <img src=\"/images/Parkplatz_image_polished.png\" class=\"map-image\" />\n\n    <div\n      v-for=\"sensor in sensorList\"\n      :key=\"sensor.id\"\n      class=\"status-led\"\n      :class=\"getColor(sensor.id)\"\n      :style=\"{ left: sensor.x + '%', top: sensor.y + '%' }\"\n    ></div>\n  </div>\n</template>\n\n<script>\nexport default {\n  data() {\n    return {\n      sensors: {},\n      sensorList: [\n        // ADD THE SENSOR NAMES HERE\n        // FLOWS OF EACH SENSOR SHOULD SEND THE DATA IN FORMAT: sensor1_GREEN, sensor2_RED, etc\n        { id: \"sensor1\", x: 87, y: 50 }/*,\n        { id: \"sensor2\", x: 65, y: 40 }*/\n      ]\n    }\n  },\n\n  watch: {\n    msg: {\n      handler(newMsg) {\n        if (!newMsg || !newMsg.payload) return\n\n        const parts = String(newMsg.payload).split(\"_\")\n        if (parts.length !== 2) return\n\n        const sensorId = parts[0]\n        const state = parts[1].toUpperCase()\n\n        this.sensors[sensorId] = state\n      },\n      deep: true\n    }\n  },\n\n  methods: {\n    getColor(sensorId) {\n      const state = this.sensors[sensorId] || \"GREEN\"\n      return state.toLowerCase()\n    }\n  }\n}\n</script>\n\n<style>\n.map-container {\n  position: relative;\n  width: 100%;\n}\n\n.map-image {\n  width: 100%;\n  display: block;\n}\n\n.status-led {\n  position: absolute;\n  width: 24px;\n  height: 24px;\n  border-radius: 50%;\n  transform: translate(-50%, -50%);\n  border: 2px solid black;\n  box-shadow: 0 0 8px black;\n  z-index: 10;\n}\n\n.status-led.green {\n  background-color: limegreen;\n}\n\n.status-led.red {\n  background-color: red;\n}\n</style>",
+        "storeOutMessages": true,
+        "passthru": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 710,
+        "y": 340,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "2eec62608204f890",
+        "type": "mqtt in",
+        "z": "3ee8989cd21f8d17",
+        "name": "",
+        "topic": "controll/dashboard/parkplatzbelegung",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "bf477254db0f7a8f",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 350,
+        "y": 340,
+        "wires": [
+            [
+                "729b01f2aa8d1efb"
+            ]
+        ]
+    },
+    {
+        "id": "5250da4bfefc360c",
+        "type": "inject",
+        "z": "3ee8989cd21f8d17",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "sensor1_GREEN",
+        "payloadType": "str",
+        "x": 420,
+        "y": 380,
+        "wires": [
+            [
+                "729b01f2aa8d1efb"
+            ]
+        ]
+    },
+    {
+        "id": "2dadb2348e16de7f",
+        "type": "inject",
+        "z": "3ee8989cd21f8d17",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "sensor1_RED",
+        "payloadType": "str",
+        "x": 430,
+        "y": 420,
+        "wires": [
+            [
+                "729b01f2aa8d1efb"
+            ]
+        ]
+    },
+    {
+        "id": "0056c8662f3cdadf",
+        "type": "inject",
+        "z": "3ee8989cd21f8d17",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "sensor1_GREEN",
+        "payloadType": "str",
+        "x": 420,
+        "y": 460,
+        "wires": [
+            [
+                "729b01f2aa8d1efb"
+            ]
+        ]
+    },
+    {
+        "id": "30acc1582790d023",
+        "type": "comment",
+        "z": "3ee8989cd21f8d17",
+        "name": "The sensor-ID must be the first part of the mqtt topic string (before _)",
+        "info": "",
+        "x": 440,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "f70e10e6f821c823",
+        "type": "link in",
+        "z": "3ee8989cd21f8d17",
+        "name": "link to Dashboard",
+        "links": [
+            "384fba04704a03b5"
+        ],
+        "x": 485,
+        "y": 300,
+        "wires": [
+            [
+                "729b01f2aa8d1efb"
+            ]
+        ]
+    },
+    {
+        "id": "a5cc63c6f0f91a22",
+        "type": "ui-group",
+        "name": "ParkbelegungGroup",
+        "page": "df16961857506df8",
+        "width": 6,
+        "height": 1,
+        "order": -1,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "bf477254db0f7a8f",
+        "type": "mqtt-broker",
+        "name": "IoT Gateway",
+        "broker": "192.168.8.110",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "df16961857506df8",
+        "type": "ui-page",
+        "name": "Parkbelegung",
+        "ui": "811db6c61ceef137",
+        "path": "/parkingLot",
+        "icon": "home",
+        "layout": "grid",
+        "theme": "default",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": "0",
+                "cols": "3"
+            },
+            {
+                "name": "Tablet",
+                "px": "576",
+                "cols": "6"
+            },
+            {
+                "name": "Small Desktop",
+                "px": "768",
+                "cols": "9"
+            },
+            {
+                "name": "Desktop",
+                "px": "1024",
+                "cols": "12"
+            }
+        ],
+        "order": -1,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "811db6c61ceef137",
+        "type": "ui-base",
+        "name": "My Dashboard",
+        "path": "/dashboard",
+        "appIcon": "",
+        "includeClientData": true,
+        "acceptsClientConfig": [
+            "ui-notification",
+            "ui-control"
+        ],
+        "showPathInSidebar": false,
+        "headerContent": "page",
+        "navigationStyle": "default",
+        "titleBarStyle": "default",
+        "showReconnectNotification": true,
+        "notificationDisplayTime": 1,
+        "showDisconnectNotification": true,
+        "allowInstall": false
+    },
+    {
+        "id": "329d633afa9278a2",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "@flowfuse/node-red-dashboard": "1.30.2"
+        }
+    }
+]
