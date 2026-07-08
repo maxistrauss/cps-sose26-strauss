@@ -1,0 +1,2111 @@
+[
+    {
+        "id": "10ad6452d5deba9a",
+        "type": "tab",
+        "label": "Smart Parking – Backend",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "510590e166db43cb",
+        "type": "inject",
+        "z": "10ad6452d5deba9a",
+        "name": "① INIT – DB komplett reset",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "start",
+        "payloadType": "str",
+        "x": 170,
+        "y": 100,
+        "wires": [
+            [
+                "71b191108e788937"
+            ]
+        ]
+    },
+    {
+        "id": "71b191108e788937",
+        "type": "function",
+        "z": "10ad6452d5deba9a",
+        "name": "DROP event_logs",
+        "func": "msg.topic = 'DROP TABLE IF EXISTS event_logs;'; return msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 100,
+        "wires": [
+            [
+                "52f0df2fd7ffb241"
+            ]
+        ]
+    },
+    {
+        "id": "52f0df2fd7ffb241",
+        "type": "sqlite",
+        "z": "10ad6452d5deba9a",
+        "mydb": "cfg_db",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "sqlite drop_event_logs",
+        "x": 780,
+        "y": 100,
+        "wires": [
+            [
+                "9726d40c86262995"
+            ]
+        ]
+    },
+    {
+        "id": "9726d40c86262995",
+        "type": "function",
+        "z": "10ad6452d5deba9a",
+        "name": "DROP rfid_admin_releases",
+        "func": "msg.topic = 'DROP TABLE IF EXISTS rfid_admin_releases;'; return msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 170,
+        "wires": [
+            [
+                "995913d10f55f167"
+            ]
+        ]
+    },
+    {
+        "id": "995913d10f55f167",
+        "type": "sqlite",
+        "z": "10ad6452d5deba9a",
+        "mydb": "cfg_db",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "sqlite drop_rfid_releases",
+        "x": 780,
+        "y": 170,
+        "wires": [
+            [
+                "649aebdaaf230d72"
+            ]
+        ]
+    },
+    {
+        "id": "649aebdaaf230d72",
+        "type": "function",
+        "z": "10ad6452d5deba9a",
+        "name": "DROP event_types",
+        "func": "msg.topic = 'DROP TABLE IF EXISTS event_types;'; return msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 240,
+        "wires": [
+            [
+                "751caa3378f86b4c"
+            ]
+        ]
+    },
+    {
+        "id": "751caa3378f86b4c",
+        "type": "sqlite",
+        "z": "10ad6452d5deba9a",
+        "mydb": "cfg_db",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "sqlite drop_event_types",
+        "x": 780,
+        "y": 240,
+        "wires": [
+            [
+                "1b1cda92a5ea7809"
+            ]
+        ]
+    },
+    {
+        "id": "1b1cda92a5ea7809",
+        "type": "function",
+        "z": "10ad6452d5deba9a",
+        "name": "DROP user_admins",
+        "func": "msg.topic = 'DROP TABLE IF EXISTS user_admins;'; return msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 310,
+        "wires": [
+            [
+                "e27b51c7769cf881"
+            ]
+        ]
+    },
+    {
+        "id": "e27b51c7769cf881",
+        "type": "sqlite",
+        "z": "10ad6452d5deba9a",
+        "mydb": "cfg_db",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "sqlite drop_user_admins",
+        "x": 780,
+        "y": 310,
+        "wires": [
+            [
+                "98e5ee6dfa4ab5b3"
+            ]
+        ]
+    },
+    {
+        "id": "98e5ee6dfa4ab5b3",
+        "type": "function",
+        "z": "10ad6452d5deba9a",
+        "name": "DROP parking_spots",
+        "func": "msg.topic = 'DROP TABLE IF EXISTS parking_spots;'; return msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 380,
+        "wires": [
+            [
+                "e6ce4b5d48caa741"
+            ]
+        ]
+    },
+    {
+        "id": "e6ce4b5d48caa741",
+        "type": "sqlite",
+        "z": "10ad6452d5deba9a",
+        "mydb": "cfg_db",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "sqlite drop_parking_spots",
+        "x": 780,
+        "y": 380,
+        "wires": [
+            [
+                "2d79dc3b827279d8"
+            ]
+        ]
+    },
+    {
+        "id": "2d79dc3b827279d8",
+        "type": "function",
+        "z": "10ad6452d5deba9a",
+        "name": "DROP parking_sessions",
+        "func": "msg.topic = 'DROP TABLE IF EXISTS parking_sessions;'; return msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 450,
+        "wires": [
+            [
+                "8dc4fcefcc3b128f"
+            ]
+        ]
+    },
+    {
+        "id": "8dc4fcefcc3b128f",
+        "type": "sqlite",
+        "z": "10ad6452d5deba9a",
+        "mydb": "cfg_db",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "sqlite drop_parking_sessions",
+        "x": 780,
+        "y": 450,
+        "wires": [
+            [
+                "0e088d0266e7b6e8"
+            ]
+        ]
+    },
+    {
+        "id": "0e088d0266e7b6e8",
+        "type": "function",
+        "z": "10ad6452d5deba9a",
+        "name": "CREATE parking_sessions",
+        "func": "msg.topic = 'CREATE TABLE IF NOT EXISTS parking_sessions (\\n  id INTEGER PRIMARY KEY AUTOINCREMENT,\\n  plate TEXT NOT NULL,\\n  entry_time DATETIME NOT NULL DEFAULT (datetime(\\'now\\',\\'localtime\\')),\\n  exit_time DATETIME,\\n  payment_time DATETIME,\\n  exit_valid_until DATETIME,\\n  amount_due REAL DEFAULT 0,\\n  amount_paid REAL DEFAULT 0\\n);'; return msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 540,
+        "wires": [
+            [
+                "73cd79050cbcb787"
+            ]
+        ]
+    },
+    {
+        "id": "73cd79050cbcb787",
+        "type": "sqlite",
+        "z": "10ad6452d5deba9a",
+        "mydb": "cfg_db",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "sqlite CREATE create_sessions",
+        "x": 780,
+        "y": 540,
+        "wires": [
+            [
+                "e45277f07db91ac1"
+            ]
+        ]
+    },
+    {
+        "id": "e45277f07db91ac1",
+        "type": "function",
+        "z": "10ad6452d5deba9a",
+        "name": "CREATE parking_spots",
+        "func": "msg.topic = 'CREATE TABLE IF NOT EXISTS parking_spots (\\n  id INTEGER PRIMARY KEY AUTOINCREMENT,\\n  floor INTEGER NOT NULL,\\n  spot_number INTEGER NOT NULL,\\n  sensor_id TEXT,\\n  occupied INTEGER DEFAULT 0,\\n  last_updated DATETIME DEFAULT (datetime(\\'now\\',\\'localtime\\'))\\n);'; return msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 610,
+        "wires": [
+            [
+                "ef99b51128758b4f"
+            ]
+        ]
+    },
+    {
+        "id": "ef99b51128758b4f",
+        "type": "sqlite",
+        "z": "10ad6452d5deba9a",
+        "mydb": "cfg_db",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "sqlite CREATE create_spots",
+        "x": 780,
+        "y": 610,
+        "wires": [
+            [
+                "97c8d059d3937f7d"
+            ]
+        ]
+    },
+    {
+        "id": "97c8d059d3937f7d",
+        "type": "function",
+        "z": "10ad6452d5deba9a",
+        "name": "CREATE user_admins",
+        "func": "msg.topic = 'CREATE TABLE IF NOT EXISTS user_admins (\\n  id INTEGER PRIMARY KEY AUTOINCREMENT,\\n  name TEXT NOT NULL,\\n  rfid_uid TEXT UNIQUE NOT NULL,\\n  role TEXT DEFAULT \\'admin\\',\\n  active INTEGER DEFAULT 1\\n);'; return msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 680,
+        "wires": [
+            [
+                "9f10eb64b13bffd7"
+            ]
+        ]
+    },
+    {
+        "id": "9f10eb64b13bffd7",
+        "type": "sqlite",
+        "z": "10ad6452d5deba9a",
+        "mydb": "cfg_db",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "sqlite CREATE create_admins",
+        "x": 780,
+        "y": 680,
+        "wires": [
+            [
+                "6da89e8aa8361f63"
+            ]
+        ]
+    },
+    {
+        "id": "6da89e8aa8361f63",
+        "type": "function",
+        "z": "10ad6452d5deba9a",
+        "name": "CREATE event_types",
+        "func": "msg.topic = 'CREATE TABLE IF NOT EXISTS event_types (\\n  id INTEGER PRIMARY KEY AUTOINCREMENT,\\n  name TEXT UNIQUE NOT NULL,\\n  description TEXT\\n);'; return msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 750,
+        "wires": [
+            [
+                "04956552ec1d1f99"
+            ]
+        ]
+    },
+    {
+        "id": "04956552ec1d1f99",
+        "type": "sqlite",
+        "z": "10ad6452d5deba9a",
+        "mydb": "cfg_db",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "sqlite CREATE create_etypes",
+        "x": 780,
+        "y": 750,
+        "wires": [
+            [
+                "17d51a71b51550e5"
+            ]
+        ]
+    },
+    {
+        "id": "17d51a71b51550e5",
+        "type": "function",
+        "z": "10ad6452d5deba9a",
+        "name": "CREATE rfid_admin_releases",
+        "func": "msg.topic = 'CREATE TABLE IF NOT EXISTS rfid_admin_releases (\\n  id INTEGER PRIMARY KEY AUTOINCREMENT,\\n  admin_id INTEGER NOT NULL,\\n  rfid_uid TEXT NOT NULL,\\n  parking_session_id INTEGER,\\n  release_time DATETIME NOT NULL DEFAULT (datetime(\\'now\\')),\\n  FOREIGN KEY (admin_id) REFERENCES user_admins(id),\\n  FOREIGN KEY (parking_session_id) REFERENCES parking_sessions(id)\\n);'; return msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 820,
+        "wires": [
+            [
+                "cc872324fc47430f"
+            ]
+        ]
+    },
+    {
+        "id": "cc872324fc47430f",
+        "type": "sqlite",
+        "z": "10ad6452d5deba9a",
+        "mydb": "cfg_db",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "sqlite CREATE create_rfid_rel",
+        "x": 780,
+        "y": 820,
+        "wires": [
+            [
+                "63ecf63907123f04"
+            ]
+        ]
+    },
+    {
+        "id": "63ecf63907123f04",
+        "type": "function",
+        "z": "10ad6452d5deba9a",
+        "name": "CREATE event_logs",
+        "func": "msg.topic = 'CREATE TABLE IF NOT EXISTS event_logs (\\n  id INTEGER PRIMARY KEY AUTOINCREMENT,\\n  timestamp DATETIME NOT NULL DEFAULT (datetime(\\'now\\',\\'localtime\\')),\\n  eventtype TEXT NOT NULL,\\n  source TEXT,\\n  message TEXT,\\n  parking_session_id INTEGER,\\n  FOREIGN KEY (eventtype) REFERENCES event_types(name),\\n  FOREIGN KEY (parking_session_id) REFERENCES parking_sessions(id)\\n);'; return msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 890,
+        "wires": [
+            [
+                "e6dd3ae285814f26"
+            ]
+        ]
+    },
+    {
+        "id": "e6dd3ae285814f26",
+        "type": "sqlite",
+        "z": "10ad6452d5deba9a",
+        "mydb": "cfg_db",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "sqlite CREATE create_elogs",
+        "x": 780,
+        "y": 890,
+        "wires": [
+            [
+                "028624dac404835e"
+            ]
+        ]
+    },
+    {
+        "id": "028624dac404835e",
+        "type": "function",
+        "z": "10ad6452d5deba9a",
+        "name": "SEED event_types",
+        "func": "msg.topic = 'INSERT OR IGNORE INTO event_types (name, description) VALUES\\n  (\\'ENTRY_PLATE_DETECTED\\',  \\'Kennzeichen bei Einfahrt erkannt\\'),\\n  (\\'EXIT_PLATE_DETECTED\\',   \\'Kennzeichen bei Ausfahrt erkannt\\'),\\n  (\\'ENTRY_BARRIER_OPENED\\',  \\'Einfahrtsschranke wurde geoeffnet\\'),\\n  (\\'EXIT_BARRIER_OPENED\\',   \\'Ausfahrtsschranke wurde geoeffnet\\'),\\n  (\\'PAYMENT_SUCCESS\\',       \\'Zahlung erfolgreich\\'),\\n  (\\'RFID_ADMIN_RELEASE\\',    \\'Manuelle Freigabe durch Admin per RFID\\'),\\n  (\\'UNKNOWN_RFID\\',          \\'Unbekannter RFID-Chip eingelesen\\'),\\n  (\\'EXIT_BARRIER_DENIED\\',   \\'Ausfahrt verweigert\\'),\\n  (\\'LIGHT_TURNED_ON\\',       \\'Licht eingeschaltet\\'),\\n  (\\'LIGHT_TURNED_OFF\\',      \\'Licht ausgeschaltet\\'),\\n  (\\'PARKING_SPOT_UPDATED\\',  \\'Parkplatzstatus aktualisiert\\');'; return msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 980,
+        "wires": [
+            [
+                "123e8fea30916da5"
+            ]
+        ]
+    },
+    {
+        "id": "123e8fea30916da5",
+        "type": "sqlite",
+        "z": "10ad6452d5deba9a",
+        "mydb": "cfg_db",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "sqlite SEED seed_etypes",
+        "x": 780,
+        "y": 980,
+        "wires": [
+            [
+                "455053ae378e6b6a"
+            ]
+        ]
+    },
+    {
+        "id": "455053ae378e6b6a",
+        "type": "function",
+        "z": "10ad6452d5deba9a",
+        "name": "SEED user_admins",
+        "func": "msg.topic = 'INSERT OR REPLACE INTO user_admins (name, rfid_uid, role, active)\\nVALUES (\\'Admin Jakob\\', \\'63C3AFA9\\', \\'admin\\', 1);'; return msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 1050,
+        "wires": [
+            [
+                "a616356d9eb228cb"
+            ]
+        ]
+    },
+    {
+        "id": "a616356d9eb228cb",
+        "type": "sqlite",
+        "z": "10ad6452d5deba9a",
+        "mydb": "cfg_db",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "sqlite SEED seed_admin",
+        "x": 780,
+        "y": 1050,
+        "wires": [
+            [
+                "065aa3eec17c9198"
+            ]
+        ]
+    },
+    {
+        "id": "065aa3eec17c9198",
+        "type": "function",
+        "z": "10ad6452d5deba9a",
+        "name": "SEED parking_spots",
+        "func": "msg.topic = 'INSERT OR IGNORE INTO parking_spots (id, floor, spot_number, sensor_id, occupied) VALUES\\n  (1, 1, 1, \\'sensor_floor1_spot1\\', 0),\\n  (2, 1, 2, \\'sensor_floor1_spot2\\', 0),\\n  (3, 2, 1, \\'sensor_floor2_spot1\\', 0);'; return msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 1120,
+        "wires": [
+            [
+                "9845f705cb982005"
+            ]
+        ]
+    },
+    {
+        "id": "9845f705cb982005",
+        "type": "sqlite",
+        "z": "10ad6452d5deba9a",
+        "mydb": "cfg_db",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "sqlite SEED seed_spots",
+        "x": 780,
+        "y": 1120,
+        "wires": [
+            [
+                "6eabf867f988f900"
+            ]
+        ]
+    },
+    {
+        "id": "6eabf867f988f900",
+        "type": "debug",
+        "z": "10ad6452d5deba9a",
+        "name": "✅ INIT fertig",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1090,
+        "y": 1120,
+        "wires": []
+    },
+    {
+        "id": "d90f892f225da604",
+        "type": "mqtt in",
+        "z": "10ad6452d5deba9a",
+        "name": "MQTT einfahren/plate",
+        "topic": "einfahren/plate",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "565cddd55ecca8a5",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 170,
+        "y": 1370,
+        "wires": [
+            [
+                "0c81bce9d2975406"
+            ]
+        ]
+    },
+    {
+        "id": "0c81bce9d2975406",
+        "type": "function",
+        "z": "10ad6452d5deba9a",
+        "name": "Kennzeichen pruefen + Sperrfenster",
+        "func": "let plate = msg.payload;\nif (typeof plate === 'object' && plate.plate) plate = plate.plate;\nplate = String(plate).trim().toUpperCase();\nif (!plate || plate.length < 2) { node.warn('Ungueltig: ' + plate); return null; }\nconst lockKey = 'entry_lock_' + plate;\nconst lastSeen = flow.get(lockKey) || 0;\nconst now = Date.now();\nif (now - lastSeen < 20000) {\n  node.warn('Sperrfenster aktiv fuer: ' + plate);\n  return null;\n}\nflow.set(lockKey, now);\nmsg.plate = plate;\nmsg.topic = 'SELECT id FROM parking_sessions WHERE plate = \\'' + plate + '\\' AND exit_time IS NULL LIMIT 1;';\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 1370,
+        "wires": [
+            [
+                "9d70f255efd8137f"
+            ]
+        ]
+    },
+    {
+        "id": "9d70f255efd8137f",
+        "type": "sqlite",
+        "z": "10ad6452d5deba9a",
+        "mydb": "cfg_db",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "sqlite CHECK open session",
+        "x": 780,
+        "y": 1370,
+        "wires": [
+            [
+                "68e16debac278c89"
+            ]
+        ]
+    },
+    {
+        "id": "68e16debac278c89",
+        "type": "function",
+        "z": "10ad6452d5deba9a",
+        "name": "Doppelte Einfahrt abfangen",
+        "func": "const rows = msg.payload;\nconst plate = msg.plate;\nif (Array.isArray(rows) && rows.length > 0) {\n  node.warn('Offene Session fuer ' + plate + ' – Einfahrt blockiert');\n  msg.payload = JSON.stringify({ status: 'denied', display_text: plate + ' bereits im Parkhaus' });\n  msg.topic = 'einfahren/status';\n  return [null, msg];\n}\nreturn [msg, null];",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1090,
+        "y": 1370,
+        "wires": [
+            [
+                "82bb923744b4f564"
+            ],
+            [
+                "97bf6c48d6a9a1d4"
+            ]
+        ]
+    },
+    {
+        "id": "b6e27f452fa3effe",
+        "type": "function",
+        "z": "10ad6452d5deba9a",
+        "name": "INSERT session",
+        "func": "const plate = msg.plate;\nmsg.topic = 'INSERT INTO parking_sessions (plate, entry_time, amount_due, amount_paid) VALUES (\\'' + plate + '\\', datetime(\\'now\\'), 0, 0);';\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2960,
+        "y": 1370,
+        "wires": [
+            [
+                "e9cbde01a882cfbd"
+            ]
+        ]
+    },
+    {
+        "id": "e9cbde01a882cfbd",
+        "type": "sqlite",
+        "z": "10ad6452d5deba9a",
+        "mydb": "cfg_db",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "sqlite INSERT session",
+        "x": 3270,
+        "y": 1370,
+        "wires": [
+            [
+                "7a2c3b0876c7bdff"
+            ]
+        ]
+    },
+    {
+        "id": "92778448a221a9db",
+        "type": "function",
+        "z": "10ad6452d5deba9a",
+        "name": "ENTRY_PLATE_DETECTED loggen",
+        "func": "const rows = msg.payload;\nconst plate = msg.plate;\nif (!Array.isArray(rows) || rows.length === 0) {\n  node.error('Session nicht gefunden nach INSERT fuer: ' + plate);\n  return null;\n}\nconst session = rows[0];\nmsg.session_id = session.id;\nnode.warn('Session gefunden: id=' + session.id + ' plate=' + plate);\nmsg.topic = 'INSERT INTO event_logs (eventtype, source, message, parking_session_id)\\nVALUES (\\'ENTRY_PLATE_DETECTED\\', \\'camera_entry\\',\\n  \\'Kennzeichen ' + plate + ' bei Einfahrt erkannt\\', ' + session.id + ');';\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 4200,
+        "y": 1370,
+        "wires": [
+            [
+                "2cbd8732bbf56c96"
+            ]
+        ]
+    },
+    {
+        "id": "2cbd8732bbf56c96",
+        "type": "sqlite",
+        "z": "10ad6452d5deba9a",
+        "mydb": "cfg_db",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "sqlite ENTRY_PLATE_DETECTED",
+        "x": 4510,
+        "y": 1370,
+        "wires": [
+            [
+                "26616ad0f5850dbc"
+            ]
+        ]
+    },
+    {
+        "id": "26616ad0f5850dbc",
+        "type": "function",
+        "z": "10ad6452d5deba9a",
+        "name": "ENTRY_BARRIER_OPENED + Response",
+        "func": "const plate = msg.plate;\nconst sessionId = msg.session_id;\nif (!sessionId) {\n  node.error('Keine session_id fuer ENTRY_BARRIER_OPENED: ' + plate);\n  return null;\n}\nnode.warn('Einfahrt OK: Session=' + sessionId + ' Plate=' + plate);\nmsg._entry_response = JSON.stringify({ status: 'allowed', display_text: 'Willkommen ' + plate });\nmsg.topic = 'INSERT INTO event_logs (eventtype, source, message, parking_session_id)\\nVALUES (\\'ENTRY_BARRIER_OPENED\\', \\'node-red\\',\\n  \\'Einfahrtsschranke fuer ' + plate + ' geoeffnet (Session ' + sessionId + ')\\', ' + sessionId + ');';\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 4820,
+        "y": 1370,
+        "wires": [
+            [
+                "4e33c9c376706525"
+            ]
+        ]
+    },
+    {
+        "id": "4e33c9c376706525",
+        "type": "sqlite",
+        "z": "10ad6452d5deba9a",
+        "mydb": "cfg_db",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "sqlite ENTRY_BARRIER_OPENED",
+        "x": 5130,
+        "y": 1370,
+        "wires": [
+            [
+                "af47aec3cb097442"
+            ]
+        ]
+    },
+    {
+        "id": "97bf6c48d6a9a1d4",
+        "type": "mqtt out",
+        "z": "10ad6452d5deba9a",
+        "name": "MQTT einfahren/status",
+        "topic": "einfahren/status",
+        "qos": "2",
+        "retain": "",
+        "broker": "565cddd55ecca8a5",
+        "x": 5760,
+        "y": 1370,
+        "wires": []
+    },
+    {
+        "id": "4fde39047db9858f",
+        "type": "debug",
+        "z": "10ad6452d5deba9a",
+        "name": "debug EINFAHRT komplett",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 5760,
+        "y": 1450,
+        "wires": []
+    },
+    {
+        "id": "c6786b86c0a07247",
+        "type": "mqtt in",
+        "z": "10ad6452d5deba9a",
+        "name": "MQTT ausfahren/plate",
+        "topic": "ausfahren/plate",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "565cddd55ecca8a5",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 170,
+        "y": 1700,
+        "wires": [
+            [
+                "d21e8f7881096144"
+            ]
+        ]
+    },
+    {
+        "id": "d21e8f7881096144",
+        "type": "function",
+        "z": "10ad6452d5deba9a",
+        "name": "EXIT_PLATE_DETECTED + Session laden",
+        "func": "let plate = msg.payload;\nif (typeof plate === 'object' && plate.plate) plate = plate.plate;\nplate = String(plate).trim().toUpperCase();\nmsg.plate = plate;\n\n// 20s Sperrfenster – identisch wie Einfahrt\nconst lockKey = 'exit_lock_' + plate;\nconst lastSeen = flow.get(lockKey) || 0;\nif (Date.now() - lastSeen < 20000) {\n  node.warn('Ausfahrt Sperrfenster aktiv fuer: ' + plate);\n  return null;\n}\nflow.set(lockKey, Date.now());\n\nnode.warn('Ausfahrt: ' + plate);\nmsg.topic = 'SELECT id, plate, amount_due, amount_paid, payment_time, exit_valid_until, entry_time\\nFROM parking_sessions\\nWHERE plate = \\'' + plate + '\\' AND exit_time IS NULL\\nORDER BY id DESC LIMIT 1;';\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 1700,
+        "wires": [
+            [
+                "454f8132fea846ca"
+            ]
+        ]
+    },
+    {
+        "id": "454f8132fea846ca",
+        "type": "sqlite",
+        "z": "10ad6452d5deba9a",
+        "mydb": "cfg_db",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "sqlite CHECK session",
+        "x": 780,
+        "y": 1700,
+        "wires": [
+            [
+                "1c2a8e2a177834e7"
+            ]
+        ]
+    },
+    {
+        "id": "1c2a8e2a177834e7",
+        "type": "function",
+        "z": "10ad6452d5deba9a",
+        "name": "EXIT_PLATE_DETECTED loggen",
+        "func": "const rows = msg.payload;\nconst plate = msg.plate;\nconst sessionId = (Array.isArray(rows) && rows.length > 0) ? rows[0].id : null;\nconst sessionIdSql = sessionId !== null ? String(sessionId) : 'NULL';\nmsg._rows = rows;\nmsg.topic = 'INSERT INTO event_logs (eventtype, source, message, parking_session_id)\\n' +\n  'VALUES (\\'EXIT_PLATE_DETECTED\\', \\'camera_exit\\',\\n' +\n  '  \\'Kennzeichen ' + plate + ' bei Ausfahrt erkannt\\', ' + sessionIdSql + ');';\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1090,
+        "y": 1700,
+        "wires": [
+            [
+                "0d633ec9c404f5bf"
+            ]
+        ]
+    },
+    {
+        "id": "0d633ec9c404f5bf",
+        "type": "sqlite",
+        "z": "10ad6452d5deba9a",
+        "mydb": "cfg_db",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "sqlite EXIT_PLATE_DETECTED",
+        "x": 1400,
+        "y": 1700,
+        "wires": [
+            [
+                "11af9a17e7aba048"
+            ]
+        ]
+    },
+    {
+        "id": "11af9a17e7aba048",
+        "type": "function",
+        "z": "10ad6452d5deba9a",
+        "name": "decide open oder deny",
+        "func": "const rows = msg._rows;\nconst plate = msg.plate;\n\nif (!Array.isArray(rows) || rows.length === 0) {\n  msg._open_plate = plate;\n  msg._open_session = null;\n  msg._open_display = plate + ' – keine aktive Session gefunden';\n  msg.payload = { command: 'deny', reason: 'no_active_session' };\n  return msg;\n}\n\nconst session = rows[0];\nmsg._open_plate = session.plate;\nmsg._open_session = session.id;\n\n// Nur exit_valid_until prüfen\nlet withinWindow = false;\nif (session.exit_valid_until) {\n  // exit_valid_until wird vom REST-Backend als UTC-ISO-String geschrieben (.toISOString());\n  // falls kein 'T' enthalten ist (z.B. SQLite datetime() ohne 'T'), als UTC interpretieren.\n  const raw = session.exit_valid_until;\n  const validUntil = new Date(raw.includes('T') ? raw : raw.replace(' ', 'T') + 'Z');\n  withinWindow = validUntil > new Date();\n}\n\nnode.warn('Ausfahrt: plate=' + plate + ' exit_valid_until=' + session.exit_valid_until + ' withinWindow=' + withinWindow);\n\nif (withinWindow) {\n  msg._open_display = 'Gute Fahrt ' + session.plate + '!';\n  msg.payload = { command: 'open', reason: 'exit_valid' };\n} else {\n  msg._open_display = plate + ' – RFID-Chip halten (30s)';\n  msg.payload = { command: 'deny', reason: 'no_valid_exit' };\n}\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1710,
+        "y": 1700,
+        "wires": [
+            [
+                "a69eda9296013af3"
+            ]
+        ]
+    },
+    {
+        "id": "a69eda9296013af3",
+        "type": "switch",
+        "z": "10ad6452d5deba9a",
+        "name": "switch open / deny",
+        "property": "payload.command",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "open",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "deny",
+                "vt": "str"
+            }
+        ],
+        "checkall": "false",
+        "repair": false,
+        "outputs": 2,
+        "x": 2020,
+        "y": 1700,
+        "wires": [
+            [
+                "87c94c199d5c8ee0"
+            ],
+            [
+                "83dc827dc5add02c"
+            ]
+        ]
+    },
+    {
+        "id": "87c94c199d5c8ee0",
+        "type": "link out",
+        "z": "10ad6452d5deba9a",
+        "name": "→ open",
+        "mode": "link",
+        "links": [
+            "53b80b4141f2be19"
+        ],
+        "x": 2310,
+        "y": 1660,
+        "wires": []
+    },
+    {
+        "id": "83dc827dc5add02c",
+        "type": "link out",
+        "z": "10ad6452d5deba9a",
+        "name": "→ deny",
+        "mode": "link",
+        "links": [
+            "b8b8657d02b97b3c"
+        ],
+        "x": 2310,
+        "y": 1740,
+        "wires": []
+    },
+    {
+        "id": "53b80b4141f2be19",
+        "type": "link in",
+        "z": "10ad6452d5deba9a",
+        "name": "ausfahrt/open",
+        "links": [
+            "87c94c199d5c8ee0",
+            "ced4185830904cdb"
+        ],
+        "x": 170,
+        "y": 1950,
+        "wires": [
+            [
+                "55b315cddf8c54b7"
+            ]
+        ]
+    },
+    {
+        "id": "55b315cddf8c54b7",
+        "type": "function",
+        "z": "10ad6452d5deba9a",
+        "name": "SET exit_time",
+        "func": "const sessionId = msg._open_session;\nconst plate = msg._open_plate;\nconst display = msg._open_display || 'Gute Fahrt!';\n\nif (!sessionId) {\n  node.warn('Keine session_id – SET exit_time uebersprungen');\n  return null;\n}\n\nmsg.plate = plate;\nmsg.session_id = sessionId;\nmsg._display = display;\n\nif (msg._via_rfid) {\n  // exit_time wurde bereits von sq_rfid_update_exit gesetzt – UPDATE ueberspringen\n  node.log('SET exit_time: RFID-Pfad – UPDATE wird uebersprungen');\n  msg.topic = 'SELECT 1;'; // Dummy damit sqlite-Node nicht leer laeuft\n  return msg;\n}\n\nmsg.topic = 'UPDATE parking_sessions SET exit_time = datetime(\\'now\\') WHERE id = ' + sessionId + ';';\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 1950,
+        "wires": [
+            [
+                "9adcfd6e26467476"
+            ]
+        ]
+    },
+    {
+        "id": "9adcfd6e26467476",
+        "type": "sqlite",
+        "z": "10ad6452d5deba9a",
+        "mydb": "cfg_db",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "sqlite UPDATE exit_time",
+        "x": 780,
+        "y": 1950,
+        "wires": [
+            [
+                "a8f3fb5748612aac",
+                "ce3ad596842617c7"
+            ]
+        ]
+    },
+    {
+        "id": "a8f3fb5748612aac",
+        "type": "function",
+        "z": "10ad6452d5deba9a",
+        "name": "EXIT_BARRIER_OPENED loggen",
+        "func": "const plate = msg.plate; const sid = msg.session_id;\nmsg.topic = 'INSERT INTO event_logs (eventtype, source, message, parking_session_id) VALUES (\\'EXIT_BARRIER_OPENED\\', \\'node-red\\', \\'Ausfahrtsschranke fuer ' + plate + ' geoeffnet (Session ' + sid + ')\\', ' + sid + ');';\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1090,
+        "y": 1890,
+        "wires": [
+            [
+                "971ef0ccca779f60"
+            ]
+        ]
+    },
+    {
+        "id": "971ef0ccca779f60",
+        "type": "sqlite",
+        "z": "10ad6452d5deba9a",
+        "mydb": "cfg_db",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "sqlite EXIT_BARRIER_OPENED",
+        "x": 1400,
+        "y": 1890,
+        "wires": [
+            [
+                "d2cea719f8e1f123"
+            ]
+        ]
+    },
+    {
+        "id": "d2cea719f8e1f123",
+        "type": "debug",
+        "z": "10ad6452d5deba9a",
+        "name": "debug EXIT_BARRIER_OPENED",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1710,
+        "y": 1890,
+        "wires": []
+    },
+    {
+        "id": "ce3ad596842617c7",
+        "type": "function",
+        "z": "10ad6452d5deba9a",
+        "name": "ausfahren/status allowed",
+        "func": "msg.payload = JSON.stringify({\n  status: 'allowed',\n  display_text: msg._open_display || 'Gute Fahrt!'\n});\nmsg.topic = 'ausfahren/status';\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1090,
+        "y": 2010,
+        "wires": [
+            [
+                "734b58f794348c57",
+                "2a6ff44f47b3b0cf"
+            ]
+        ]
+    },
+    {
+        "id": "734b58f794348c57",
+        "type": "mqtt out",
+        "z": "10ad6452d5deba9a",
+        "name": "MQTT ausfahren/status",
+        "topic": "ausfahren/status",
+        "qos": "2",
+        "retain": "",
+        "broker": "565cddd55ecca8a5",
+        "x": 3260,
+        "y": 2280,
+        "wires": []
+    },
+    {
+        "id": "2a6ff44f47b3b0cf",
+        "type": "debug",
+        "z": "10ad6452d5deba9a",
+        "name": "debug AUSFAHRT open",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1710,
+        "y": 2010,
+        "wires": []
+    },
+    {
+        "id": "b8b8657d02b97b3c",
+        "type": "link in",
+        "z": "10ad6452d5deba9a",
+        "name": "ausfahrt/deny",
+        "links": [
+            "83dc827dc5add02c"
+        ],
+        "x": 170,
+        "y": 2250,
+        "wires": [
+            [
+                "adc1ce05475f5422"
+            ]
+        ]
+    },
+    {
+        "id": "adc1ce05475f5422",
+        "type": "function",
+        "z": "10ad6452d5deba9a",
+        "name": "RFID vorbereiten + EXIT_BARRIER_DENIED",
+        "func": "const plate = msg._open_plate || msg.plate;\nconst sessionId = msg._open_session;\nconst sessionIdSql = sessionId != null ? sessionId : 'NULL';\nconst displayText = msg._open_display || plate + ' – RFID-Chip halten (30s)';\nconst reason = msg.payload && msg.payload.reason ? msg.payload.reason : 'no_valid_exit';\n\nflow.set('pending_rfid_plate', plate);\nflow.set('pending_rfid_session', sessionId);\nflow.set('rfid_window_open', true);\nnode.warn('Ausfahrt verweigert: ' + plate + ' Session=' + sessionId + ' → RFID-Fenster OFFEN (30s)');\n\nmsg.plate = plate;\nmsg.session_id = sessionId;\nmsg.topic = 'INSERT INTO event_logs (eventtype, source, message, parking_session_id)\\nVALUES (\\'EXIT_BARRIER_DENIED\\', \\'node-red\\',\\n  \\'Ausfahrt fuer ' + plate + ' verweigert (' + reason + ')\\', ' + sessionIdSql + ');';\nmsg._deny_display = displayText;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 2250,
+        "wires": [
+            [
+                "b97ce518927883de"
+            ]
+        ]
+    },
+    {
+        "id": "b97ce518927883de",
+        "type": "sqlite",
+        "z": "10ad6452d5deba9a",
+        "mydb": "cfg_db",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "sqlite EXIT_BARRIER_DENIED",
+        "x": 780,
+        "y": 2250,
+        "wires": [
+            [
+                "335b82f8617b67f7",
+                "28a2747476ed98ee"
+            ]
+        ]
+    },
+    {
+        "id": "335b82f8617b67f7",
+        "type": "function",
+        "z": "10ad6452d5deba9a",
+        "name": "ausfahren/status denied",
+        "func": "const displayText = msg._deny_display || (msg.plate ? msg.plate + ' – Ausfahrt verweigert' : 'Ausfahrt verweigert');\nmsg.payload = JSON.stringify({ status: 'denied', display_text: displayText });\nmsg.topic = 'ausfahren/status';\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1090,
+        "y": 2190,
+        "wires": [
+            [
+                "734b58f794348c57",
+                "24cad2498af91fe4"
+            ]
+        ]
+    },
+    {
+        "id": "28a2747476ed98ee",
+        "type": "delay",
+        "z": "10ad6452d5deba9a",
+        "name": "30s Timeout",
+        "pauseType": "delay",
+        "timeout": "30",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 1090,
+        "y": 2310,
+        "wires": [
+            [
+                "f4c9da45d91c7cab"
+            ]
+        ]
+    },
+    {
+        "id": "f4c9da45d91c7cab",
+        "type": "function",
+        "z": "10ad6452d5deba9a",
+        "name": "Timeout-Cleanup",
+        "func": "const windowOpen = flow.get('rfid_window_open') || false;\nif (!windowOpen) {\n  node.log('RFID-Timeout: Fenster bereits geschlossen – kein Cleanup noetig');\n  return null;\n}\nconst plate = flow.get('pending_rfid_plate');\nflow.set('rfid_window_open', false);\nflow.set('pending_rfid_plate', null);\nflow.set('pending_rfid_session', null);\nnode.warn('RFID-Fenster GESCHLOSSEN per Timeout' + (plate ? ' fuer: ' + plate : ''));\nreturn null;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1400,
+        "y": 2310,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "24cad2498af91fe4",
+        "type": "debug",
+        "z": "10ad6452d5deba9a",
+        "name": "debug EXIT_BARRIER_DENIED",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1710,
+        "y": 2190,
+        "wires": []
+    },
+    {
+        "id": "8d325361b3a8046d",
+        "type": "mqtt in",
+        "z": "10ad6452d5deba9a",
+        "name": "MQTT ausfahren/rfid",
+        "topic": "ausfahren/rfid",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "565cddd55ecca8a5",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 170,
+        "y": 2580,
+        "wires": [
+            [
+                "37b2e6f10e32f240"
+            ]
+        ]
+    },
+    {
+        "id": "37b2e6f10e32f240",
+        "type": "function",
+        "z": "10ad6452d5deba9a",
+        "name": "RFID – Admin-Lookup + Fenster pruefen",
+        "func": "let uid = msg.payload;\nif (typeof uid === 'object' && uid.uid) uid = uid.uid;\nuid = String(uid).trim();\n\nconst windowOpen = flow.get('rfid_window_open') || false;\nconst plate = flow.get('pending_rfid_plate') || null;\nconst sessionId = flow.get('pending_rfid_session') || null;\n\nnode.warn('RFID: UID=' + uid + ' window_open=' + windowOpen + ' plate=' + plate);\n\n// Immer Admin-Lookup – Entscheidung kommt danach\nmsg.rfid_uid = uid;\nmsg._rfid_window_open = windowOpen;\nmsg._rfid_plate = plate;\nmsg._rfid_session = sessionId;\nmsg.topic = 'SELECT id, name, role FROM user_admins WHERE rfid_uid = \\'' + uid + '\\' AND active = 1 LIMIT 1;';\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 2580,
+        "wires": [
+            [
+                "06c7a6430fe559a0"
+            ]
+        ]
+    },
+    {
+        "id": "06c7a6430fe559a0",
+        "type": "sqlite",
+        "z": "10ad6452d5deba9a",
+        "mydb": "cfg_db",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "sqlite RFID admin lookup",
+        "x": 780,
+        "y": 2580,
+        "wires": [
+            [
+                "496147d1b49bd2b8"
+            ]
+        ]
+    },
+    {
+        "id": "496147d1b49bd2b8",
+        "type": "function",
+        "z": "10ad6452d5deba9a",
+        "name": "RFID Ergebnis – granted oder deny",
+        "func": "const rows = msg.payload;\nconst uid = msg.rfid_uid;\n\nif (!Array.isArray(rows) || rows.length === 0) {\n  node.warn('RFID unbekannt: ' + uid);\n  msg.topic = 'INSERT INTO event_logs (eventtype, source, message, parking_session_id)\\nVALUES (\\'UNKNOWN_RFID\\', \\'rfid_exit\\',\\n  \\'Unbekannter RFID ' + uid + '\\', NULL);';\n  msg._rfid_display = 'RFID unbekannt – keine Freigabe';\n  return [null, msg];\n}\n\nconst admin = rows[0];\nmsg.admin_id = admin.id;\nmsg.admin_name = admin.name;\nnode.log('RFID Admin bekannt: ' + admin.name);\nreturn [msg, null];",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1090,
+        "y": 2580,
+        "wires": [
+            [
+                "ca71b0f57993d59f"
+            ],
+            [
+                "e92c385cc0137d50"
+            ]
+        ]
+    },
+    {
+        "id": "8dc0f751177943fc",
+        "type": "sqlite",
+        "z": "10ad6452d5deba9a",
+        "mydb": "cfg_db",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "sqlite RFID update exit_time",
+        "x": 1710,
+        "y": 2460,
+        "wires": [
+            [
+                "7ca82e14a881f67c"
+            ]
+        ]
+    },
+    {
+        "id": "7ca82e14a881f67c",
+        "type": "function",
+        "z": "10ad6452d5deba9a",
+        "name": "INSERT rfid_admin_releases",
+        "func": "msg.topic = 'INSERT INTO rfid_admin_releases (admin_id, rfid_uid, parking_session_id, release_time) VALUES (' + msg.admin_id + ', \\'' + msg.rfid_uid + '\\', ' + msg.session_id + ', datetime(\\'now\\'));';\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2020,
+        "y": 2460,
+        "wires": [
+            [
+                "70f952face7c5f96"
+            ]
+        ]
+    },
+    {
+        "id": "70f952face7c5f96",
+        "type": "sqlite",
+        "z": "10ad6452d5deba9a",
+        "mydb": "cfg_db",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "sqlite INSERT rfid_admin_releases",
+        "x": 2330,
+        "y": 2460,
+        "wires": [
+            [
+                "a7ab9f3ebd11cab2"
+            ]
+        ]
+    },
+    {
+        "id": "a7ab9f3ebd11cab2",
+        "type": "function",
+        "z": "10ad6452d5deba9a",
+        "name": "RFID_ADMIN_RELEASE loggen",
+        "func": "const plate = msg.plate;\nconst sid = msg.session_id;\nconst uid = msg.rfid_uid;\nconst admin = msg.admin_name;\nmsg._open_plate = plate;\nmsg._open_session = sid;\nmsg._open_display = 'RFID-Freigabe erteilt – Gute Fahrt ' + plate + '!';\nmsg.topic = 'INSERT INTO event_logs (eventtype, source, message, parking_session_id)\\nVALUES (\\'RFID_ADMIN_RELEASE\\', \\'rfid_exit\\',\\n  \\'Admin-Freigabe per RFID fuer ' + plate + ' durch ' + admin + ' (UID: ' + uid + ')\\', ' + sid + ');';\nflow.set('rfid_window_open', false);\nflow.set('pending_rfid_plate', null);\nflow.set('pending_rfid_session', null);\nnode.log('RFID-Fenster GESCHLOSSEN nach Freigabe fuer: ' + plate);\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2640,
+        "y": 2460,
+        "wires": [
+            [
+                "85b25947f10c88c7"
+            ]
+        ]
+    },
+    {
+        "id": "85b25947f10c88c7",
+        "type": "sqlite",
+        "z": "10ad6452d5deba9a",
+        "mydb": "cfg_db",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "sqlite RFID_ADMIN_RELEASE log",
+        "x": 2950,
+        "y": 2460,
+        "wires": [
+            [
+                "802f9c2129496b09"
+            ]
+        ]
+    },
+    {
+        "id": "ced4185830904cdb",
+        "type": "link out",
+        "z": "10ad6452d5deba9a",
+        "name": "→ open (RFID granted)",
+        "mode": "link",
+        "links": [
+            "53b80b4141f2be19"
+        ],
+        "x": 3570,
+        "y": 2460,
+        "wires": []
+    },
+    {
+        "id": "e92c385cc0137d50",
+        "type": "sqlite",
+        "z": "10ad6452d5deba9a",
+        "mydb": "cfg_db",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "sqlite UNKNOWN_RFID log",
+        "x": 1400,
+        "y": 2700,
+        "wires": [
+            [
+                "c98bd09a46a745fb"
+            ]
+        ]
+    },
+    {
+        "id": "c98bd09a46a745fb",
+        "type": "function",
+        "z": "10ad6452d5deba9a",
+        "name": "ausfahren/status denied (RFID unbekannt)",
+        "func": "msg.payload = JSON.stringify({ status: 'denied', display_text: msg._rfid_display || 'RFID unbekannt – keine Freigabe' });\nmsg.topic = 'ausfahren/status'; return msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1710,
+        "y": 2700,
+        "wires": [
+            [
+                "734b58f794348c57",
+                "3dd6ed5a722db6c2"
+            ]
+        ]
+    },
+    {
+        "id": "3dd6ed5a722db6c2",
+        "type": "debug",
+        "z": "10ad6452d5deba9a",
+        "name": "debug RFID unbekannt",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2020,
+        "y": 2700,
+        "wires": []
+    },
+    {
+        "id": "23b92dd001196dd9",
+        "type": "mqtt in",
+        "z": "10ad6452d5deba9a",
+        "name": "MQTT parking/spot/status",
+        "topic": "parking/spot/status",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "565cddd55ecca8a5",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 170,
+        "y": 3010,
+        "wires": [
+            [
+                "36cb4e6efb5360ad"
+            ]
+        ]
+    },
+    {
+        "id": "36cb4e6efb5360ad",
+        "type": "function",
+        "z": "10ad6452d5deba9a",
+        "name": "Prepare parking spot update",
+        "func": "let data = msg.payload;\nif (typeof data === 'string') { try { data = JSON.parse(data); } catch (e) { node.error('Invalid JSON', msg); return null; } }\nif (typeof data !== 'object' || data === null) { node.error('Payload muss Objekt sein', msg); return null; }\nconst spotId = Number(data.id ?? data.spot_id);\nif (!Number.isInteger(spotId) || spotId <= 0) { node.error('Ungueltige spot id', msg); return null; }\nconst rawStatus = String(data.status ?? '').trim().toLowerCase();\nif (!['occupied', 'free'].includes(rawStatus)) { node.error('status muss occupied oder free sein', msg); return null; }\nmsg.spot_id = spotId;\nmsg.occupied = rawStatus === 'occupied' ? 1 : 0;\nmsg.event_message = 'Parking spot ' + spotId + ' is now ' + rawStatus;\nmsg.topic = 'UPDATE parking_spots SET occupied = ' + msg.occupied + ', last_updated = datetime(\\'now\\') WHERE id = ' + spotId + ';';\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 3010,
+        "wires": [
+            [
+                "7dc4047b64203515"
+            ]
+        ]
+    },
+    {
+        "id": "7dc4047b64203515",
+        "type": "sqlite",
+        "z": "10ad6452d5deba9a",
+        "mydb": "cfg_db",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "sqlite UPDATE parking_spots",
+        "x": 780,
+        "y": 3010,
+        "wires": [
+            [
+                "6b91ef8ba7eef8ab"
+            ]
+        ]
+    },
+    {
+        "id": "6b91ef8ba7eef8ab",
+        "type": "function",
+        "z": "10ad6452d5deba9a",
+        "name": "Prepare event log spot",
+        "func": "msg.topic = 'INSERT INTO event_logs (eventtype, source, message, parking_session_id) VALUES (\\'PARKING_SPOT_UPDATED\\', \\'parking_sensor\\', \\'' + msg.event_message.replace(/'/g, \"''\") + '\\', NULL);';\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1090,
+        "y": 3010,
+        "wires": [
+            [
+                "413c053cac09f071"
+            ]
+        ]
+    },
+    {
+        "id": "413c053cac09f071",
+        "type": "sqlite",
+        "z": "10ad6452d5deba9a",
+        "mydb": "cfg_db",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "sqlite INSERT event_logs (spot)",
+        "x": 1400,
+        "y": 3010,
+        "wires": [
+            [
+                "a1e60b098d1418e5"
+            ]
+        ]
+    },
+    {
+        "id": "a1e60b098d1418e5",
+        "type": "debug",
+        "z": "10ad6452d5deba9a",
+        "name": "debug parking spot update",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1710,
+        "y": 3010,
+        "wires": []
+    },
+    {
+        "id": "278084537ec7e199",
+        "type": "mqtt in",
+        "z": "10ad6452d5deba9a",
+        "name": "MQTT building/light/status",
+        "topic": "building/light/status",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "565cddd55ecca8a5",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 170,
+        "y": 3240,
+        "wires": [
+            [
+                "5c782b7711a7e580"
+            ]
+        ]
+    },
+    {
+        "id": "5c782b7711a7e580",
+        "type": "function",
+        "z": "10ad6452d5deba9a",
+        "name": "LIGHT_TURNED",
+        "func": "let data = msg.payload;\nif (typeof data === 'string') { try { data = JSON.parse(data); } catch (e) { node.error('Invalid JSON', msg); return null; } }\nconst floor = Number(data.floor);\nconst status = String(data.status ?? '').trim().toLowerCase();\nif (![1, 2].includes(floor)) { node.error('floor muss 1 oder 2 sein', msg); return null; }\nif (!['on', 'off'].includes(status)) { node.error('status muss on oder off sein', msg); return null; }\nconst eventType = status === 'on' ? 'LIGHT_TURNED_ON' : 'LIGHT_TURNED_OFF';\nconst source = 'motion_sensor_floor_' + floor;\nconst message = 'Etage ' + floor + ': Licht ' + status;\nmsg.topic = 'INSERT INTO event_logs (eventtype, source, message, parking_session_id) VALUES (\\'' + eventType + '\\', \\'' + source + '\\', \\'' + message + '\\', NULL);';\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 3240,
+        "wires": [
+            [
+                "f03fd03d4b4effbf"
+            ]
+        ]
+    },
+    {
+        "id": "f03fd03d4b4effbf",
+        "type": "sqlite",
+        "z": "10ad6452d5deba9a",
+        "mydb": "cfg_db",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "sqlite LIGHT event",
+        "x": 780,
+        "y": 3240,
+        "wires": [
+            [
+                "828f147c007f5452"
+            ]
+        ]
+    },
+    {
+        "id": "828f147c007f5452",
+        "type": "debug",
+        "z": "10ad6452d5deba9a",
+        "name": "debug LIGHT",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1090,
+        "y": 3240,
+        "wires": []
+    },
+    {
+        "id": "82bb923744b4f564",
+        "type": "function",
+        "z": "10ad6452d5deba9a",
+        "name": "COUNT parking_spots",
+        "func": "msg.topic = 'SELECT COUNT(*) as total_spots FROM parking_spots;';\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1390,
+        "y": 1320,
+        "wires": [
+            [
+                "b7611b40cfad0f7e"
+            ]
+        ]
+    },
+    {
+        "id": "b7611b40cfad0f7e",
+        "type": "sqlite",
+        "z": "10ad6452d5deba9a",
+        "mydb": "cfg_db",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "sqlite COUNT parking_spots",
+        "x": 1700,
+        "y": 1320,
+        "wires": [
+            [
+                "c2133139b7d64dec"
+            ]
+        ]
+    },
+    {
+        "id": "c2133139b7d64dec",
+        "type": "function",
+        "z": "10ad6452d5deba9a",
+        "name": "COUNT aktive Sessions",
+        "func": "msg._total_spots = msg.payload[0].total_spots;\nmsg.topic = 'SELECT COUNT(*) as active_sessions FROM parking_sessions WHERE exit_time IS NULL;';\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2010,
+        "y": 1320,
+        "wires": [
+            [
+                "7b85bd5436e1222a"
+            ]
+        ]
+    },
+    {
+        "id": "7b85bd5436e1222a",
+        "type": "sqlite",
+        "z": "10ad6452d5deba9a",
+        "mydb": "cfg_db",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "sqlite COUNT aktive Sessions",
+        "x": 2320,
+        "y": 1320,
+        "wires": [
+            [
+                "f575f5ba57712916"
+            ]
+        ]
+    },
+    {
+        "id": "f575f5ba57712916",
+        "type": "function",
+        "z": "10ad6452d5deba9a",
+        "name": "Kapazität prüfen",
+        "func": "const totalSpots = msg._total_spots || 0;\nconst activeSessions = msg.payload[0].active_sessions || 0;\nconst freeSpots = totalSpots - activeSessions;\nconst plate = msg.plate;\n\nnode.warn('Kapazitaet: total=' + totalSpots + ' aktiv=' + activeSessions + ' frei=' + freeSpots);\n\nif (freeSpots <= 0) {\n  msg.payload = JSON.stringify({ status: 'denied', display_text: 'Parkhaus voll – keine freien Plaetze' });\n  msg.topic = 'einfahren/status';\n  return [null, msg];\n}\nreturn [msg, null];",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2630,
+        "y": 1320,
+        "wires": [
+            [
+                "b6e27f452fa3effe"
+            ],
+            [
+                "97bf6c48d6a9a1d4"
+            ]
+        ]
+    },
+    {
+        "id": "af47aec3cb097442",
+        "type": "function",
+        "z": "10ad6452d5deba9a",
+        "name": "Einfahrt: MQTT-Response senden",
+        "func": "msg.payload = msg._entry_response;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 5440,
+        "y": 1370,
+        "wires": [
+            [
+                "97bf6c48d6a9a1d4",
+                "4fde39047db9858f"
+            ]
+        ]
+    },
+    {
+        "id": "802f9c2129496b09",
+        "type": "function",
+        "z": "10ad6452d5deba9a",
+        "name": "RFID: payload wiederherstellen",
+        "func": "msg.payload = {\n  command: 'open',\n  plate: msg._open_plate,\n  session_id: msg._open_session,\n  display_text: msg._open_display\n};\nmsg._via_rfid = true;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 3260,
+        "y": 2460,
+        "wires": [
+            [
+                "ced4185830904cdb"
+            ]
+        ]
+    },
+    {
+        "id": "7a2c3b0876c7bdff",
+        "type": "function",
+        "z": "10ad6452d5deba9a",
+        "name": "SELECT session nach INSERT",
+        "func": "msg.topic = 'SELECT id, plate, entry_time FROM parking_sessions\\nWHERE plate = \\'' + msg.plate + '\\' AND exit_time IS NULL\\nORDER BY id DESC LIMIT 1;';\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 3580,
+        "y": 1370,
+        "wires": [
+            [
+                "4a2dd1fd5c351d8d"
+            ]
+        ]
+    },
+    {
+        "id": "4a2dd1fd5c351d8d",
+        "type": "sqlite",
+        "z": "10ad6452d5deba9a",
+        "mydb": "cfg_db",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "sqlite SELECT session nach INSERT",
+        "x": 3890,
+        "y": 1370,
+        "wires": [
+            [
+                "92778448a221a9db"
+            ]
+        ]
+    },
+    {
+        "id": "ca71b0f57993d59f",
+        "type": "function",
+        "z": "10ad6452d5deba9a",
+        "name": "RFID: mit Session oder direkt auf?",
+        "func": "const windowOpen = msg._rfid_window_open;\nconst plate = msg._rfid_plate;\nconst sessionId = msg._rfid_session;\n\nif (windowOpen && plate && sessionId) {\n  // 30s-Fenster aktiv → Session beenden wie bisher\n  node.log('RFID mit Session: ' + plate + ' Session=' + sessionId);\n  msg.plate = plate;\n  msg.session_id = sessionId;\n  msg.topic = 'UPDATE parking_sessions SET exit_time = datetime(\\'now\\') WHERE id = ' + sessionId + ';';\n  return [msg, null];\n} else {\n  // Kein offener Vorgang → Schranke direkt auf, keine Session beenden\n  node.log('RFID ohne Session – direkte Admin-Freigabe');\n  return [null, msg];\n}",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1400,
+        "y": 2520,
+        "wires": [
+            [
+                "8dc0f751177943fc"
+            ],
+            [
+                "687cd466e7fe8047"
+            ]
+        ]
+    },
+    {
+        "id": "687cd466e7fe8047",
+        "type": "function",
+        "z": "10ad6452d5deba9a",
+        "name": "RFID ohne Session: loggen",
+        "func": "const uid = msg.rfid_uid;\nconst admin = msg.admin_name;\nmsg._open_plate = null;\nmsg._open_session = null;\nmsg._open_display = 'Admin-Freigabe: ' + admin;\nnode.warn('RFID direkte Admin-Freigabe: ' + admin + ' (UID: ' + uid + ') – kein Fenster offen');\nmsg.topic = 'INSERT INTO event_logs (eventtype, source, message, parking_session_id)\\nVALUES (\\'RFID_ADMIN_RELEASE\\', \\'rfid_exit\\',\\n  \\'Direkte Admin-Freigabe per RFID durch ' + admin + ' (UID: ' + uid + ') – keine aktive Session\\', NULL);';\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1710,
+        "y": 2580,
+        "wires": [
+            [
+                "5b4fad0fef6c9a4a"
+            ]
+        ]
+    },
+    {
+        "id": "5b4fad0fef6c9a4a",
+        "type": "sqlite",
+        "z": "10ad6452d5deba9a",
+        "mydb": "cfg_db",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "sqlite RFID ohne Session log",
+        "x": 2020,
+        "y": 2580,
+        "wires": [
+            [
+                "889b5b656c379a72"
+            ]
+        ]
+    },
+    {
+        "id": "85299548b5a9a360",
+        "type": "function",
+        "z": "10ad6452d5deba9a",
+        "name": "ausfahren/status (Admin ohne Session)",
+        "func": "node.log('RFID direkte Admin-Freigabe: ' + (msg._open_display || 'Admin-Freigabe'));\nmsg.payload = JSON.stringify({\n  status: 'allowed',\n  display_text: msg._open_display || 'Admin-Freigabe'\n});\nmsg.topic = 'ausfahren/status';\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2950,
+        "y": 2580,
+        "wires": [
+            [
+                "734b58f794348c57"
+            ]
+        ]
+    },
+    {
+        "id": "889b5b656c379a72",
+        "type": "function",
+        "z": "10ad6452d5deba9a",
+        "name": "INSERT rfid_admin_releases (kein Session)",
+        "func": "msg.topic = 'INSERT INTO rfid_admin_releases (admin_id, rfid_uid, parking_session_id, release_time) VALUES (' + msg.admin_id + ', \\'' + msg.rfid_uid + '\\', NULL, datetime(\\'now\\'));';\nreturn msg;",
+        "outputs": 1,
+        "x": 2330,
+        "y": 2580,
+        "wires": [
+            [
+                "0fe0b5e611737549"
+            ]
+        ]
+    },
+    {
+        "id": "0fe0b5e611737549",
+        "type": "sqlite",
+        "z": "10ad6452d5deba9a",
+        "mydb": "cfg_db",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "sqlite INSERT rfid_admin_releases (kein Session)",
+        "x": 2640,
+        "y": 2580,
+        "wires": [
+            [
+                "85299548b5a9a360"
+            ]
+        ]
+    },
+    {
+        "id": "b15d2db978d237ad",
+        "type": "comment",
+        "z": "10ad6452d5deba9a",
+        "name": "Initialisierung / Datenbank-Setup",
+        "info": "Nur visuelle Strukturierung des bestehenden Init-Ablaufs.",
+        "x": 250,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "1838774ba405c6b7",
+        "type": "comment",
+        "z": "10ad6452d5deba9a",
+        "name": "Einfahrt",
+        "info": "Kennzeichenpruefung, Kapazitaetscheck und Freigabe.",
+        "x": 110,
+        "y": 1310,
+        "wires": []
+    },
+    {
+        "id": "203325121ad52b5b",
+        "type": "comment",
+        "z": "10ad6452d5deba9a",
+        "name": "Ausfahrt per Kennzeichen",
+        "info": "Session laden und in open/deny verzweigen.",
+        "x": 180,
+        "y": 1640,
+        "wires": []
+    },
+    {
+        "id": "8a912933d959e3c4",
+        "type": "comment",
+        "z": "10ad6452d5deba9a",
+        "name": "Ausfahrt geoeffnet",
+        "info": "Status erlauben, exit_time setzen und Event loggen.",
+        "x": 140,
+        "y": 1890,
+        "wires": []
+    },
+    {
+        "id": "bf9d9d569d87d9fa",
+        "type": "comment",
+        "z": "10ad6452d5deba9a",
+        "name": "Ausfahrt gesperrt / RFID-Freigabe",
+        "info": "Deny-Branch mit Timeout sowie RFID-Override und Logging.",
+        "x": 220,
+        "y": 2190,
+        "wires": []
+    },
+    {
+        "id": "81a284df26d63085",
+        "type": "comment",
+        "z": "10ad6452d5deba9a",
+        "name": "Parkplatzstatus",
+        "info": "Spot-Status aktualisieren und Event protokollieren.",
+        "x": 120,
+        "y": 2950,
+        "wires": []
+    },
+    {
+        "id": "0df09686dedb3016",
+        "type": "comment",
+        "z": "10ad6452d5deba9a",
+        "name": "Gebaeudelicht",
+        "info": "Lichtstatus als Event erfassen.",
+        "x": 120,
+        "y": 3180,
+        "wires": []
+    },
+    {
+        "id": "128b8bd02ff56915",
+        "type": "inject",
+        "z": "10ad6452d5deba9a",
+        "name": "▶ Einfahrt 1: RAB-AB-1234",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"plate\":\"RAB-AB-1234\"}",
+        "payloadType": "json",
+        "x": 180,
+        "y": 1240,
+        "wires": [
+            [
+                "0c81bce9d2975406"
+            ]
+        ]
+    },
+    {
+        "id": "cfg_db",
+        "type": "sqlitedb",
+        "db": "/home/iot/iot-systems/smart-parken/meine_datenbank.db",
+        "mode": "RWC"
+    },
+    {
+        "id": "565cddd55ecca8a5",
+        "type": "mqtt-broker",
+        "name": "Local MQTT Broker",
+        "broker": "127.0.0.1",
+        "port": "1883",
+        "clientid": "node-red-smart-parking-backend",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    }
+]
