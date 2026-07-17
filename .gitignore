@@ -4,3 +4,11 @@ studienarbeit/Nummernschilderkennung/cps
 studienarbeit/Nummernschilderkennung/docker-compose.yml
 .vscode
 studienarbeit/Nummernschilderkennung/mosquitto.conf
+
+# Smart_Parking Projekt: build outputs and dependencies
+Smart_Parking/Project/Projekt_Parking/node_modules/
+Smart_Parking/Project/Projekt_Parking/dist/
+
+# Common patterns
+node_modules/
+dist/
