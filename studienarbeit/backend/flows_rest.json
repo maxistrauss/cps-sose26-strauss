@@ -1,0 +1,1581 @@
+[
+    {
+        "id": "7fe3f9d703d28496",
+        "type": "tab",
+        "label": "Smart Parking – REST API",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "0b21c8ceb957e850",
+        "type": "http in",
+        "z": "7fe3f9d703d28496",
+        "name": "GET /api/admin/event-logs",
+        "url": "/api/admin/event-logs",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 110,
+        "y": 100,
+        "wires": [
+            [
+                "2d8d4a684cb8041f"
+            ]
+        ]
+    },
+    {
+        "id": "2d8d4a684cb8041f",
+        "type": "function",
+        "z": "7fe3f9d703d28496",
+        "name": "event-logs Query bauen",
+        "func": "\nconst q = msg.req.query;\nconst conditions = [];\nif (q.eventtype) conditions.push(\"eventtype = '\" + q.eventtype.replace(/'/g,\"''\") + \"'\");\nif (q.plate) conditions.push(\"(message LIKE '%\" + q.plate.replace(/'/g,\"''\") + \"%' OR \" +\n  \"parking_session_id IN (SELECT id FROM parking_sessions WHERE plate = '\" + q.plate.replace(/'/g,\"''\") + \"'))\");\nif (q.from) conditions.push(\"timestamp >= '\" + q.from + \"'\");\nif (q.to) conditions.push(\"timestamp <= '\" + q.to + \"'\");\nconst where = conditions.length > 0 ? 'WHERE ' + conditions.join(' AND ') : '';\nconst limit = parseInt(q.limit) || 100;\nconst offset = parseInt(q.offset) || 0;\nmsg.topic = 'SELECT id, timestamp, eventtype, source, message, parking_session_id FROM event_logs ' + where + ' ORDER BY id DESC LIMIT ' + limit + ' OFFSET ' + offset + ';';\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 350,
+        "y": 100,
+        "wires": [
+            [
+                "b28bef2f24801f07"
+            ]
+        ]
+    },
+    {
+        "id": "b28bef2f24801f07",
+        "type": "sqlite",
+        "z": "7fe3f9d703d28496",
+        "mydb": "cfg_db",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "sqlite event_logs",
+        "x": 570,
+        "y": 100,
+        "wires": [
+            [
+                "79c3aa9347389eb7"
+            ]
+        ]
+    },
+    {
+        "id": "79c3aa9347389eb7",
+        "type": "function",
+        "z": "7fe3f9d703d28496",
+        "name": "event-logs Response",
+        "func": "\nmsg.payload = msg.payload || [];\nmsg.headers = { 'Content-Type': 'application/json' };\nmsg.statusCode = 200;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 780,
+        "y": 100,
+        "wires": [
+            [
+                "ade2787b79571645"
+            ]
+        ]
+    },
+    {
+        "id": "ade2787b79571645",
+        "type": "http response",
+        "z": "7fe3f9d703d28496",
+        "name": "Response event-logs",
+        "statusCode": "",
+        "headers": {},
+        "x": 1000,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "2106ba27d743ef7d",
+        "type": "http in",
+        "z": "7fe3f9d703d28496",
+        "name": "GET open sessions",
+        "url": "/api/admin/parking-sessions/open",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 100,
+        "y": 180,
+        "wires": [
+            [
+                "958748c6702a49fa"
+            ]
+        ]
+    },
+    {
+        "id": "958748c6702a49fa",
+        "type": "function",
+        "z": "7fe3f9d703d28496",
+        "name": "open sessions: amount_due aktualisieren (Query)",
+        "func": "// Aktuellen Preis fuer ALLE offenen Sessions berechnen und in amount_due speichern.\n// (1 EUR je angefangener Stunde ab entry_time)\nmsg.topic = \"UPDATE parking_sessions \" +\n  \"SET amount_due = MAX(1, CAST((((julianday('now') - julianday(entry_time)) * 1440.0) + 59.9999) / 60.0 AS INTEGER)) * 1.0 \" +\n  \"WHERE exit_time IS NULL;\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 410,
+        "y": 180,
+        "wires": [
+            [
+                "61e0fac2f3025345"
+            ]
+        ]
+    },
+    {
+        "id": "61e0fac2f3025345",
+        "type": "sqlite",
+        "z": "7fe3f9d703d28496",
+        "mydb": "cfg_db",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "sqlite open sessions UPDATE amount_due",
+        "x": 790,
+        "y": 180,
+        "wires": [
+            [
+                "36cb81f1959a9cf8"
+            ]
+        ]
+    },
+    {
+        "id": "c5aacf7fac218dc6",
+        "type": "function",
+        "z": "7fe3f9d703d28496",
+        "name": "open sessions Response",
+        "func": "// amount_due kommt jetzt bereits aktuell aus der Datenbank (siehe Query davor)\nconst rows = msg.payload || [];\nmsg.statusCode = 200;\nmsg.payload = rows.map(function(s) {\n  return {\n    id: s.id,\n    plate: s.plate,\n    entry_time: s.entry_time,\n    amount_due: parseFloat(s.amount_due) || 0,\n    amount_paid: parseFloat(s.amount_paid) || 0\n  };\n});\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1730,
+        "y": 180,
+        "wires": [
+            [
+                "0753d50372f57b82"
+            ]
+        ]
+    },
+    {
+        "id": "0753d50372f57b82",
+        "type": "http response",
+        "z": "7fe3f9d703d28496",
+        "name": "Response open sessions",
+        "statusCode": "",
+        "headers": {},
+        "x": 1970,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "0183ce3f3252d28d",
+        "type": "http in",
+        "z": "7fe3f9d703d28496",
+        "name": "GET session by ID",
+        "url": "/api/admin/parking-sessions/:sessionId",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 100,
+        "y": 260,
+        "wires": [
+            [
+                "7e0c61c65c1c10b3"
+            ]
+        ]
+    },
+    {
+        "id": "7e0c61c65c1c10b3",
+        "type": "function",
+        "z": "7fe3f9d703d28496",
+        "name": "session by ID Query",
+        "func": "const id = parseInt(msg.req.params.sessionId);\nif (!id) {\n  msg.statusCode = 400;\n  msg.payload = JSON.stringify({error: 'Ungueltige sessionId'});\n  msg.topic = 'SELECT 1 WHERE 0;'; // Bugfix: vorher blieb topic hier undefiniert\n  return msg;\n}\nmsg._session_id = id;\nmsg.topic = 'SELECT * FROM parking_sessions WHERE id = ' + id + ';';\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 320,
+        "y": 260,
+        "wires": [
+            [
+                "b825083ebff13f74"
+            ]
+        ]
+    },
+    {
+        "id": "b825083ebff13f74",
+        "type": "sqlite",
+        "z": "7fe3f9d703d28496",
+        "mydb": "cfg_db",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "sqlite session by ID",
+        "x": 540,
+        "y": 260,
+        "wires": [
+            [
+                "5b34e9fb1a6f5cdc"
+            ]
+        ]
+    },
+    {
+        "id": "92684147db1f2314",
+        "type": "function",
+        "z": "7fe3f9d703d28496",
+        "name": "session by ID Response",
+        "func": "if (msg.statusCode) return msg; // Fehler aus vorherigen Nodes durchreichen\n\nif (!msg.payload || msg.payload.length === 0) {\n  msg.statusCode = 404;\n  msg.payload = JSON.stringify({error: 'Session nicht gefunden'});\n} else {\n  msg.statusCode = 200;\n  msg.payload = msg.payload[0];\n}\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2110,
+        "y": 260,
+        "wires": [
+            [
+                "257388c0a33be243"
+            ]
+        ]
+    },
+    {
+        "id": "257388c0a33be243",
+        "type": "http response",
+        "z": "7fe3f9d703d28496",
+        "name": "Response session by ID",
+        "statusCode": "",
+        "headers": {},
+        "x": 2350,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "a227288e1fd08c1b",
+        "type": "http in",
+        "z": "7fe3f9d703d28496",
+        "name": "PATCH session",
+        "url": "/api/admin/parking-sessions/:sessionId",
+        "method": "patch",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 100,
+        "y": 340,
+        "wires": [
+            [
+                "db20c2a8936d6386"
+            ]
+        ]
+    },
+    {
+        "id": "db20c2a8936d6386",
+        "type": "function",
+        "z": "7fe3f9d703d28496",
+        "name": "session PATCH Query",
+        "func": "const id = parseInt(msg.req.params.sessionId);\nconst body = msg.req.body || {};\nif (!id) {\n  msg.statusCode = 400;\n  msg.payload = JSON.stringify({error: 'Ungueltige sessionId'});\n  msg.topic = 'SELECT 1 WHERE 0;';\n  return msg;\n}\nconst sets = [];\nif (body.amount_paid !== undefined) sets.push('amount_paid = ' + parseFloat(body.amount_paid));\nif (body.payment_time !== undefined) sets.push(\"payment_time = '\" + String(body.payment_time).replace(/'/g,\"''\") + \"'\");\nif (body.exit_valid_until !== undefined) sets.push(\"exit_valid_until = '\" + String(body.exit_valid_until).replace(/'/g,\"''\") + \"'\");\nif (sets.length === 0) {\n  msg.statusCode = 400;\n  msg.payload = JSON.stringify({error: 'Keine Felder angegeben'});\n  msg.topic = 'SELECT 1 WHERE 0;';\n  return msg;\n}\nmsg._patch_session_id = id;\nmsg.topic = 'UPDATE parking_sessions SET ' + sets.join(', ') + ' WHERE id = ' + id + ';';\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 320,
+        "y": 340,
+        "wires": [
+            [
+                "b69b2bd01fa07820"
+            ]
+        ]
+    },
+    {
+        "id": "b69b2bd01fa07820",
+        "type": "sqlite",
+        "z": "7fe3f9d703d28496",
+        "mydb": "cfg_db",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "sqlite PATCH session",
+        "x": 540,
+        "y": 340,
+        "wires": [
+            [
+                "8687c9c7fd384ed3"
+            ]
+        ]
+    },
+    {
+        "id": "8687c9c7fd384ed3",
+        "type": "function",
+        "z": "7fe3f9d703d28496",
+        "name": "session PATCH Response",
+        "func": "if (msg.statusCode) return msg; // Validierungsfehler durchreichen statt ueberschreiben\nmsg.statusCode = 200;\nmsg.payload = JSON.stringify({success: true, session_id: msg._patch_session_id});\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 780,
+        "y": 340,
+        "wires": [
+            [
+                "b98ee4904c251022"
+            ]
+        ]
+    },
+    {
+        "id": "b98ee4904c251022",
+        "type": "http response",
+        "z": "7fe3f9d703d28496",
+        "name": "Response PATCH session",
+        "statusCode": "",
+        "headers": {},
+        "x": 1060,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "1534a48d7e576b4d",
+        "type": "http in",
+        "z": "7fe3f9d703d28496",
+        "name": "GET rfid-admins",
+        "url": "/api/admin/rfid-admins",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 100,
+        "y": 420,
+        "wires": [
+            [
+                "8173ddf466ce0a28"
+            ]
+        ]
+    },
+    {
+        "id": "8173ddf466ce0a28",
+        "type": "function",
+        "z": "7fe3f9d703d28496",
+        "name": "rfid-admins Query",
+        "func": "\nmsg.topic = \"SELECT id, name, rfid_uid, role, active FROM user_admins ORDER BY id;\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 320,
+        "y": 420,
+        "wires": [
+            [
+                "ef3bcefaa42f687e"
+            ]
+        ]
+    },
+    {
+        "id": "ef3bcefaa42f687e",
+        "type": "sqlite",
+        "z": "7fe3f9d703d28496",
+        "mydb": "cfg_db",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "sqlite rfid-admins",
+        "x": 540,
+        "y": 420,
+        "wires": [
+            [
+                "57f68035517716b2"
+            ]
+        ]
+    },
+    {
+        "id": "57f68035517716b2",
+        "type": "function",
+        "z": "7fe3f9d703d28496",
+        "name": "rfid-admins Response",
+        "func": "\nmsg.statusCode = 200;\nmsg.payload = msg.payload || [];\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 760,
+        "y": 420,
+        "wires": [
+            [
+                "d321b1d34022977a"
+            ]
+        ]
+    },
+    {
+        "id": "d321b1d34022977a",
+        "type": "http response",
+        "z": "7fe3f9d703d28496",
+        "name": "Response rfid-admins",
+        "statusCode": "",
+        "headers": {},
+        "x": 980,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "3bafe8ea55e52e3f",
+        "type": "http in",
+        "z": "7fe3f9d703d28496",
+        "name": "POST rfid-admins",
+        "url": "/api/admin/rfid-admins",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 100,
+        "y": 500,
+        "wires": [
+            [
+                "9f439171196a95cc"
+            ]
+        ]
+    },
+    {
+        "id": "9f439171196a95cc",
+        "type": "function",
+        "z": "7fe3f9d703d28496",
+        "name": "rfid-admins INSERT",
+        "func": "const body = msg.req.body || {};\nif (!body.name || !body.uid) {\n  msg.statusCode = 400;\n  msg.payload = JSON.stringify({error: 'name und uid erforderlich'});\n  msg.topic = 'SELECT 1 WHERE 0;';\n  return msg;\n}\nconst active = body.active !== false ? 1 : 0;\nmsg.topic = \"INSERT INTO user_admins (name, rfid_uid, role, active) VALUES ('\" +\n  body.name.replace(/'/g,\"''\") + \"', '\" + body.uid.replace(/'/g,\"''\") + \"', 'admin', \" + active + \");\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 320,
+        "y": 500,
+        "wires": [
+            [
+                "6d62e6579071d473"
+            ]
+        ]
+    },
+    {
+        "id": "6d62e6579071d473",
+        "type": "sqlite",
+        "z": "7fe3f9d703d28496",
+        "mydb": "cfg_db",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "sqlite INSERT rfid-admin",
+        "x": 540,
+        "y": 500,
+        "wires": [
+            [
+                "2a9c2fdb48f78b67"
+            ]
+        ]
+    },
+    {
+        "id": "2a9c2fdb48f78b67",
+        "type": "function",
+        "z": "7fe3f9d703d28496",
+        "name": "rfid-admins POST Response",
+        "func": "if (msg.statusCode) return msg;\nmsg.statusCode = 201;\nmsg.payload = JSON.stringify({success: true});\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 800,
+        "y": 500,
+        "wires": [
+            [
+                "75d4db54cea425a1"
+            ]
+        ]
+    },
+    {
+        "id": "75d4db54cea425a1",
+        "type": "http response",
+        "z": "7fe3f9d703d28496",
+        "name": "Response POST rfid-admin",
+        "statusCode": "",
+        "headers": {},
+        "x": 1060,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "d03322d26fa5c8b3",
+        "type": "http in",
+        "z": "7fe3f9d703d28496",
+        "name": "PATCH rfid-admin",
+        "url": "/api/admin/rfid-admins/:uid",
+        "method": "patch",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 100,
+        "y": 580,
+        "wires": [
+            [
+                "f56166c4d61ba2cd"
+            ]
+        ]
+    },
+    {
+        "id": "f56166c4d61ba2cd",
+        "type": "function",
+        "z": "7fe3f9d703d28496",
+        "name": "rfid-admin PATCH",
+        "func": "const uid = msg.req.params.uid;\nconst body = msg.req.body || {};\nif (body.active === undefined) {\n  msg.statusCode = 400;\n  msg.payload = JSON.stringify({error: 'active erforderlich'});\n  msg.topic = 'SELECT 1 WHERE 0;';\n  return msg;\n}\nconst active = body.active ? 1 : 0;\nmsg.topic = \"UPDATE user_admins SET active = \" + active + \" WHERE rfid_uid = '\" + uid.replace(/'/g,\"''\") + \"';\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 310,
+        "y": 580,
+        "wires": [
+            [
+                "3707c3d8f25c1b4a"
+            ]
+        ]
+    },
+    {
+        "id": "3707c3d8f25c1b4a",
+        "type": "sqlite",
+        "z": "7fe3f9d703d28496",
+        "mydb": "cfg_db",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "sqlite PATCH rfid-admin",
+        "x": 540,
+        "y": 580,
+        "wires": [
+            [
+                "db8db0123d2980e1"
+            ]
+        ]
+    },
+    {
+        "id": "db8db0123d2980e1",
+        "type": "function",
+        "z": "7fe3f9d703d28496",
+        "name": "rfid-admin PATCH Response",
+        "func": "if (msg.statusCode) return msg;\nmsg.statusCode = 200;\nmsg.payload = JSON.stringify({success: true});\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 800,
+        "y": 580,
+        "wires": [
+            [
+                "1a7bb58c662cf0b5"
+            ]
+        ]
+    },
+    {
+        "id": "1a7bb58c662cf0b5",
+        "type": "http response",
+        "z": "7fe3f9d703d28496",
+        "name": "Response PATCH rfid-admin",
+        "statusCode": "",
+        "headers": {},
+        "x": 1080,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "0aaac5e01a9c1cd5",
+        "type": "http in",
+        "z": "7fe3f9d703d28496",
+        "name": "GET rfid-releases",
+        "url": "/api/admin/rfid-releases",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 100,
+        "y": 660,
+        "wires": [
+            [
+                "9de53ddee5e267be"
+            ]
+        ]
+    },
+    {
+        "id": "9de53ddee5e267be",
+        "type": "function",
+        "z": "7fe3f9d703d28496",
+        "name": "rfid-releases Query",
+        "func": "\nmsg.topic = \"SELECT r.id, r.admin_id, u.name as admin_name, r.rfid_uid, r.parking_session_id, r.release_time FROM rfid_admin_releases r LEFT JOIN user_admins u ON u.id = r.admin_id ORDER BY r.id DESC;\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 320,
+        "y": 660,
+        "wires": [
+            [
+                "698658e537b826a5"
+            ]
+        ]
+    },
+    {
+        "id": "698658e537b826a5",
+        "type": "sqlite",
+        "z": "7fe3f9d703d28496",
+        "mydb": "cfg_db",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "sqlite rfid-releases",
+        "x": 540,
+        "y": 660,
+        "wires": [
+            [
+                "c543564a910d34c3"
+            ]
+        ]
+    },
+    {
+        "id": "c543564a910d34c3",
+        "type": "function",
+        "z": "7fe3f9d703d28496",
+        "name": "rfid-releases Response",
+        "func": "\nmsg.statusCode = 200;\nmsg.payload = msg.payload || [];\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 760,
+        "y": 660,
+        "wires": [
+            [
+                "ec7a21e2b619122f"
+            ]
+        ]
+    },
+    {
+        "id": "ec7a21e2b619122f",
+        "type": "http response",
+        "z": "7fe3f9d703d28496",
+        "name": "Response rfid-releases",
+        "statusCode": "",
+        "headers": {},
+        "x": 1010,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "9c1287753328c483",
+        "type": "http in",
+        "z": "7fe3f9d703d28496",
+        "name": "GET open-sessions (pay)",
+        "url": "/api/payments/open-sessions",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 100,
+        "y": 880,
+        "wires": [
+            [
+                "be9620a3e705ce65"
+            ]
+        ]
+    },
+    {
+        "id": "be9620a3e705ce65",
+        "type": "function",
+        "z": "7fe3f9d703d28496",
+        "name": "pay open-sessions: amount_due aktualisieren (Query)",
+        "func": "// Aktuellen Preis fuer ALLE offenen Sessions berechnen und in amount_due speichern.\nmsg.topic = \"UPDATE parking_sessions \" +\n  \"SET amount_due = MAX(1, CAST((((julianday('now') - julianday(entry_time)) * 1440.0) + 59.9999) / 60.0 AS INTEGER)) * 1.0 \" +\n  \"WHERE exit_time IS NULL;\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 440,
+        "y": 880,
+        "wires": [
+            [
+                "3d9208f4c82adf4d"
+            ]
+        ]
+    },
+    {
+        "id": "3d9208f4c82adf4d",
+        "type": "sqlite",
+        "z": "7fe3f9d703d28496",
+        "mydb": "cfg_db",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "sqlite pay open sessions",
+        "x": 770,
+        "y": 880,
+        "wires": [
+            [
+                "4aaeb31ea9433df2"
+            ]
+        ]
+    },
+    {
+        "id": "cc6e9150f7b4a734",
+        "type": "function",
+        "z": "7fe3f9d703d28496",
+        "name": "pay open-sessions Response",
+        "func": "// amount_due kommt jetzt bereits aktuell aus der Datenbank (siehe Query davor)\nconst rows = msg.payload || [];\nmsg.statusCode = 200;\nmsg.payload = rows.map(function(s) {\n  const due = parseFloat(s.amount_due) || 0;\n  const paid = parseFloat(s.amount_paid) || 0;\n  return {\n    session_id: s.session_id,\n    plate: s.plate,\n    entry_time: s.entry_time,\n    amount_due: due,\n    amount_paid: paid,\n    remaining_amount: Math.max(0, Math.round((due - paid) * 100) / 100)\n  };\n});\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1710,
+        "y": 880,
+        "wires": [
+            [
+                "197df24a0f4d98fd"
+            ]
+        ]
+    },
+    {
+        "id": "197df24a0f4d98fd",
+        "type": "http response",
+        "z": "7fe3f9d703d28496",
+        "name": "Response pay open sessions",
+        "statusCode": "",
+        "headers": {},
+        "x": 1980,
+        "y": 880,
+        "wires": []
+    },
+    {
+        "id": "961b38a4533de6f3",
+        "type": "http in",
+        "z": "7fe3f9d703d28496",
+        "name": "GET session by plate",
+        "url": "/api/payments/session/by-plate/:plate",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 100,
+        "y": 960,
+        "wires": [
+            [
+                "191bb273f4a76a12"
+            ]
+        ]
+    },
+    {
+        "id": "191bb273f4a76a12",
+        "type": "function",
+        "z": "7fe3f9d703d28496",
+        "name": "pay by-plate Query",
+        "func": "\nconst plate = msg.req.params.plate.trim().toUpperCase();\nmsg._req_plate = plate;\nmsg.topic = \"SELECT id as session_id, plate, entry_time, amount_paid FROM parking_sessions WHERE plate = '\" + plate.replace(/'/g,\"''\") + \"' AND exit_time IS NULL ORDER BY id DESC LIMIT 1;\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 320,
+        "y": 960,
+        "wires": [
+            [
+                "c76572c8edafb0a1"
+            ]
+        ]
+    },
+    {
+        "id": "c76572c8edafb0a1",
+        "type": "sqlite",
+        "z": "7fe3f9d703d28496",
+        "mydb": "cfg_db",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "sqlite pay by plate",
+        "x": 530,
+        "y": 960,
+        "wires": [
+            [
+                "e0773e5417b2fbd4"
+            ]
+        ]
+    },
+    {
+        "id": "d764bc05c713d2b7",
+        "type": "function",
+        "z": "7fe3f9d703d28496",
+        "name": "pay by-plate Response",
+        "func": "// amount_due kommt jetzt bereits aktuell aus der Datenbank (siehe Query davor)\nconst rows = msg.payload || [];\nif (rows.length === 0) {\n  msg.statusCode = 404;\n  msg.payload = JSON.stringify({error: 'Keine aktive Session fuer dieses Kennzeichen'});\n  return msg;\n}\nconst s = rows[0];\nconst due = parseFloat(s.amount_due) || 0;\nconst paid = parseFloat(s.amount_paid) || 0;\nmsg.statusCode = 200;\nmsg.payload = {\n  session_id: s.id,\n  plate: s.plate,\n  entry_time: s.entry_time,\n  amount_due: due,\n  amount_paid: paid,\n  remaining_amount: Math.max(0, Math.round((due - paid) * 100) / 100)\n};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2060,
+        "y": 960,
+        "wires": [
+            [
+                "0bcc5497f4f82189"
+            ]
+        ]
+    },
+    {
+        "id": "0bcc5497f4f82189",
+        "type": "http response",
+        "z": "7fe3f9d703d28496",
+        "name": "Response pay by plate",
+        "statusCode": "",
+        "headers": {},
+        "x": 2280,
+        "y": 960,
+        "wires": []
+    },
+    {
+        "id": "7cbdd60bc92aadaa",
+        "type": "http in",
+        "z": "7fe3f9d703d28496",
+        "name": "POST /api/payments/pay",
+        "url": "/api/payments/pay",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 100,
+        "y": 800,
+        "wires": [
+            [
+                "3b5874bc0a373d92"
+            ]
+        ]
+    },
+    {
+        "id": "3b5874bc0a373d92",
+        "type": "function",
+        "z": "7fe3f9d703d28496",
+        "name": "pay: Session laden",
+        "func": "const body = msg.req.body || {};\nconst plate = (body.plate || '').trim().toUpperCase();\nconst amountNow = parseFloat(body.amount_paid_now);\nif (!plate || isNaN(amountNow) || amountNow <= 0) {\n  msg.statusCode = 400;\n  msg.payload = JSON.stringify({error: 'plate und amount_paid_now (>0) erforderlich'});\n  msg.topic = 'SELECT 1 WHERE 0;';\n  return msg;\n}\nmsg._pay_plate = plate;\nmsg._pay_amount_now = amountNow;\nmsg.topic = \"SELECT id, plate, entry_time, amount_due, amount_paid FROM parking_sessions \" +\n  \"WHERE plate = '\" + plate.replace(/'/g,\"''\") + \"' AND exit_time IS NULL ORDER BY id DESC LIMIT 1;\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 310,
+        "y": 800,
+        "wires": [
+            [
+                "38034bc212397f1b"
+            ]
+        ]
+    },
+    {
+        "id": "38034bc212397f1b",
+        "type": "sqlite",
+        "z": "7fe3f9d703d28496",
+        "mydb": "cfg_db",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "sqlite pay load session",
+        "x": 520,
+        "y": 800,
+        "wires": [
+            [
+                "e033ebca2f3d38e3"
+            ]
+        ]
+    },
+    {
+        "id": "e033ebca2f3d38e3",
+        "type": "function",
+        "z": "7fe3f9d703d28496",
+        "name": "pay: Zahlung verbuchen + UPDATE",
+        "func": "if (msg.statusCode) { msg.topic = 'SELECT 1 WHERE 0;'; return msg; } // Validierung bereits fehlgeschlagen\n\nconst rows = msg.payload;\nif (!rows || rows.length === 0) {\n  msg.statusCode = 404;\n  msg.payload = JSON.stringify({error: 'Keine aktive Session fuer ' + msg._pay_plate});\n  msg.topic = 'SELECT 1 WHERE 0;';\n  return msg;\n}\nconst session = rows[0];\n\n// Preis wurde bereits im GET-Flow berechnet und in amount_due gespeichert.\n// Hier findet KEINE Neuberechnung anhand der Parkzeit mehr statt.\nconst amountDue = parseFloat(session.amount_due) || 0;\nconst amountPaidBefore = parseFloat(session.amount_paid) || 0;\nconst amountNow = msg._pay_amount_now;\nconst amountPaidTotal = Math.round((amountPaidBefore + amountNow) * 100) / 100;\nconst remaining = Math.max(0, Math.round((amountDue - amountPaidTotal) * 100) / 100);\nconst exitAllowed = amountPaidTotal >= amountDue;\n\nconst exitValidUntil = exitAllowed\n  ? new Date(Date.now() + 15 * 60 * 1000).toISOString()\n  : null;\n\nmsg._pay_result = {\n  success: true,\n  plate: session.plate,\n  session_id: session.id,\n  amount_due: amountDue,\n  amount_paid_total: amountPaidTotal,\n  remaining_amount: remaining,\n  exit_allowed: exitAllowed\n};\n\nlet sql = 'UPDATE parking_sessions SET amount_paid = ' + amountPaidTotal +\n  \", payment_time = datetime('now')\";\nif (exitAllowed) {\n  sql += \", exit_valid_until = '\" + exitValidUntil + \"'\";\n}\nsql += ' WHERE id = ' + session.id + ';';\nmsg.topic = sql;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 780,
+        "y": 800,
+        "wires": [
+            [
+                "be337bf3f839fb68"
+            ]
+        ]
+    },
+    {
+        "id": "be337bf3f839fb68",
+        "type": "sqlite",
+        "z": "7fe3f9d703d28496",
+        "mydb": "cfg_db",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "sqlite pay UPDATE",
+        "x": 1030,
+        "y": 800,
+        "wires": [
+            [
+                "5248c0db479ce93f"
+            ]
+        ]
+    },
+    {
+        "id": "5248c0db479ce93f",
+        "type": "function",
+        "z": "7fe3f9d703d28496",
+        "name": "pay: PAYMENT_SUCCESS loggen",
+        "func": "if (msg.statusCode) { msg.topic = 'SELECT 1 WHERE 0;'; return msg; }\nconst r = msg._pay_result;\nmsg.topic = \"INSERT INTO event_logs (eventtype, source, message, parking_session_id) VALUES \" +\n  \"('PAYMENT_SUCCESS', 'rest_api', 'Zahlung fuer \" + r.plate + \": \" + r.amount_paid_total + \" EUR (gesamt)', \" + r.session_id + \");\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1280,
+        "y": 800,
+        "wires": [
+            [
+                "67ad12140705cab4"
+            ]
+        ]
+    },
+    {
+        "id": "67ad12140705cab4",
+        "type": "sqlite",
+        "z": "7fe3f9d703d28496",
+        "mydb": "cfg_db",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "sqlite PAYMENT_SUCCESS log",
+        "x": 1590,
+        "y": 800,
+        "wires": [
+            [
+                "7924a68af48fb96c"
+            ]
+        ]
+    },
+    {
+        "id": "7924a68af48fb96c",
+        "type": "function",
+        "z": "7fe3f9d703d28496",
+        "name": "pay Response",
+        "func": "if (msg.statusCode) return msg; // Fehler aus vorherigen Nodes durchreichen\nmsg.statusCode = 200;\nmsg.payload = msg._pay_result;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1840,
+        "y": 800,
+        "wires": [
+            [
+                "32fc24d4fde1ee68"
+            ]
+        ]
+    },
+    {
+        "id": "32fc24d4fde1ee68",
+        "type": "http response",
+        "z": "7fe3f9d703d28496",
+        "name": "Response pay",
+        "statusCode": "",
+        "headers": {},
+        "x": 2040,
+        "y": 800,
+        "wires": []
+    },
+    {
+        "id": "4d804b4d457da826",
+        "type": "http in",
+        "z": "7fe3f9d703d28496",
+        "name": "GET payment session",
+        "url": "/api/payments/session/:sessionId",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 90,
+        "y": 1040,
+        "wires": [
+            [
+                "749721aebbdd3aae"
+            ]
+        ]
+    },
+    {
+        "id": "749721aebbdd3aae",
+        "type": "function",
+        "z": "7fe3f9d703d28496",
+        "name": "pay PATCH: Session laden Query",
+        "func": "const id = parseInt(msg.req.params.sessionId);\nif (!id) {\n  msg.statusCode = 400;\n  msg.payload = JSON.stringify({error: 'Ungueltige sessionId'});\n  msg.topic = 'SELECT 1 WHERE 0;';\n  return msg;\n}\nmsg._patch_id = id;\nmsg.topic = 'SELECT amount_due, amount_paid, exit_time FROM parking_sessions WHERE id = ' + id + ';';\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 1040,
+        "wires": [
+            [
+                "3a538f96002414df"
+            ]
+        ]
+    },
+    {
+        "id": "3a538f96002414df",
+        "type": "sqlite",
+        "z": "7fe3f9d703d28496",
+        "mydb": "cfg_db",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "sqlite pay PATCH: Session laden",
+        "x": 700,
+        "y": 1040,
+        "wires": [
+            [
+                "c1b7140d685b617b"
+            ]
+        ]
+    },
+    {
+        "id": "f59a5040cfcedd37",
+        "type": "function",
+        "z": "7fe3f9d703d28496",
+        "name": "pay PATCH Response",
+        "func": "if (msg.statusCode) return msg; // Fehler aus vorherigen Nodes durchreichen\n\nconst rows = msg.payload || [];\nconst session = rows[0];\nmsg.statusCode = 200;\nmsg.payload = JSON.stringify({\n  success: true,\n  session_id: session.id,\n  plate: session.plate,\n  amount_due: session.amount_due,\n  amount_paid: session.amount_paid,\n  payment_time: session.payment_time,\n  exit_valid_until: session.exit_valid_until\n});\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2360,
+        "y": 1040,
+        "wires": [
+            [
+                "53aea215fbddfd85"
+            ]
+        ]
+    },
+    {
+        "id": "53aea215fbddfd85",
+        "type": "http response",
+        "z": "7fe3f9d703d28496",
+        "name": "Response pay PATCH",
+        "statusCode": "",
+        "headers": {},
+        "x": 2580,
+        "y": 1040,
+        "wires": []
+    },
+    {
+        "id": "218dfe1d74b95208",
+        "type": "http in",
+        "z": "7fe3f9d703d28496",
+        "name": "GET parking-spots",
+        "url": "/api/map/parking-spots",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 100,
+        "y": 1180,
+        "wires": [
+            [
+                "49e90f4d5ed5fd33"
+            ]
+        ]
+    },
+    {
+        "id": "49e90f4d5ed5fd33",
+        "type": "function",
+        "z": "7fe3f9d703d28496",
+        "name": "map spots Query",
+        "func": "\nmsg.topic = \"SELECT id, floor, spot_number, occupied FROM parking_spots ORDER BY floor, spot_number;\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 320,
+        "y": 1180,
+        "wires": [
+            [
+                "ac270199f4c0f861"
+            ]
+        ]
+    },
+    {
+        "id": "ac270199f4c0f861",
+        "type": "sqlite",
+        "z": "7fe3f9d703d28496",
+        "mydb": "cfg_db",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "sqlite map spots",
+        "x": 540,
+        "y": 1180,
+        "wires": [
+            [
+                "80d4d8cc17b2cb58"
+            ]
+        ]
+    },
+    {
+        "id": "80d4d8cc17b2cb58",
+        "type": "function",
+        "z": "7fe3f9d703d28496",
+        "name": "map spots Response",
+        "func": "\nmsg.statusCode = 200;\nmsg.payload = msg.payload || [];\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 760,
+        "y": 1180,
+        "wires": [
+            [
+                "f571dbab9d845f69"
+            ]
+        ]
+    },
+    {
+        "id": "f571dbab9d845f69",
+        "type": "http response",
+        "z": "7fe3f9d703d28496",
+        "name": "Response map spots",
+        "statusCode": "",
+        "headers": {},
+        "x": 980,
+        "y": 1180,
+        "wires": []
+    },
+    {
+        "id": "eadcd121fc0e92ce",
+        "type": "http in",
+        "z": "7fe3f9d703d28496",
+        "name": "GET map overview",
+        "url": "/api/map/overview",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 100,
+        "y": 1260,
+        "wires": [
+            [
+                "04f9043b771cf396"
+            ]
+        ]
+    },
+    {
+        "id": "04f9043b771cf396",
+        "type": "function",
+        "z": "7fe3f9d703d28496",
+        "name": "map overview Query",
+        "func": "\nmsg.topic = \"SELECT (SELECT COUNT(*) FROM parking_spots) as total_spots, (SELECT COUNT(*) FROM parking_sessions WHERE exit_time IS NULL) as occupied_spots;\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 320,
+        "y": 1260,
+        "wires": [
+            [
+                "cde65b060d3514a1"
+            ]
+        ]
+    },
+    {
+        "id": "cde65b060d3514a1",
+        "type": "sqlite",
+        "z": "7fe3f9d703d28496",
+        "mydb": "cfg_db",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "sqlite map overview",
+        "x": 540,
+        "y": 1260,
+        "wires": [
+            [
+                "a931b74bf1922052"
+            ]
+        ]
+    },
+    {
+        "id": "a931b74bf1922052",
+        "type": "function",
+        "z": "7fe3f9d703d28496",
+        "name": "map overview Response",
+        "func": "\nconst row = msg.payload && msg.payload[0] ? msg.payload[0] : {total_spots:0, occupied_spots:0};\nmsg.statusCode = 200;\nmsg.payload = {\n  total_spots: row.total_spots,\n  free_spots: row.total_spots - row.occupied_spots,\n  occupied_spots: row.occupied_spots\n};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 760,
+        "y": 1260,
+        "wires": [
+            [
+                "e648c30486bc2584"
+            ]
+        ]
+    },
+    {
+        "id": "e648c30486bc2584",
+        "type": "http response",
+        "z": "7fe3f9d703d28496",
+        "name": "Response map overview",
+        "statusCode": "",
+        "headers": {},
+        "x": 1010,
+        "y": 1260,
+        "wires": []
+    },
+    {
+        "id": "e34bf3dae11b079e",
+        "type": "comment",
+        "z": "7fe3f9d703d28496",
+        "name": "── ADMIN ──────────────────────────────────────────",
+        "info": "",
+        "x": 290,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "b2cf2ae5606a09c7",
+        "type": "comment",
+        "z": "7fe3f9d703d28496",
+        "name": "── PAYMENTS ────────────────────────────────────────",
+        "info": "",
+        "x": 200,
+        "y": 760,
+        "wires": []
+    },
+    {
+        "id": "42aebac307f1e524",
+        "type": "comment",
+        "z": "7fe3f9d703d28496",
+        "name": "── MAP ─────────────────────────────────────────────",
+        "info": "",
+        "x": 200,
+        "y": 1140,
+        "wires": []
+    },
+    {
+        "id": "36cb81f1959a9cf8",
+        "type": "function",
+        "z": "7fe3f9d703d28496",
+        "name": "open sessions: aktualisierte Sessions Query",
+        "func": "msg.topic = \"SELECT id, plate, entry_time, amount_due, amount_paid FROM parking_sessions \" +\n  \"WHERE exit_time IS NULL ORDER BY entry_time ASC;\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1150,
+        "y": 180,
+        "wires": [
+            [
+                "5189cfc0e3b1b3f0"
+            ]
+        ]
+    },
+    {
+        "id": "5189cfc0e3b1b3f0",
+        "type": "sqlite",
+        "z": "7fe3f9d703d28496",
+        "mydb": "cfg_db",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "sqlite open sessions SELECT",
+        "x": 1470,
+        "y": 180,
+        "wires": [
+            [
+                "c5aacf7fac218dc6"
+            ]
+        ]
+    },
+    {
+        "id": "5b34e9fb1a6f5cdc",
+        "type": "function",
+        "z": "7fe3f9d703d28496",
+        "name": "session by ID: Preis berechnen + Update-SQL",
+        "func": "if (msg.statusCode) return msg; // vorherige Validierung fehlgeschlagen -> durchreichen\n\nfunction calcAmountDue(entryTime) {\n  const entry = new Date(entryTime.replace(' ', 'T') + (entryTime.includes('T') ? '' : 'Z'));\n  const diffMs = Date.now() - entry.getTime();\n  const diffMinutes = diffMs / 1000 / 60;\n  const hoursStarted = Math.max(1, Math.ceil(diffMinutes / 60));\n  return Math.round(hoursStarted * 1.0 * 100) / 100;\n}\n\nconst rows = msg.payload || [];\nif (rows.length === 0 || rows[0].exit_time) {\n  // Session existiert nicht oder ist bereits beendet: amount_due nicht neu berechnen\n  msg.topic = 'UPDATE parking_sessions SET amount_due = amount_due WHERE id = ' + msg._session_id + ';';\n  return msg;\n}\n\nconst amountDue = calcAmountDue(rows[0].entry_time);\nmsg.topic = 'UPDATE parking_sessions SET amount_due = ' + amountDue + ' WHERE id = ' + msg._session_id + ';';\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 840,
+        "y": 260,
+        "wires": [
+            [
+                "0c3ce6c886753d52"
+            ]
+        ]
+    },
+    {
+        "id": "0c3ce6c886753d52",
+        "type": "sqlite",
+        "z": "7fe3f9d703d28496",
+        "mydb": "cfg_db",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "sqlite session by ID UPDATE amount_due",
+        "x": 1200,
+        "y": 260,
+        "wires": [
+            [
+                "cbf95b91a859d988"
+            ]
+        ]
+    },
+    {
+        "id": "cbf95b91a859d988",
+        "type": "function",
+        "z": "7fe3f9d703d28496",
+        "name": "session by ID: aktualisierte Session Query",
+        "func": "if (msg.statusCode) return msg;\nmsg.topic = 'SELECT * FROM parking_sessions WHERE id = ' + msg._session_id + ';';\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1540,
+        "y": 260,
+        "wires": [
+            [
+                "1d0ee0d239a4b045"
+            ]
+        ]
+    },
+    {
+        "id": "1d0ee0d239a4b045",
+        "type": "sqlite",
+        "z": "7fe3f9d703d28496",
+        "mydb": "cfg_db",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "sqlite session by ID (aktualisiert)",
+        "x": 1850,
+        "y": 260,
+        "wires": [
+            [
+                "92684147db1f2314"
+            ]
+        ]
+    },
+    {
+        "id": "4aaeb31ea9433df2",
+        "type": "function",
+        "z": "7fe3f9d703d28496",
+        "name": "pay open-sessions: aktualisierte Sessions Query",
+        "func": "msg.topic = \"SELECT id as session_id, plate, entry_time, amount_due, amount_paid \" +\n  \"FROM parking_sessions WHERE exit_time IS NULL ORDER BY entry_time ASC;\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1080,
+        "y": 880,
+        "wires": [
+            [
+                "482b8c45af86a0de"
+            ]
+        ]
+    },
+    {
+        "id": "482b8c45af86a0de",
+        "type": "sqlite",
+        "z": "7fe3f9d703d28496",
+        "mydb": "cfg_db",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "sqlite pay open sessions SELECT",
+        "x": 1420,
+        "y": 880,
+        "wires": [
+            [
+                "cc6e9150f7b4a734"
+            ]
+        ]
+    },
+    {
+        "id": "e0773e5417b2fbd4",
+        "type": "function",
+        "z": "7fe3f9d703d28496",
+        "name": "pay by-plate: Preis berechnen + Update-SQL",
+        "func": "function calcAmountDue(entryTime) {\n  const entry = new Date(entryTime.replace(' ', 'T') + (entryTime.includes('T') ? '' : 'Z'));\n  const diffMs = Date.now() - entry.getTime();\n  const diffMinutes = diffMs / 1000 / 60;\n  const hoursStarted = Math.max(1, Math.ceil(diffMinutes / 60));\n  return Math.round(hoursStarted * 1.0 * 100) / 100;\n}\n\nconst rows = msg.payload || [];\nif (rows.length === 0) {\n  // Keine aktive Session gefunden: harmloses No-Op, Response-Node meldet 404\n  msg._session_id = -1;\n  msg.topic = 'UPDATE parking_sessions SET amount_due = amount_due WHERE id = -1;';\n  return msg;\n}\n\nconst session = rows[0];\nmsg._session_id = session.session_id;\nconst amountDue = calcAmountDue(session.entry_time);\nmsg.topic = 'UPDATE parking_sessions SET amount_due = ' + amountDue + ' WHERE id = ' + session.session_id + ';';\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 810,
+        "y": 960,
+        "wires": [
+            [
+                "139eb855aee409db"
+            ]
+        ]
+    },
+    {
+        "id": "139eb855aee409db",
+        "type": "sqlite",
+        "z": "7fe3f9d703d28496",
+        "mydb": "cfg_db",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "sqlite pay by-plate UPDATE amount_due",
+        "x": 1160,
+        "y": 960,
+        "wires": [
+            [
+                "c1a5be5414247c22"
+            ]
+        ]
+    },
+    {
+        "id": "c1a5be5414247c22",
+        "type": "function",
+        "z": "7fe3f9d703d28496",
+        "name": "pay by-plate: aktualisierte Session Query",
+        "func": "msg.topic = \"SELECT id, plate, entry_time, amount_due, amount_paid \" +\n  \"FROM parking_sessions WHERE id = \" + msg._session_id + \";\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1500,
+        "y": 960,
+        "wires": [
+            [
+                "1293400f55652010"
+            ]
+        ]
+    },
+    {
+        "id": "1293400f55652010",
+        "type": "sqlite",
+        "z": "7fe3f9d703d28496",
+        "mydb": "cfg_db",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "sqlite pay by-plate (aktualisiert)",
+        "x": 1810,
+        "y": 960,
+        "wires": [
+            [
+                "d764bc05c713d2b7"
+            ]
+        ]
+    },
+    {
+        "id": "c1b7140d685b617b",
+        "type": "function",
+        "z": "7fe3f9d703d28496",
+        "name": "pay PATCH: offenen Betrag ermitteln + Update-SQL",
+        "func": "if (msg.statusCode) return msg; // ungueltige sessionId, bereits behandelt\n\nconst rows = msg.payload || [];\nif (rows.length === 0) {\n  msg.statusCode = 404;\n  msg.payload = JSON.stringify({error: 'Session nicht gefunden'});\n  return msg;\n}\n\nconst session = rows[0];\nif (session.exit_time) {\n  msg.statusCode = 409;\n  msg.payload = JSON.stringify({error: 'Session ist bereits ausgefahren, keine Zahlung mehr moeglich'});\n  return msg;\n}\n\n// Offener Betrag = amount_due - amount_paid. Rein informativ, es findet\n// HIER KEINE Neuberechnung des Preises anhand der Parkzeit statt - der\n// Preis wurde bereits vorher im GET-Flow ermittelt und in amount_due gespeichert.\nconst amountDue = parseFloat(session.amount_due) || 0;\nconst amountPaid = parseFloat(session.amount_paid) || 0;\nmsg._open_amount_before = Math.max(0, Math.round((amountDue - amountPaid) * 100) / 100);\n\n// Zahlungssimulation: offenen Betrag als vollstaendig bezahlt eintragen\nmsg.topic = \"UPDATE parking_sessions SET \" +\n  \"amount_paid = amount_due, \" +\n  \"payment_time = datetime('now'), \" +\n  \"exit_valid_until = datetime('now', '+15 minutes') \" +\n  \"WHERE id = \" + msg._patch_id + \" AND exit_time IS NULL;\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1050,
+        "y": 1040,
+        "wires": [
+            [
+                "8a4a3ba899910805"
+            ]
+        ]
+    },
+    {
+        "id": "8a4a3ba899910805",
+        "type": "sqlite",
+        "z": "7fe3f9d703d28496",
+        "mydb": "cfg_db",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "sqlite pay PATCH: Zahlung simulieren",
+        "x": 1410,
+        "y": 1040,
+        "wires": [
+            [
+                "180dfa0d641d79ad"
+            ]
+        ]
+    },
+    {
+        "id": "180dfa0d641d79ad",
+        "type": "function",
+        "z": "7fe3f9d703d28496",
+        "name": "pay PATCH: aktualisierte Session Query",
+        "func": "if (msg.statusCode) return msg;\nmsg.topic = \"SELECT id, plate, amount_due, amount_paid, payment_time, exit_valid_until, exit_time \" +\n  \"FROM parking_sessions WHERE id = \" + msg._patch_id + \";\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1740,
+        "y": 1040,
+        "wires": [
+            [
+                "ee318996d657ca57"
+            ]
+        ]
+    },
+    {
+        "id": "ee318996d657ca57",
+        "type": "sqlite",
+        "z": "7fe3f9d703d28496",
+        "mydb": "cfg_db",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "sqlite pay PATCH: aktualisierte Session",
+        "x": 2080,
+        "y": 1040,
+        "wires": [
+            [
+                "f59a5040cfcedd37"
+            ]
+        ]
+    },
+    {
+        "id": "cfg_db",
+        "type": "sqlitedb",
+        "db": "/home/iot/iot-systems/smart-parken/meine_datenbank.db",
+        "mode": "RWC"
+    }
+]

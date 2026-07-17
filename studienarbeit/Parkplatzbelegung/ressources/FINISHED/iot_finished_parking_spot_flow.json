@@ -1,0 +1,920 @@
+[
+    {
+        "id": "71af189bd449e477",
+        "type": "tab",
+        "label": "Studienarbeit - Parkplatzbelegung",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "36444275d807d4a0",
+        "type": "inject",
+        "z": "71af189bd449e477",
+        "name": "Object identified",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"occupied\":true,\"distance\":120}",
+        "payloadType": "json",
+        "x": 380,
+        "y": 720,
+        "wires": [
+            [
+                "d5f6459e8107cdfb"
+            ]
+        ]
+    },
+    {
+        "id": "7b831b44950610c3",
+        "type": "inject",
+        "z": "71af189bd449e477",
+        "name": "Object not identified",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"occupied\":false,\"distance\":120}",
+        "payloadType": "json",
+        "x": 370,
+        "y": 760,
+        "wires": [
+            [
+                "d5f6459e8107cdfb"
+            ]
+        ]
+    },
+    {
+        "id": "d5f6459e8107cdfb",
+        "type": "function",
+        "z": "71af189bd449e477",
+        "name": "Define Sliding Window",
+        "func": "const WINDOW_SIZE = 5;\n\n// Get existing window, or create empty one\nlet window = flow.get(\"sensorWindow\") || [];\n\n// Convert incoming payload to value\n// Example expected payload: true / false\nlet newValue = msg.payload.occupied;\n\n// Add newest value at the beginning\nwindow.unshift(newValue);\n\n// Remove oldest values if too long\nif (window.length > WINDOW_SIZE) {\n    window.pop();\n}\n\n// Save updated window\nflow.set(\"sensorWindow\", window);\n\n// Optional: expose window for debugging\nmsg.payload = {\n    latest: newValue,\n    window: window,\n    count: window.length,\n    full: window.length === WINDOW_SIZE\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 680,
+        "y": 720,
+        "wires": [
+            [
+                "eff32aa19bd199b9",
+                "d14211db11149597"
+            ]
+        ]
+    },
+    {
+        "id": "eff32aa19bd199b9",
+        "type": "function",
+        "z": "71af189bd449e477",
+        "name": "Check Window to control LED",
+        "func": "const THRESHOLD = 0.8;\n\n// Read sliding window\nlet window = flow.get(\"sensorWindow\") || [];\n\nif (window.length === 0) {\n    msg.payload = \"KEEP\";\n    return msg;\n}\n\nlet trueCount = window.filter(v => v === true).length;\nlet falseCount = window.filter(v => v === false).length;\n\nlet trueRatio = trueCount / window.length;\nlet falseRatio = falseCount / window.length;\n\nif (trueRatio >= THRESHOLD) {\n    msg.payload = \"RED\";\n} else if (falseRatio >= THRESHOLD) {\n    msg.payload = \"GREEN\";\n} else {\n    msg.payload = \"KEEP\";\n}\n\nmsg.debug = {\n    window,\n    trueCount,\n    falseCount,\n    trueRatio,\n    falseRatio\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1030,
+        "y": 720,
+        "wires": [
+            [
+                "d12a99d0d7afaec8"
+            ]
+        ]
+    },
+    {
+        "id": "d12a99d0d7afaec8",
+        "type": "switch",
+        "z": "71af189bd449e477",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "GREEN",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "RED",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "KEEP",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 3,
+        "x": 1290,
+        "y": 720,
+        "wires": [
+            [
+                "e4ba724da5e8b40d",
+                "a08591ed135fbb72"
+            ],
+            [
+                "1e4d22ca8c018a42",
+                "f47c39e54292033b"
+            ],
+            [
+                "1500a8f324af4279"
+            ]
+        ]
+    },
+    {
+        "id": "e4ba724da5e8b40d",
+        "type": "debug",
+        "z": "71af189bd449e477",
+        "d": true,
+        "name": "GREEN",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1700,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "1e4d22ca8c018a42",
+        "type": "debug",
+        "z": "71af189bd449e477",
+        "d": true,
+        "name": "RED",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1690,
+        "y": 760,
+        "wires": []
+    },
+    {
+        "id": "1500a8f324af4279",
+        "type": "debug",
+        "z": "71af189bd449e477",
+        "d": true,
+        "name": "KEEP",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1510,
+        "y": 820,
+        "wires": []
+    },
+    {
+        "id": "532242718e76ed30",
+        "type": "inject",
+        "z": "71af189bd449e477",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 360,
+        "y": 1000,
+        "wires": [
+            [
+                "8f1bb5c688968703"
+            ]
+        ]
+    },
+    {
+        "id": "8f1bb5c688968703",
+        "type": "function",
+        "z": "71af189bd449e477",
+        "name": "RESET",
+        "func": "flow.set(\"sensorWindow\", []);\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 560,
+        "y": 1000,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "580eeafe3b8e0ff7",
+        "type": "mqtt out",
+        "z": "71af189bd449e477",
+        "name": "",
+        "topic": "LED/led/rgb/set",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "bf477254db0f7a8f",
+        "x": 2040,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "a08591ed135fbb72",
+        "type": "change",
+        "z": "71af189bd449e477",
+        "name": "payload to green",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "green",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1730,
+        "y": 660,
+        "wires": [
+            [
+                "580eeafe3b8e0ff7",
+                "cab838331a252418",
+                "af37c0661cf59e37"
+            ]
+        ]
+    },
+    {
+        "id": "f47c39e54292033b",
+        "type": "change",
+        "z": "71af189bd449e477",
+        "name": "payload to red",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "red",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1720,
+        "y": 720,
+        "wires": [
+            [
+                "cab838331a252418",
+                "f2d6e97e96d7b303",
+                "aa0ba5ca4bde410e"
+            ]
+        ]
+    },
+    {
+        "id": "3e7e8a1920aad9ae",
+        "type": "mqtt in",
+        "z": "71af189bd449e477",
+        "name": "",
+        "topic": "sensors/ultrasonic/1",
+        "qos": "0",
+        "datatype": "auto-detect",
+        "broker": "bf477254db0f7a8f",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 370,
+        "y": 820,
+        "wires": [
+            [
+                "d5f6459e8107cdfb",
+                "68edc93295dfd74d"
+            ]
+        ]
+    },
+    {
+        "id": "09f89cecaf165774",
+        "type": "comment",
+        "z": "71af189bd449e477",
+        "name": "Reset Sliding Window",
+        "info": "",
+        "x": 380,
+        "y": 940,
+        "wires": []
+    },
+    {
+        "id": "c660a5a55f3b94b0",
+        "type": "comment",
+        "z": "71af189bd449e477",
+        "name": "LED Control for Sensor 1",
+        "info": "",
+        "x": 350,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "cab838331a252418",
+        "type": "function",
+        "z": "71af189bd449e477",
+        "name": "send led color to Dashboard",
+        "func": "let temp = \"sensor1_\" + msg.payload\nmsg.payload = temp\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2020,
+        "y": 700,
+        "wires": [
+            [
+                "384fba04704a03b5"
+            ]
+        ]
+    },
+    {
+        "id": "9249f2b89791ec72",
+        "type": "comment",
+        "z": "71af189bd449e477",
+        "name": "Send color to LED",
+        "info": "",
+        "x": 2050,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "35f2ecd93df81908",
+        "type": "function",
+        "z": "71af189bd449e477",
+        "name": "Change currentState",
+        "func": "flow.set(\"currentState\", \"green\");\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2320,
+        "y": 500,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "68edc93295dfd74d",
+        "type": "debug",
+        "z": "71af189bd449e477",
+        "name": "debug 11",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 640,
+        "y": 760,
+        "wires": []
+    },
+    {
+        "id": "f2d6e97e96d7b303",
+        "type": "mqtt out",
+        "z": "71af189bd449e477",
+        "name": "",
+        "topic": "LED/led/rgb/set",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "bf477254db0f7a8f",
+        "x": 2040,
+        "y": 800,
+        "wires": []
+    },
+    {
+        "id": "384fba04704a03b5",
+        "type": "link out",
+        "z": "71af189bd449e477",
+        "name": "link out 1",
+        "mode": "link",
+        "links": [
+            "f70e10e6f821c823"
+        ],
+        "x": 2215,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "af37c0661cf59e37",
+        "type": "function",
+        "z": "71af189bd449e477",
+        "name": "Check if state change",
+        "func": "let prev = flow.get(\"currentState\");\n\nif (prev == \"red\"){\n    msg.payload = \"change\"\n}\nelse {\n    msg.payload = \"noChange\"\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2060,
+        "y": 500,
+        "wires": [
+            [
+                "35f2ecd93df81908",
+                "617e281776bbeda1"
+            ]
+        ]
+    },
+    {
+        "id": "617e281776bbeda1",
+        "type": "switch",
+        "z": "71af189bd449e477",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "change",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 2270,
+        "y": 440,
+        "wires": [
+            [
+                "9544cd31d02bf3c5"
+            ]
+        ]
+    },
+    {
+        "id": "9130fceeb2808931",
+        "type": "mqtt out",
+        "z": "71af189bd449e477",
+        "name": "",
+        "topic": "parking/spot/status",
+        "qos": "2",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "bf477254db0f7a8f",
+        "x": 2790,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "9544cd31d02bf3c5",
+        "type": "change",
+        "z": "71af189bd449e477",
+        "name": "Change payload with lot information",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"id\":1,\"status\":\"free\"}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 2500,
+        "y": 440,
+        "wires": [
+            [
+                "9130fceeb2808931",
+                "fc13cee0ae551bf1"
+            ]
+        ]
+    },
+    {
+        "id": "6a1779e3bb231410",
+        "type": "comment",
+        "z": "71af189bd449e477",
+        "name": "Send color to LED",
+        "info": "",
+        "x": 2050,
+        "y": 760,
+        "wires": []
+    },
+    {
+        "id": "7e7cd2efa3fdcbd1",
+        "type": "comment",
+        "z": "71af189bd449e477",
+        "name": "Topic for distance sensor",
+        "info": "sensors/ultrasonic/1",
+        "x": 350,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "74f524cadcd442db",
+        "type": "function",
+        "z": "71af189bd449e477",
+        "name": "Change currentState",
+        "func": "flow.set(\"currentState\", \"red\");\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2320,
+        "y": 880,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "aa0ba5ca4bde410e",
+        "type": "function",
+        "z": "71af189bd449e477",
+        "name": "Check if state change",
+        "func": "let prev = flow.get(\"currentState\");\n\nif (prev == \"green\"){\n    msg.payload = \"change\"\n}\nelse {\n    msg.payload = \"noChange\"\n}\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2060,
+        "y": 880,
+        "wires": [
+            [
+                "74f524cadcd442db",
+                "16ce9058f1e7ec53"
+            ]
+        ]
+    },
+    {
+        "id": "16ce9058f1e7ec53",
+        "type": "switch",
+        "z": "71af189bd449e477",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "change",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 2270,
+        "y": 820,
+        "wires": [
+            [
+                "9939448bc129ed14"
+            ]
+        ]
+    },
+    {
+        "id": "1575915be6de6ea9",
+        "type": "mqtt out",
+        "z": "71af189bd449e477",
+        "name": "",
+        "topic": "parking/spot/status",
+        "qos": "2",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "bf477254db0f7a8f",
+        "x": 2790,
+        "y": 820,
+        "wires": []
+    },
+    {
+        "id": "9939448bc129ed14",
+        "type": "change",
+        "z": "71af189bd449e477",
+        "name": "Change payload with lot information",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"id\":1,\"status\":\"occupied\"}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 2500,
+        "y": 820,
+        "wires": [
+            [
+                "1575915be6de6ea9",
+                "49e7290da976fcbc"
+            ]
+        ]
+    },
+    {
+        "id": "cd86fb1b802fad30",
+        "type": "comment",
+        "z": "71af189bd449e477",
+        "name": "Check for state change",
+        "info": "",
+        "x": 2060,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "5cef800404985c68",
+        "type": "comment",
+        "z": "71af189bd449e477",
+        "name": "Check for state change",
+        "info": "",
+        "x": 2060,
+        "y": 920,
+        "wires": []
+    },
+    {
+        "id": "adfaf456622508da",
+        "type": "comment",
+        "z": "71af189bd449e477",
+        "name": "Scalability",
+        "info": "# How can this be extended for more parking lots\n\n1. Duplicate this flow\n2. Adjust the incoming topic\n3. Adjust the Change ",
+        "x": 300,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "0b2fefb257dd4fa5",
+        "type": "mqtt out",
+        "z": "71af189bd449e477",
+        "name": "",
+        "topic": "/sensors/ultrasonic/1/threshold/set",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "bf477254db0f7a8f",
+        "x": 640,
+        "y": 1200,
+        "wires": []
+    },
+    {
+        "id": "84875f734f3978b7",
+        "type": "comment",
+        "z": "71af189bd449e477",
+        "name": "Set Threshold",
+        "info": "",
+        "x": 330,
+        "y": 1160,
+        "wires": []
+    },
+    {
+        "id": "87898ba3170c0226",
+        "type": "inject",
+        "z": "71af189bd449e477",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "23.5",
+        "payloadType": "num",
+        "x": 330,
+        "y": 1200,
+        "wires": [
+            [
+                "0b2fefb257dd4fa5"
+            ]
+        ]
+    },
+    {
+        "id": "fc13cee0ae551bf1",
+        "type": "debug",
+        "z": "71af189bd449e477",
+        "d": true,
+        "name": "debug 12",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2760,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "49e7290da976fcbc",
+        "type": "debug",
+        "z": "71af189bd449e477",
+        "d": true,
+        "name": "debug 13",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2760,
+        "y": 880,
+        "wires": []
+    },
+    {
+        "id": "d14211db11149597",
+        "type": "function",
+        "z": "71af189bd449e477",
+        "name": "function 7",
+        "func": "let prev = flow.get(\"currentState\");\n\nmsg.payload = prev\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 960,
+        "y": 780,
+        "wires": [
+            [
+                "096899ecc8e3b93c"
+            ]
+        ]
+    },
+    {
+        "id": "096899ecc8e3b93c",
+        "type": "debug",
+        "z": "71af189bd449e477",
+        "d": true,
+        "name": "debug 14",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1120,
+        "y": 780,
+        "wires": []
+    },
+    {
+        "id": "a12d47382168ae30",
+        "type": "mqtt out",
+        "z": "71af189bd449e477",
+        "name": "",
+        "topic": "LED/led/rgb/set",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "bf477254db0f7a8f",
+        "x": 520,
+        "y": 1360,
+        "wires": []
+    },
+    {
+        "id": "03ed6fc2595844bb",
+        "type": "inject",
+        "z": "71af189bd449e477",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "green",
+        "payloadType": "str",
+        "x": 290,
+        "y": 1360,
+        "wires": [
+            [
+                "a12d47382168ae30"
+            ]
+        ]
+    },
+    {
+        "id": "bf477254db0f7a8f",
+        "type": "mqtt-broker",
+        "name": "IoT Gateway",
+        "broker": "192.168.8.110",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    }
+]

@@ -19,9 +19,9 @@ parser.add_argument('--port', type=int, default=5000, help='Flask Stream Port')
 args = parser.parse_args()
 
 CAMERA_ID = args.id
-MQTT_BROKER = "192.168.188.167"
+MQTT_BROKER = "192.168.8.110"
 MQTT_TOPIC = f"{CAMERA_ID}/plate"
-YOLO_MODEL_PATH = "/home/iot/Nummernschilderkennung/yolov8n.onnx"
+YOLO_MODEL_PATH = "/home/iot/Nummernschilderkennung/yolov8n_ncnn_model"
 DETECTION_THRESHOLD = 0.5
 DEBOUNCE_SECONDS = 5
 STREAM_PORT = args.port
@@ -40,9 +40,9 @@ warnings.filterwarnings("ignore", category=UserWarning)
 GERMAN_PLATE_PATTERN = re.compile(r"^[A-ZÄÖÜ]{1,3}[A-Z]{1,2}[0-9]{1,4}[EH]?$")
 
 # Performance settings
-PROCESS_EVERY_N_FRAMES = 3  
+PROCESS_EVERY_N_FRAMES = 5  
 PROCESSING_WIDTH = 720      
-STREAM_WIDTH = 640          
+STREAM_WIDTH = 400          
 STABILIZATION_WINDOW = 20.0  
 STABILIZATION_MIN_SAMPLES = 2 
 MIN_PLATE_LENGTH = 3        
@@ -161,7 +161,7 @@ class ProcessingThread(threading.Thread):
             scale_y = process_frame.shape[0] / small_frame.shape[0]
             
             # Task explizit übergeben, um YOLO-Warnung zu stoppen
-            results = self.model(small_frame, verbose=False, task='detect')
+            results = self.model(small_frame, verbose=False, task='detect', device='cpu')
             new_detections = []
             
             for result in results:
@@ -174,8 +174,6 @@ class ProcessingThread(threading.Thread):
                         roi = small_frame[y1:y2, x1:x2]
                         if roi.size == 0: continue
 
-                        # --- PERFORMANCE BOOST 1: ROI verkleinern / Graustufen ---
-                        # EasyOCR arbeitet intern mit Graustufen. Wenn wir es vorschalten, spart das RAM.
                         roi_gray = cv2.cvtColor(roi, cv2.COLOR_BGR2GRAY)
                         
                         # Feste Höhe erzwingen (z.B. 64 Pixel hoch), um EasyOCR-Rechenlast zu standardisieren
@@ -238,7 +236,8 @@ def generate():
         with lock:
             if output_frame is None:
                 continue
-            (flag, encodedImage) = cv2.imencode(".jpg", output_frame)
+            encode_param = [int(cv2.IMWRITE_JPEG_QUALITY), 40] 
+            (flag, encodedImage) = cv2.imencode(".jpg", output_frame, encode_param)
             if not flag:
                 continue
         yield (b'--frame\r\n' b'Content-Type: image/jpeg\r\n\r\n' + bytearray(encodedImage) + b'\r\n')
@@ -274,7 +273,6 @@ def main():
         frame = None
         detections = []
 
-        # Lock nur ganz kurz öffnen, Daten kopieren, Lock sofort wieder schließen!
         with lock:
             if raw_frame is not None:
                 frame = raw_frame.copy()
@@ -282,10 +280,9 @@ def main():
 
         # Wenn kein Frame da ist, warten wir AUSSERHALB des Locks
         if frame is None:
-            time.sleep(0.03)  # ca. 30 FPS Abfragerate
+            time.sleep(0.03)
             continue
 
-        # Ab hier läuft die Bildverarbeitung ohne das Lock zu blockieren!
         display_frame = cv2.resize(frame, (STREAM_WIDTH, int(frame.shape[0] * (STREAM_WIDTH / frame.shape[1]))))
         scale_stream = STREAM_WIDTH / frame.shape[1]
         for det in detections:
@@ -294,11 +291,10 @@ def main():
             cv2.rectangle(display_frame, (int(bx1*scale_stream), int(by1*scale_stream)), (int(bx2*scale_stream), int(by2*scale_stream)), color, 2)
             cv2.putText(display_frame, det['text'], (int(bx1*scale_stream), int(by1*scale_stream) - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.7, color, 2)
 
-        # Erst zum Schreiben des fertigen Bildes sperren wir wieder kurz
         with lock:
             output_frame = display_frame
 
-        time.sleep(0.03) # Begrenzt die Hauptschleife auf ~30 FPS 
+        time.sleep(0.03)
 
 if __name__ == "__main__":
     main()
