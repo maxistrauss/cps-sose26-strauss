@@ -3,10 +3,10 @@
 #include <MFRC522.h>
 #include <MQTT.h>
 
-const char* wifiSsid     = "iotempire-827dd9";
-const char* wifiPassword = "internetofthings";
+const char* wifiSsid     = "GL-MT300N-V2-4c4";
+const char* wifiPassword = "goodlife";
 
-IPAddress mqttBroker(192, 168, 12, 1);
+IPAddress mqttBroker(192, 168, 8, 110);
 
 const uint16_t mqttPort = 1883;
 const char* mqttTopic   = "ausfahren/rfid";
