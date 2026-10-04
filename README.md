@@ -1,18 +1,25 @@
-# Welcome!
+# Cyber-Physical Systems (SoSe 2026) – Smart Parking
 
-This is the template project for your work in the CPS26 course. Feel free to adapt but make sure
-I can find your submissions easily!
+Course repository for *Cyber-Physical Systems* at OTH Regensburg: weekly IoT modules (Arduino, ESP8266, MQTT, Node-RED) and a team project – a **smart parking system** with license plate recognition, occupancy detection and automated barrier control.
 
-You can create your content in german or english, I'll accept both equally.
+![Architecture](studienarbeit/Projekt_Architektur/ProjektArchitekturPolished.png)
 
-## Proposed directory structure:
+## My part: License Plate Recognition (`studienarbeit/Nummernschilderkennung`)
 
-Everything goes in it's corresponding module. Below, there's a folder for code (put individual files or projects here)
-and one for documentation.
+Real-time license plate recognition on a Raspberry Pi at the parking entrance and exit.
 
-put submissions in a separate folder, either use symlinks or add some short text directly there.
-If you link something in the other folders, use relative links so I can use them in a checkout!
+- **Detection:** YOLOv8n, exported to NCNN for fast inference on the Pi
+- **OCR:** EasyOCR + regex validation for German plates, temporal voting over several frames to stabilise the result
+- **Integration:** publishes plates via MQTT → Node-RED backend → barrier motor and display control
+- **Live stream:** Flask MJPEG stream for monitoring
 
-## Special folders
+Tech: Python · OpenCV · Ultralytics YOLO · EasyOCR · MQTT · Node-RED · Raspberry Pi
 
-`literature` - anything useful that you find, put it here (possibly sorted in subfolder)
+## Repository structure
+
+| Folder | Content |
+|---|---|
+| `module*` | weekly course modules (IoT basics, MQTT, Node-RED, …) |
+| `studienarbeit/` | team project: plate recognition, parking occupancy, backend, RFID, lights, reports |
+| `Smart_Parking/` | dashboards and parking project files |
+| `submissions/`, `reflections/` | course submissions |
